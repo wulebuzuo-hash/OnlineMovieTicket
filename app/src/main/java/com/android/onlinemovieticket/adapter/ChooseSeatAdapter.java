@@ -14,7 +14,7 @@ import com.android.onlinemovieticket.db.Ticket;
 import java.util.List;
 
 public class ChooseSeatAdapter extends RecyclerView.Adapter<ChooseSeatAdapter.ViewHolder> {
-    private List<Ticket> ticketList;
+    private List<Ticket> ticketList;;
 
     public ChooseSeatAdapter(List<Ticket> ticketList) {
         this.ticketList = ticketList;
