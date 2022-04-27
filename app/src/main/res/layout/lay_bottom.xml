@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/bottom_choose_movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:button="@null"
+            android:drawableTop="@drawable/pc_movie"
+            android:gravity="center"
+            android:text="电影"></RadioButton>
+        <RadioButton
+            android:id="@+id/bottom_choose_cinema"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:button="@null"
+            android:drawableTop="@drawable/pc_cinema"
+            android:gravity="center"
+            android:text="电影院"
+            android:textColor="#666"
+            android:textStyle="bold"></RadioButton>
+        <RadioButton
+            style="@style/CompoundButtonThem.CustomRadioTheme"
+            android:id="@+id/bottom_choose_my"
+            android:text="我的"
+            android:textStyle="bold"
+            android:button="@null"
+            android:textColor="#666"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+</RelativeLayout>

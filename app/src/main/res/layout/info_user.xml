@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    tools:context=".z_smallactivity.Info_User">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/info_user_lay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/info_us_updatePass"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/darkOrange"
+                android:button="@null"
+                android:gravity="center"
+                android:text="修改密码"
+                android:textColor="#666"
+                android:textSize="25sp"
+                android:textStyle="bold"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/info_us_updatequestion"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:background="@color/darkOrange"
+                android:button="@null"
+                android:gravity="center"
+                android:text="修改问题"
+                android:textColor="#666"
+                android:textSize="25sp"
+                android:textStyle="bold"></RadioButton>
+        </RadioGroup>
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/login_forgetPassMenu"
+            android:name="com.android.onlinemovieticket.z_smallactivity.User_Updatepass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            ></fragment>
+    </androidx.drawerlayout.widget.DrawerLayout>
+</LinearLayout>

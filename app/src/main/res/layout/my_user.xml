@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".My_User">
+
+    <include layout="@layout/lay_title"></include>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/my_drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/my_message"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:id="@+id/my_imageView"
+                        android:layout_width="110dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/my_image"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/user"></ImageView>
+
+                        <RadioButton
+                            android:id="@+id/my_imageButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="#fff"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="设置头像"
+                            android:textSize="18sp"></RadioButton>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/my_accountView"
+                        android:layout_width="190dp"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/my_imageView"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp">
+
+                        <TextView
+                            android:id="@+id/my_account"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:gravity="center"
+                            android:text="账号"
+                            android:textColor="#000"
+                            android:textSize="25sp"></TextView>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="余额："
+                                android:textSize="18sp"></TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="0.00"
+                                android:textColor="#ff0000"
+                                android:textSize="18sp"></TextView>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/my_goupdate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/my_accountView">
+
+                        <RadioButton
+                            android:id="@+id/my_updateMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:background="#ffffff"
+                            android:button="@null"
+                            android:drawableRight="@drawable/ic_goposition"
+                            android:gravity="center"
+                            android:text="用户设置"
+                            android:textSize="18sp"></RadioButton>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <ProgressBar
+                    android:id="@+id/my_progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></ProgressBar>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="@color/DarkTurquoise"
+                    app:cardCornerRadius="15dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="300dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="center_vertical"
+                                android:text="电影票"
+                                android:textSize="18sp"
+                                android:textStyle="bold"></TextView>
+
+                            <RadioButton
+                                android:id="@+id/my_goTicket"
+                                android:layout_width="80dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="1"
+                                android:background="#fff"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="更多"
+                                android:textColor="#666"
+                                android:textSize="18sp"
+                                android:textStyle="bold"></RadioButton>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/my_user_ticket_lay"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp">
+
+                            <include layout="@layout/item_ticket"></include>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/my_user_ticket_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="暂 无 影 票 历 史"
+                            android:textColor="@color/purple_200"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"></TextView>
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                app:cardBackgroundColor="@color/Gainsboro"
+                app:cardCornerRadius="15dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="我的服务"
+                        android:textSize="18dp"
+                        android:textStyle="bold"></TextView>
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/my_feedback"
+                            android:layout_width="350dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="#fff"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="用户反馈"
+                            android:textColor="#666"
+                            android:textSize="18sp"
+                            android:textStyle="bold"></RadioButton>
+
+                        <RadioButton
+                            android:id="@+id/my_callus"
+                            android:layout_width="350dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:background="#ffffff"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="联系我们"
+                            android:textColor="#666"
+                            android:textSize="18sp"
+                            android:textStyle="bold"></RadioButton>
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/my_userSetting"
+            android:name="com.android.onlinemovieticket.z_smallactivity.Info_User"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"></fragment>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+    <include layout="@layout/lay_bottom"></include>
+
+</LinearLayout>

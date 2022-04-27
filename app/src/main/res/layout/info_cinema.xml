@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".z_smallactivity.Info_Cinema">
+
+    <include layout="@layout/lay_title"></include>
+
+    <LinearLayout
+        android:id="@+id/info_cinema_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电影院名:"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/info_cinema_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></EditText>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地理位置:"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/info_cinema_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="联系电话:"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/info_cinema_call"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/info_cinema_add"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:button="@null"
+            android:gravity="center"
+            android:text="继续添加"
+            android:textColor="@color/DarkTurquoise"
+            android:textSize="18sp"
+            android:textStyle="bold"></RadioButton>
+
+        <RadioButton
+            android:id="@+id/info_cinema_del"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:button="@null"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="#f00"
+            android:textSize="18sp"
+            android:textStyle="bold"></RadioButton>
+    </RadioGroup>
+
+    <ProgressBar
+        android:layout_marginTop="10dp"
+        android:id="@+id/info_cinema_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ProgressBar>
+
+    <Button
+        android:id="@+id/info_cinema_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/purple_500"
+        android:text="完成"
+        android:textColor="#fff"
+        android:textSize="18sp"></Button>
+
+</LinearLayout>

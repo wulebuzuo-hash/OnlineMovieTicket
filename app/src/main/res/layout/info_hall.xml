@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".z_smallactivity.Info_Hall">
+
+    <include layout="@layout/lay_title"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/info_hall_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:text="放映厅名："
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/info_hall_name1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:text="影厅规模:"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/info_hall_row1"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"/>
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="行"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/info_hall_column1"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"/>
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="列"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/info_hall_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="#fff"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="继续添加"
+                    android:textColor="@color/DarkTurquoise"
+                    android:textSize="18sp"
+                    android:textStyle="bold"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/info_hall_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="删除"
+                    android:textColor="#f00"
+                    android:textSize="18sp"
+                    android:textStyle="bold"></RadioButton>
+            </RadioGroup>
+            <ProgressBar
+                android:id="@+id/info_hall_progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></ProgressBar>
+            <Button
+                android:id="@+id/info_hall_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:background="@color/purple_500"
+                android:text="完成"
+                android:textColor="#fff"
+                android:textSize="18sp"></Button>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".z_smallactivity.List_Hall"
+    android:background="@drawable/bg_green"
+    android:orientation="vertical">
+
+    <include layout="@layout/lay_title"></include>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/list_hall_searchEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="输入想要搜索的电影院名"></EditText>
+        <Button
+            android:id="@+id/list_hall_searshButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/searchbtn_01"></Button>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/list_hall_addHall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加放映厅"
+        android:textColor="#fff"
+        android:background="@color/purple_500"
+        android:textSize="25sp">
+    </Button>
+    <ProgressBar
+        android:id="@+id/list_hall_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></ProgressBar>
+
+    <ListView
+        android:id="@+id/list_hall_hallView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        ></ListView>
+
+
+    <include layout="@layout/lay_bottom"></include>
+
+</LinearLayout>

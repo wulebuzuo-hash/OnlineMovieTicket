@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.onlinemovieticket">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <service
+            android:name=".service.TicketNotificate_IntentService"
+            android:exported="false"></service>
+        <service
+            android:name=".service.MyService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".z_smallactivity.Update_Hall"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.List_Comment"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.Choose_Seat"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.Info_Comment"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.Info_Session"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.Info_Admin"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.List_Admin"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.List_Uh"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.List_Hall"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.List_Session"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.Info_Hall"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.List_Ticket"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.Info_Cinema"
+            android:exported="false" />
+        <activity
+            android:name=".My_User"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.android.onlinemovieticket.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".z_smallactivity.Info_Movie"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.User_updateInfo"
+            android:exported="false" />
+        <activity
+            android:name=".MovieActivity"
+            android:exported="false" />
+        <activity
+            android:name=".z_smallactivity.User_Register"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CinemaActivity"
+            android:exported="false" />
+    </application>
+
+</manifest>

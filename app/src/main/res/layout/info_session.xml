@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".z_smallactivity.Info_Session">
+
+    <include layout="@layout/lay_title"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="放映日期:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/info_session_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"></TextView>
+
+        <Button
+            android:id="@+id/info_session_dateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_500"
+            android:text="选择"
+            android:textColor="#fff"
+            android:textSize="20sp"></Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/info_session_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="放映时间:"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/info_session_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tooltipText="选择放映时间"></Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="选择影厅:"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/info_session_hall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tooltipText="选择放映影厅"></Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="影票价格:"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/info_session_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:ems="10" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/info_session_add"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:button="@null"
+            android:gravity="center"
+            android:text="继续添加"
+            android:textColor="@color/DarkTurquoise"
+            android:textSize="18sp"
+            android:textStyle="bold"></RadioButton>
+
+        <RadioButton
+            android:id="@+id/info_session_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:button="@null"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="#f00"
+            android:textSize="18sp"
+            android:textStyle="bold"></RadioButton>
+    </RadioGroup>
+
+    <ProgressBar
+        android:id="@+id/info_session_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></ProgressBar>
+    <Button
+        android:id="@+id/info_session_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:background="@color/purple_500"
+        android:text="完成"
+        android:textColor="#fff"
+        android:textSize="25sp"></Button>
+
+</LinearLayout>

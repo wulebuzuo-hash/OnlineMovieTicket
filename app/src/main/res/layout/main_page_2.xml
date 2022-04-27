@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_pink"
+    android:orientation="vertical"
+    tools:context=".CinemaActivity">
+
+    <include layout="@layout/lay_title"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/m2_searchEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="输入想要搜索的电影院名"></EditText>
+
+        <Button
+            android:id="@+id/m2_searshButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/searchbtn_01"></Button>
+    </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/m2_movie_card"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        app:cardBackgroundColor="#009ACD"
+        app:cardCornerRadius="15dp"
+        android:descendantFocusability="blocksDescendants"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:id="@+id/m2_movie_imagelay"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/m2_movie_img"
+                    android:layout_width="100dp"
+                    android:layout_height="137.5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/cool"></ImageView>
+
+
+                <TextView
+                    android:id="@+id/m2_movie_sc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="9.8分"
+                    android:textColor="#FF6347"
+                    android:textSize="25sp"
+                    android:textStyle="italic|bold"></TextView>
+
+                <TextView
+                    android:id="@+id/m2_movie_scnum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="1人参评"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/m2_movie_imagelay"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/m2_movie_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:text="电影名"
+                        android:textColor="#000"
+                        android:textSize="35sp"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/m2_movie_long"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="XXX分钟"
+                        android:textColor="#000"
+                        android:textSize="15dp"></TextView>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="类型:"
+                        android:textColor="#000"></TextView>
+
+                    <TextView
+                        android:id="@+id/m2_movie_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#000"></TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="目前票房："
+                        android:textColor="#000"></TextView>
+
+                    <TextView
+                        android:id="@+id/m2_movie_pf"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#000"></TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="上映日期："
+                        android:textColor="#000"></TextView>
+
+                    <TextView
+                        android:id="@+id/m2_movie_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#000"></TextView>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/m2_movie_story"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="在《美国队长3：内战》的莱比锡机场大战结束后，彼得·帕克在导师托尼·斯塔克的协助下，试图在一名普通高中生和打击犯罪的超级英雄蜘蛛侠间保持平衡..."
+                    android:textSize="15dp"></TextView>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/m2_addCinema"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加电影院"
+        android:textSize="18sp"
+        android:textColor="#fff"
+        android:background="@color/purple_500"></Button>
+    <ProgressBar
+        android:id="@+id/m2_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></ProgressBar>
+
+    <ListView
+        android:id="@+id/m2_cinemaView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></ListView>
+
+
+    <include layout="@layout/lay_bottom"></include>
+
+
+</LinearLayout>

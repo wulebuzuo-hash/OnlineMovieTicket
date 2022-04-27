@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".z_smallactivity.Update_Hall">
+
+    <include layout="@layout/lay_title"></include>
+
+    <EditText
+        android:layout_gravity="center"
+        android:id="@+id/update_hallname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="影厅名称"
+        android:textSize="25sp"
+        android:textColor="@color/darkOrange"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/screen"></ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="银幕中央"
+        android:textSize="18sp"></TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/update_hall_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/update_hall_row"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkOrange"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="行"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/update_hall_column"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkOrange"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="列"
+            android:textColor="#000"
+            android:textSize="20sp" />
+        <Button
+            android:id="@+id/update_hall_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="预览"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/DarkTurquoise"
+            android:background="#fff"></Button>
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/update_hall_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></ProgressBar>
+    <Button
+        android:id="@+id/update_hall_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/purple_500"
+        android:text="完成"
+        android:textColor="#fff"
+        android:textSize="25sp"></Button>
+</LinearLayout>
