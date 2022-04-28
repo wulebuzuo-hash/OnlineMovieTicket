@@ -80,10 +80,11 @@
                 <Button
                     android:id="@+id/info_movie_screen_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/btn_shape"
-                    android:text="选择"
-                    android:textSize="18sp"
+                    android:text="选 择"
+                    android:textSize="20sp"
+                    android:textColor="#fff"
                     android:textStyle="bold"
                     />
             </LinearLayout>
@@ -111,10 +112,11 @@
                 <Button
                     android:id="@+id/info_movie_type_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/btn_shape"
-                    android:text="选择"
-                    android:textSize="18sp"
+                    android:text="选 择"
+                    android:textSize="20sp"
+                    android:textColor="#fff"
                     android:textStyle="bold"
                      />
             </LinearLayout>
@@ -153,7 +155,8 @@
                 <EditText
                     android:id="@+id/info_movie_long"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
             </LinearLayout>
 
             <LinearLayout
@@ -222,9 +225,11 @@
                     android:id="@+id/info_movie_showdateButton"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:text="选择日期"
                     android:background="@drawable/btn_shape"
-                    android:textSize="18sp"></Button>
+                    android:text="选 择"
+                    android:textSize="20sp"
+                    android:textColor="#fff"
+                    android:textStyle="bold"></Button>
 
             </LinearLayout>
 
@@ -252,9 +257,11 @@
                     android:id="@+id/info_movie_downdateButton"
                     android:layout_width="wrap_content"
                     android:layout_height="30sp"
-                    android:text="选择日期"
                     android:background="@drawable/btn_shape"
-                    android:textSize="18sp"></Button>
+                    android:text="选 择"
+                    android:textSize="20sp"
+                    android:textColor="#fff"
+                    android:textStyle="bold"></Button>
 
             </LinearLayout>
 
@@ -276,8 +283,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:background="@drawable/btn_shape"
-                    android:text="选取图片"
-                    android:textSize="18sp"></Button>
+                    android:text="选 择"
+                    android:textSize="20sp"
+                    android:textColor="#fff"
+                    android:textStyle="bold"></Button>
 
             </LinearLayout>
             <ProgressBar

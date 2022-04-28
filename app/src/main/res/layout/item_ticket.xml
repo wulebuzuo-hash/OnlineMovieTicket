@@ -1,13 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
+    android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/purple_200"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true">
@@ -20,22 +20,21 @@
             <LinearLayout
                 android:id="@+id/item_ticket_imagelay"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/item_ticket_image"
                     android:layout_width="100dp"
                     android:layout_height="137.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/cool"></ImageView>
 
                 <TextView
                     android:id="@+id/item_ticket_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="￥ 30.0"
                     android:textColor="#f00"
@@ -46,7 +45,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/item_ticket_imagelay"
                 android:orientation="vertical">
@@ -54,11 +53,11 @@
                 <TextView
                     android:id="@+id/item_ticket_name"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="电影名"
                     android:textColor="#000"
-                    android:textSize="30dp"
+                    android:textSize="25dp"
                     android:textStyle="bold"></TextView>
 
 
@@ -69,22 +68,21 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="90dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:text="取票码:"
-                        android:textColor="#000"
-                        android:textSize="18sp"
-                        android:textStyle="bold"></TextView>
+                        android:textColor="#000"></TextView>
 
                     <TextView
                         android:id="@+id/item_ticket_code"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
                         android:gravity="center"
                         android:text="0000 0000 0000"
                         android:textColor="#000"
-                        android:textSize="18sp"></TextView>
+                        android:textStyle="bold"></TextView>
                 </LinearLayout>
 
                 <TextView
@@ -94,8 +92,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp"
                     android:text="X排X座 X排X座"
-                    android:textColor="#000"
-                    android:textSize="18sp"></TextView>
+                    android:textColor="#000"></TextView>
 
                 <TextView
                     android:id="@+id/item_ticket_time"
@@ -104,9 +101,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp"
                     android:text="2022-04-10 18:20"
-                    android:textColor="#000"
-                    android:textSize="18sp"></TextView>
-
+                    android:textColor="#000"></TextView>
 
                 <TextView
                     android:id="@+id/item_ticket_cinema"
@@ -115,9 +110,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp"
                     android:text="XXX影院"
-                    android:textColor="#000"
-                    android:textSize="18sp"></TextView>
-
+                    android:textColor="#000"></TextView>
 
                 <TextView
                     android:id="@+id/item_ticket_hall"
@@ -126,8 +119,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp"
                     android:text="XXX影厅"
-                    android:textColor="#000"
-                    android:textSize="18sp"></TextView>
+                    android:textColor="#000"></TextView>
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

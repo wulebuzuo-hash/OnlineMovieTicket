@@ -21,7 +21,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="输入想要搜索的电影名"></EditText>
+            android:hint="输入想要搜索的电影名"
+            android:enabled="false"></EditText>
 
         <Button
             android:id="@+id/m1_searshButton"
@@ -133,7 +134,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         app:cardBackgroundColor="@color/purple_200"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="15dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -145,6 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 

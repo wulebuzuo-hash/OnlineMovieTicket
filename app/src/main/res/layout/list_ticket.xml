@@ -26,7 +26,7 @@
             android:id="@+id/list_ticket_searshButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/searchbtn_01"></Button>
+            android:background="@drawable/pc_search"></Button>
     </LinearLayout>
     <ProgressBar
         android:id="@+id/list_ticket_progressbar"

@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +27,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -35,6 +38,7 @@ import com.android.onlinemovieticket.CinemaActivity;
 import com.android.onlinemovieticket.MovieActivity;
 import com.android.onlinemovieticket.My_User;
 import com.android.onlinemovieticket.R;
+import com.android.onlinemovieticket.adapter.SeatAdapter;
 import com.android.onlinemovieticket.adapter.SessionAdapter;
 import com.android.onlinemovieticket.adapter.onRecyclerItemClickListener;
 import com.android.onlinemovieticket.db.Cinema;
@@ -86,6 +90,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
     private Movie movie;
     private int mid;
     private Cinema cinema;
+    private int cid;
     private String account;
     private String type;
     private double ticket_price;
@@ -118,11 +123,17 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         bottom_2.setOnClickListener(this);
         bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
         bottom_3.setOnClickListener(this);
+
+        setBounds(R.drawable.pc_movie, bottom_1);
+        setBounds(R.drawable.pc_cinema, bottom_2);
+        setBounds(R.drawable.my, bottom_3);
+
         progressBar = (ProgressBar) findViewById(R.id.list_session_progressbar);
         progressBar.setVisibility(View.VISIBLE);
 
         mid = getIntent().getIntExtra("mid", 0);
         cinema = (Cinema) getIntent().getSerializableExtra("cinema");
+        cid = cinema == null ? getIntent().getIntExtra("cid", 0) : cinema.getCid();
         if (mid != 0) {
             progressBar.setVisibility(View.VISIBLE);
             loadMovie();
@@ -267,6 +278,19 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * @param drawableId  drawableLeft  drawableTop drawableBottom 所用的选择器 通过R.drawable.xx 获得
+     * @param radioButton 需要限定图片大小的radioButton
+     */
+    private void setBounds(int drawableId, RadioButton radioButton) {
+        //定义底部标签图片大小和位置
+        Drawable drawable_news = getResources().getDrawable(drawableId);
+        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形  (这里的长和宽写死了 自己可以可以修改成 形参传入)
+        drawable_news.setBounds(0, 0, 120, 120);
+        //设置图片在文字的哪个方向
+        radioButton.setCompoundDrawables(null, drawable_news, null, null);
+    }
+
     private void loadMovie() {
         new Thread(new Runnable() {
             @Override
@@ -279,7 +303,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                     public void run() {
                         initDate();
                         initSession();
-                        if(type.equals("管理员")) {
+                        if (type.equals("管理员")) {
                             movie_card.setVisibility(View.VISIBLE);
                             cinema_card.setVisibility(View.GONE);
                             byte[] image = Base64.decode(movie.getImgString(), Base64.DEFAULT);
@@ -291,10 +315,12 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
 
                             //按照四舍五入的方法保留一位小数
                             DecimalFormat f = new DecimalFormat("#0.0");
-                            TextView movie_sc = (TextView)findViewById(R.id.list_session_movie_sc);
-                            movie_sc.setText(f.format(movie.getMscall() * 1.0 / movie.getMscnum()) + "分");
+                            TextView movie_sc = (TextView) findViewById(R.id.list_session_movie_sc);
+                            movie_sc.setText(f.format(
+                                    movie.getMscall() * 1.0 / movie.getMscnum()) + "分");
 
-                            TextView movie_scnum = (TextView) findViewById(R.id.list_session_movie_scnum);
+                            TextView movie_scnum = (TextView) findViewById(
+                                    R.id.list_session_movie_scnum);
                             movie_scnum.setText(movie.getMscnum() + "人参评");
 
                             TextView movie_name = (TextView) findViewById(R.id.list_session_movie_name);
@@ -313,20 +339,9 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                             TextView movie_date = (TextView) findViewById(R.id.list_session_movie_date);
                             movie_date.setText(showdate + "--" + downdate);
 
-                            TextView movie_story = (TextView) findViewById(R.id.list_session_movie_story);
+                            TextView movie_story = (TextView) findViewById(
+                                    R.id.list_session_movie_story);
                             movie_story.setText(movie.getMstory());
-
-                            movie_card.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(List_Session.this,
-                                            List_Comment.class);
-                                    intent.putExtra("account", account);
-                                    intent.putExtra("type", type);
-                                    intent.putExtra("mid", mid);
-                                    startActivity(intent);
-                                }
-                            });
 
                         }
                         progressBar.setVisibility(View.GONE);
@@ -357,7 +372,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
 
     private void initDate() {
 
-        Date currentDate = type.equals("用户")?getNowDate():movie.getShowdate();
+        Date currentDate = type.equals("用户") ? getNowDate() : movie.getShowdate();
 
         Date downtime = movie.getDowndate();
 
@@ -379,12 +394,12 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 int msg = 0;
                 SessionRepository sessionRepository = new SessionRepository();
-                sessionList = sessionRepository.findAllSession(cinema.getCid(), movie.getMid());
+                sessionList = sessionRepository.findAllSession(cid, movie.getMid());
                 if (sessionList.size() == 0) {
                     msg = 1;
                 }
                 HallRepository hallRepository = new HallRepository();
-                hallList = hallRepository.findAllHall(cinema.getCid());
+                hallList = hallRepository.findAllHall(cid);
 
                 hand.sendEmptyMessage(msg);
             }
@@ -400,8 +415,8 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                 chooseSessionList.add(session);
                 String state = session.getState();
                 int count = 0;
-                for(int j = 0;j < state.length();j++){
-                    if(state.charAt(j) == '1'){
+                for (int j = 0; j < state.length(); j++) {
+                    if (state.charAt(j) == '1') {
                         count++;
                     }
                 }
@@ -416,9 +431,9 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
             sessionView.setAdapter(adapter);
         }
 
-        if(type.equals("管理员")){
+        if (type.equals("管理员")) {
             pftext.setVisibility(View.VISIBLE);
-            pftext.setText("本日票房:"+String.format("%.2f", pf));
+            pftext.setText("本日票房:" + String.format("%.2f", pf));
         }
         progressBar.setVisibility(View.GONE);
 
@@ -461,7 +476,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
             showTime.setText(dateFormat.format(session.getShowTime()) + "——" +
                     dateFormat.format(session.getEndTime()));
 
-            int hall_row = 0,hall_col = 0;
+            int hall_row = 0, hall_col = 0;
 
             for (Hall hall : hallList) {
                 if (hall.getHid() == session.getHid()) {
@@ -474,18 +489,49 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
 
             price.setText("￥" + session.getPrice());
 
-            if(type.equals("管理员") && getDateDiff(session.getShowDate(),getNowDate()) < 0) {
+            if (type.equals("管理员") && getDateDiff(session.getShowDate(), getNowDate()) >= 0) {
                 progressBar.setVisibility(View.VISIBLE);
-                String state = session.getState();
+                String[] state = session.getState().split(",");
+                List<String> seatList = new ArrayList<>();
                 int count = 0;
-                for(int j = 0;j < state.length();j++){
-                    if(state.charAt(j) == '1'){
-                        count++;
+                for (int j = 0; j < state.length; j++) {
+                    for (int k = 0; k < state[j].length(); k++) {
+                        if (state[j].charAt(k) == '1') {
+                            count++;
+                        }
+                        seatList.add(state[j].charAt(k) + "");
                     }
                 }
-                int progress = (int)((count * 1.0 / (hall_row * hall_col)) * 100);
+                int progress = (int) ((count * 1.0 / (hall_row * hall_col)) * 100);
                 progressBar.setProgress(progress);
-            }else {
+                progressBar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        RecyclerView recyclerView = new RecyclerView(view1.getContext());
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(
+                                view1.getContext(), state[0].length());
+                        recyclerView.setLayoutManager(gridLayoutManager);
+                        SeatAdapter seatAdapter = new SeatAdapter(seatList);
+                        recyclerView.setAdapter(seatAdapter);
+
+                        LinearLayout ll = new LinearLayout(view1.getContext());
+                        ll.setOrientation(LinearLayout.VERTICAL);
+                        ll.addView(recyclerView);
+                        ll.setEnabled(false);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view1.getContext());
+                        builder.setView(ll);
+                        builder.setTitle("座位情况");
+                        builder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.show();
+                    }
+                });
+            } else {
                 progressBar.setVisibility(View.GONE);
             }
 

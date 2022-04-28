@@ -117,7 +117,6 @@
                             android:layout_weight="1"
                             android:background="#ffffff"
                             android:button="@null"
-                            android:drawableRight="@drawable/ic_goposition"
                             android:gravity="center"
                             android:text="用户设置"
                             android:textSize="18sp"></RadioButton>
@@ -146,16 +145,15 @@
                             android:layout_height="50dp"
                             android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="300dp"
+                            <ImageView
+                                android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="10dp"
-                                android:gravity="center_vertical"
-                                android:text="电影票"
-                                android:textSize="18sp"
-                                android:textStyle="bold"></TextView>
-
+                                android:src="@drawable/pc_ticket2"
+                                ></ImageView>
+                            <TextView
+                                android:layout_width="250dp"
+                                android:layout_height="wrap_content"
+                                ></TextView>
                             <RadioButton
                                 android:id="@+id/my_goTicket"
                                 android:layout_width="80dp"

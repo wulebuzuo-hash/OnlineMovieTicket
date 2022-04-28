@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +71,10 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
     private ListView ticketView;
     private MyAdapter adapter;
 
+    private RadioButton bottom_1;
+    private RadioButton bottom_2;
+    private RadioButton bottom_3;
+
     private List<Ticket> ticketList;
     private List<Session> sessionList;
     private String account;
@@ -91,6 +97,17 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
         navButton.setOnClickListener(this);
         titleName = (TextView) findViewById(R.id.title_name);
         titleName.setText("电影票");
+
+        bottom_1 = (RadioButton) findViewById(R.id.bottom_choose_movie);
+        bottom_1.setOnClickListener(this);
+        bottom_2 = (RadioButton) findViewById(R.id.bottom_choose_cinema);
+        bottom_2.setOnClickListener(this);
+        bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
+        bottom_3.setOnClickListener(this);
+
+        setBounds(R.drawable.pc_movie,bottom_1);
+        setBounds(R.drawable.pc_cinema,bottom_2);
+        setBounds(R.drawable.my,bottom_3);
 
         searchEdit = (EditText) findViewById(R.id.list_ticket_searchEdit);
         searchButton = (Button) findViewById(R.id.list_ticket_searshButton);
@@ -196,6 +213,20 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
             default:
                 break;
         }
+    }
+
+    /**
+     *
+     * @param drawableId  drawableLeft  drawableTop drawableBottom 所用的选择器 通过R.drawable.xx 获得
+     * @param radioButton  需要限定图片大小的radioButton
+     */
+    private void setBounds(int drawableId, RadioButton radioButton) {
+        //定义底部标签图片大小和位置
+        Drawable drawable_news = getResources().getDrawable(drawableId);
+        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形  (这里的长和宽写死了 自己可以可以修改成 形参传入)
+        drawable_news.setBounds(0, 0, 120, 120);
+        //设置图片在文字的哪个方向
+        radioButton.setCompoundDrawables(null,drawable_news,null, null);
     }
 
     public Date getNowDate() {

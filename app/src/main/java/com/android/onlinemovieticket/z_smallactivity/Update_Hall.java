@@ -151,10 +151,14 @@ public class Update_Hall extends AppCompatActivity implements View.OnClickListen
 
     private void updateHall() {
         final String hname = hallNameEdit.getText().toString();
+        int count = 0;
         for (Hall hall : hallList) {
             if(hall.getHname().equals(hname)) {
-                Toast.makeText(this, "放映厅名称已存在", Toast.LENGTH_SHORT).show();
-                return;
+                count++;
+                if(count > 1) {
+                    Toast.makeText(this, "该影厅名已存在", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         }
 

@@ -114,7 +114,7 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
         readImg.setOnClickListener(this);
 
         img = (ImageView) findViewById(R.id.info_movie_choose_img);
-
+        progressBar = (ProgressBar) findViewById(R.id.info_movie_progressbar);
         mid = getIntent().getIntExtra("mid", 0);
         if (mid != 0) {
             progressBar.setVisibility(View.VISIBLE);
@@ -157,7 +157,21 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
             case R.id.info_movie_submit:
                 progressBar.setVisibility(View.VISIBLE);
                 if (movie == null) {
-                    addMovie();
+                    if (nameEdit.getText().toString().equals("") ||
+                            nameEngEdit.getText().toString().equals("") ||
+                            storyEdit.getText().toString().equals("") ||
+                            longEdit.getText().toString().equals("") ||
+                            actorEdit.getText().toString().equals("") ||
+                            directorEdit.getText().toString().equals("") ||
+                            showdateEdit.getText().toString().equals("") ||
+                            downdateEdit.getText().toString().equals("") ||
+                            screenEdit.getText().toString().equals("") ||
+                            typeEdit.getText().toString().equals("")) {
+                        Toast.makeText(Info_Movie.this, "请填写完整信息",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        addMovie();
+                    }
                 } else {
                     updateMovie();
                 }
@@ -242,7 +256,8 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
         String[] types = {"动作", "喜剧", "爱情", "科幻", "恐怖", "剧情", "战争", "犯罪",
                 "惊悚", "悬疑", "文艺", "动画", "纪录片", "其他"};
 
-        builder.setMultiChoiceItems(types, null, new DialogInterface.OnMultiChoiceClickListener() {
+        builder.setMultiChoiceItems(types, null,
+                new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 if (isChecked) {
@@ -267,6 +282,7 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
                                 typeList.get(1) + "/" + typeList.get(2));
                         break;
                     default:
+                        typeList.clear();
                         Toast.makeText(getApplicationContext(),
                                 "最少选择一个，最多选择三个", Toast.LENGTH_SHORT).show();
                         break;

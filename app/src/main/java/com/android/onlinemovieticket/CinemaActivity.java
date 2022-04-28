@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -109,6 +110,10 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
         bottom_2.setOnClickListener(this);
         bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
         bottom_3.setOnClickListener(this);
+
+        setBounds(R.drawable.pc_movie,bottom_1);
+        setBounds(R.drawable.pc_cinema,bottom_2);
+        setBounds(R.drawable.my,bottom_3);
 
         addCinema = (Button) findViewById(R.id.m2_addCinema);
         addCinema.setOnClickListener(this);
@@ -250,6 +255,20 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
             default:
                 break;
         }
+    }
+
+    /**
+     *
+     * @param drawableId  drawableLeft  drawableTop drawableBottom 所用的选择器 通过R.drawable.xx 获得
+     * @param radioButton  需要限定图片大小的radioButton
+     */
+    private void setBounds(int drawableId, RadioButton radioButton) {
+        //定义底部标签图片大小和位置
+        Drawable drawable_news = getResources().getDrawable(drawableId);
+        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形  (这里的长和宽写死了 自己可以可以修改成 形参传入)
+        drawable_news.setBounds(0, 0, 120, 120);
+        //设置图片在文字的哪个方向
+        radioButton.setCompoundDrawables(null,drawable_news,null, null);
     }
 
     private void loadMovie() {

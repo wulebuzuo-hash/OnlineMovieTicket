@@ -27,8 +27,8 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="100dp"
-                    android:layout_height="160dp">
+                    android:layout_width="87.5dp"
+                    android:layout_height="140dp">
 
                     <ImageView
                         android:id="@+id/item_movie_image"
@@ -89,7 +89,6 @@
                     android:textColor="#000"></TextView>
 
                 <LinearLayout
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -137,7 +136,7 @@
                         android:gravity="center"
                         android:text="9.8分"
                         android:textColor="#f00"
-                        android:textSize="25sp"
+                        android:textSize="20sp"
                         android:textStyle="italic"></TextView>
                 </LinearLayout>
             </LinearLayout>

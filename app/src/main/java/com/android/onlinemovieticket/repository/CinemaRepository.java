@@ -160,7 +160,7 @@ public class CinemaRepository {
     public boolean addCinema(Cinema cinema) {
         Connection connection = JDBCUtils.getConn();
         String sql = "insert into cinema(cname,cposition,ccall) " +
-                "values(?,?)";
+                "values(?,?,?";
         PreparedStatement ps = null;
         try {
 

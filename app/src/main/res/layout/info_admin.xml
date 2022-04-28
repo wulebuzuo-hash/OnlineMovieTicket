@@ -16,9 +16,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="20sp"
             android:text="账号：" />
 
@@ -38,9 +37,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="20sp"
             android:text="密码：" />
 
@@ -60,9 +58,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="20sp"
             android:text="影院ID：" />
 
@@ -82,9 +79,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="20sp"
             android:text="名字：" />
 
@@ -104,9 +100,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="20sp"
             android:text="性别：" />
 
@@ -126,9 +121,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="20sp"
             android:text="身份证号：" />
 
@@ -148,9 +142,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="20sp"
             android:text="电话：" />
 
@@ -170,9 +163,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="20sp"
             android:text="邮箱：" />
 

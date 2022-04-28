@@ -123,15 +123,12 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         searchButton.setOnClickListener(this);
 
         bottom_1 = (RadioButton) findViewById(R.id.bottom_choose_movie);
-        setBounds(R.drawable.pc_movie,bottom_1);
         bottom_1.setOnClickListener(this);
 
         bottom_2 = (RadioButton) findViewById(R.id.bottom_choose_cinema);
-        setBounds(R.drawable.pc_cinema,bottom_2);
         bottom_2.setOnClickListener(this);
 
         bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
-        setBounds(R.drawable.my,bottom_3);
         bottom_3.setOnClickListener(this);
 
         addMovie = (Button) findViewById(R.id.m1_addMovie);
@@ -155,14 +152,19 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         type = getIntent().getStringExtra("type");
         ticket_price = getIntent().getDoubleExtra("ticket_price", 0.0);
 
+        setBounds(R.drawable.pc_movie,bottom_1);
+        setBounds(R.drawable.my,bottom_3);
         if (type.equals("BOSS")) {
             addMovie.setVisibility(View.VISIBLE);
+            setBounds(R.drawable.pc_cinema,bottom_2);
             bottom_3.setText("管理员");
         } else if (type.equals("管理员")) {
             addMovie.setVisibility(View.GONE);
+            setBounds(R.drawable.pc_hall,bottom_2);
             bottom_2.setText("放映厅");
             cid = getIntent().getIntExtra("cid", 0);
         } else {
+            setBounds(R.drawable.pc_cinema,bottom_2);
             addMovie.setVisibility(View.GONE);
         }
 
@@ -199,7 +201,6 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
                         intent = new Intent(MovieActivity.this, CinemaActivity.class);
                     }
                 }
-
                 intent.putExtra("mid",movie.getMid());
                 intent.putExtra("account", account);
                 intent.putExtra("type", type);

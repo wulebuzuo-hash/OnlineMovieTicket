@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.user_login);
         title = (TextView) findViewById(R.id.title_name);
         title.setText("登 录");
+        Button nav_button = (Button) findViewById(R.id.nav_button);
+        nav_button.setVisibility(View.GONE);
 
         cidEdit = (EditText) findViewById(R.id.login_cid);
 

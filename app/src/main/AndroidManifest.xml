@@ -22,45 +22,73 @@
 
         <activity
             android:name=".z_smallactivity.Update_Hall"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.List_Comment"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.Choose_Seat"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.Info_Comment"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.Info_Session"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.Info_Admin"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.List_Admin"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.List_Uh"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.List_Hall"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.List_Session"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.Info_Hall"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.List_Ticket"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.Info_Cinema"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".My_User"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
 
         <provider
@@ -75,18 +103,28 @@
 
         <activity
             android:name=".z_smallactivity.Info_Movie"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.User_updateInfo"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".MovieActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".z_smallactivity.User_Register"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -96,6 +134,8 @@
         </activity>
         <activity
             android:name=".CinemaActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
     </application>
 

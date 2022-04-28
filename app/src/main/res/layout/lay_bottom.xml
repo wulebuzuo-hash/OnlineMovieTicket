@@ -13,7 +13,6 @@
             android:layout_weight="1"
             android:background="#fff"
             android:button="@null"
-            android:drawableTop="@drawable/pc_movie"
             android:gravity="center"
             android:text="电影"></RadioButton>
         <RadioButton
@@ -23,7 +22,6 @@
             android:layout_weight="1"
             android:background="#ffffff"
             android:button="@null"
-            android:drawableTop="@drawable/pc_cinema"
             android:gravity="center"
             android:text="电影院"
             android:textColor="#666"
@@ -38,7 +36,6 @@
             android:background="#ffffff"
             android:gravity="center"
             android:layout_weight="1"
-            android:drawableTop="@drawable/my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RadioGroup>

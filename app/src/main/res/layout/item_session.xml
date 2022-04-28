@@ -51,5 +51,6 @@
         android:layout_height="20dp"
         android:max="100"
         android:progress="50"
+        android:descendantFocusability="beforeDescendants"
         android:progressDrawable="@drawable/send_progress_bg" />
 </LinearLayout>

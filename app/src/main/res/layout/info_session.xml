@@ -31,10 +31,11 @@
         <Button
             android:id="@+id/info_session_dateButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/purple_500"
-            android:text="选择"
+            android:layout_height="35dp"
+            android:background="@drawable/btn_shape"
+            android:text="选 择"
             android:textColor="#fff"
+            android:textStyle="bold"
             android:textSize="20sp"></Button>
     </LinearLayout>
 
