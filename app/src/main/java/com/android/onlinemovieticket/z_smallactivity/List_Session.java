@@ -38,6 +38,7 @@ import com.android.onlinemovieticket.CinemaActivity;
 import com.android.onlinemovieticket.MovieActivity;
 import com.android.onlinemovieticket.My_User;
 import com.android.onlinemovieticket.R;
+import com.android.onlinemovieticket.adapter.MovieAdapter;
 import com.android.onlinemovieticket.adapter.SeatAdapter;
 import com.android.onlinemovieticket.adapter.SessionAdapter;
 import com.android.onlinemovieticket.adapter.onRecyclerItemClickListener;
@@ -45,6 +46,7 @@ import com.android.onlinemovieticket.db.Cinema;
 import com.android.onlinemovieticket.db.Hall;
 import com.android.onlinemovieticket.db.Movie;
 import com.android.onlinemovieticket.db.Session;
+import com.android.onlinemovieticket.repository.CinemaRepository;
 import com.android.onlinemovieticket.repository.HallRepository;
 import com.android.onlinemovieticket.repository.MovieRepository;
 import com.android.onlinemovieticket.repository.SessionRepository;
@@ -63,16 +65,16 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
     private Button navButton;
     private TextView titlename;
 
-    private CardView cinema_card;
-    private CardView movie_card;
     private TextView cinema_name;
     private TextView cinema_position;
     private TextView cinema_call;
     private ImageButton cinema_map;
 
-    private RadioButton bottom_1;
-    private RadioButton bottom_2;
-    private RadioButton bottom_3;
+    private RecyclerView movieView;
+    private LinearLayoutManager layoutMovie;
+    private List<Movie> allMovieList = new ArrayList<>();
+    private List<Movie> showingMovieList = new ArrayList<>();
+    private MovieAdapter movieAdapter;
 
     private RecyclerView sessionDate;
     private List<String> dateList = new ArrayList<>();
@@ -86,6 +88,10 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
     private MyAdapter adapter;
     private ListView sessionView;
     private Button addSession;
+
+    private RadioButton bottom_1;
+    private RadioButton bottom_2;
+    private RadioButton bottom_3;
 
     private Movie movie;
     private int mid;
@@ -101,59 +107,57 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_session);
 
+        account = getIntent().getStringExtra("account");
+        type = getIntent().getStringExtra("type");
+        ticket_price = getIntent().getDoubleExtra("ticket_price", 0.0);
+        mid = getIntent().getIntExtra("mid", 0);
+        cinema = (Cinema) getIntent().getSerializableExtra("cinema");
+        cid = cinema == null ? getIntent().getIntExtra("cid", 0) : cinema.getCid();
+
         navButton = (Button) findViewById(R.id.nav_button);
         navButton.setOnClickListener(this);
         titlename = (TextView) findViewById(R.id.title_name);
         titlename.setText("场次");
 
-        cinema_card = (CardView) findViewById(R.id.list_session_cinema_card);
         cinema_name = (TextView) findViewById(R.id.list_session_cinema_name);
         cinema_position = (TextView) findViewById(R.id.list_session_cinema_position);
         cinema_call = (TextView) findViewById(R.id.list_session_cinema_call);
         cinema_map = (ImageButton) findViewById(R.id.list_session_cinema_map);
         cinema_map.setOnClickListener(this);
 
-        pftext = (TextView) findViewById(R.id.list_session_pf);
-
-        movie_card = (CardView) findViewById(R.id.list_session_movie_card);
-
-        bottom_1 = (RadioButton) findViewById(R.id.bottom_choose_movie);
-        bottom_1.setOnClickListener(this);
-        bottom_2 = (RadioButton) findViewById(R.id.bottom_choose_cinema);
-        bottom_2.setOnClickListener(this);
-        bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
-        bottom_3.setOnClickListener(this);
-
-        setBounds(R.drawable.pc_movie, bottom_1);
-        setBounds(R.drawable.pc_cinema, bottom_2);
-        setBounds(R.drawable.my, bottom_3);
-
         progressBar = (ProgressBar) findViewById(R.id.list_session_progressbar);
         progressBar.setVisibility(View.VISIBLE);
 
-        mid = getIntent().getIntExtra("mid", 0);
-        cinema = (Cinema) getIntent().getSerializableExtra("cinema");
-        cid = cinema == null ? getIntent().getIntExtra("cid", 0) : cinema.getCid();
-        if (mid != 0) {
-            progressBar.setVisibility(View.VISIBLE);
-            loadMovie();
-        }
-
-        if (cinema != null && type.equals("用户")) {
-            cinema_card.setVisibility(View.VISIBLE);
-            movie_card.setVisibility(View.GONE);
-            pftext.setVisibility(View.GONE);
-            cinema_name.setText(cinema.getCname());
-            cinema_position.setText(cinema.getCposition());
-            cinema_call.setText(cinema.getCcall());
-        }
-
-        account = getIntent().getStringExtra("account");
-        type = getIntent().getStringExtra("type");
-        ticket_price = getIntent().getDoubleExtra("ticket_price", 0.0);
-
+        movieView = (RecyclerView) findViewById(R.id.list_session_movie_view);
         sessionDate = (RecyclerView) findViewById(R.id.list_session_date);
         sessionView = (ListView) findViewById(R.id.list_session_list);
+
+        //电影展示
+        layoutMovie = new LinearLayoutManager(this);
+        layoutMovie.setOrientation(LinearLayoutManager.HORIZONTAL);
+        movieView.setLayoutManager(layoutMovie);
+        movieAdapter = new MovieAdapter(showingMovieList, account, type, ticket_price);
+        movieAdapter.setListener(new onRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(int position, boolean isClick) {
+
+            }
+
+            @Override
+            public void onItemClick(int position) {
+                Movie mm = showingMovieList.get(position);
+                initDate(mm);
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        });
+        movieView.setAdapter(movieAdapter);
+
+
+        //日期展示
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         sessionDate.setLayoutManager(layoutManager);
@@ -175,6 +179,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         });
         sessionDate.setAdapter(sessionAdapter);
 
+        //场次展示
         sessionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -207,6 +212,29 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        if (cinema != null) {
+            cinema_name.setText(cinema.getCname());
+            cinema_position.setText(cinema.getCposition());
+            cinema_call.setText(cinema.getCcall());
+            loadMovie();
+        }else {
+            loadCinema();
+        }
+        pftext = (TextView) findViewById(R.id.list_session_pf);
+
+        bottom_1 = (RadioButton) findViewById(R.id.bottom_choose_movie);
+        bottom_1.setOnClickListener(this);
+        bottom_2 = (RadioButton) findViewById(R.id.bottom_choose_cinema);
+        bottom_2.setOnClickListener(this);
+        bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
+        bottom_3.setOnClickListener(this);
+
+        setBounds(R.drawable.pc_movie, bottom_1);
+        setBounds(R.drawable.pc_cinema, bottom_2);
+        setBounds(R.drawable.my, bottom_3);
 
         addSession = (Button) findViewById(R.id.list_session_add);
         addSession.setOnClickListener(this);
@@ -291,64 +319,92 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         radioButton.setCompoundDrawables(null, drawable_news, null, null);
     }
 
-    private void loadMovie() {
+    private void loadCinema(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                MovieRepository movieRepository = new MovieRepository();
-                movie = movieRepository.getMovieByMid(mid);
+                CinemaRepository cinemaRepository = new CinemaRepository();
+                cinema = cinemaRepository.getCinemaByCid(cid);
                 runOnUiThread(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
+
                     @Override
                     public void run() {
-                        initDate();
-                        initSession();
-                        if (type.equals("管理员")) {
-                            movie_card.setVisibility(View.VISIBLE);
-                            cinema_card.setVisibility(View.GONE);
-                            byte[] image = Base64.decode(movie.getImgString(), Base64.DEFAULT);
-                            Bitmap decodedImg = BitmapFactory.decodeByteArray(
-                                    image, 0, image.length);
-                            ImageView movie_img = (ImageView)
-                                    findViewById(R.id.list_session_movie_img);
-                            movie_img.setImageBitmap(decodedImg);
-
-                            //按照四舍五入的方法保留一位小数
-                            DecimalFormat f = new DecimalFormat("#0.0");
-                            TextView movie_sc = (TextView) findViewById(R.id.list_session_movie_sc);
-                            movie_sc.setText(f.format(
-                                    movie.getMscall() * 1.0 / movie.getMscnum()) + "分");
-
-                            TextView movie_scnum = (TextView) findViewById(
-                                    R.id.list_session_movie_scnum);
-                            movie_scnum.setText(movie.getMscnum() + "人参评");
-
-                            TextView movie_name = (TextView) findViewById(R.id.list_session_movie_name);
-                            movie_name.setText(movie.getMname());
-
-                            TextView movie_type = (TextView) findViewById(R.id.list_session_movie_type);
-                            TextView movie_long = (TextView) findViewById(R.id.list_session_movie_long);
-                            TextView movie_pf = (TextView) findViewById(R.id.list_session_movie_pf);
-                            movie_long.setText(movie.getMlong() + "分钟");
-                            movie_type.setText(movie.getMtype());
-                            movie_pf.setText(movie.getMpf() + "元");
-
-                            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                            String showdate = sdf.format(movie.getShowdate());
-                            String downdate = sdf.format(movie.getDowndate());
-                            TextView movie_date = (TextView) findViewById(R.id.list_session_movie_date);
-                            movie_date.setText(showdate + "--" + downdate);
-
-                            TextView movie_story = (TextView) findViewById(
-                                    R.id.list_session_movie_story);
-                            movie_story.setText(movie.getMstory());
-
-                        }
-                        progressBar.setVisibility(View.GONE);
+                        cinema_name.setText(cinema.getCname());
+                        cinema_position.setText(cinema.getCposition());
+                        cinema_call.setText(cinema.getCcall());
+                        loadMovie();
                     }
                 });
             }
         }).start();
+    }
+
+    private void loadMovie() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SessionRepository sessionRepository = new SessionRepository();
+                sessionList = sessionRepository.getSessionByCid(cinema.getCid());
+
+                MovieRepository movieRepository = new MovieRepository();
+                for (Session session : sessionList) {
+                    Movie mov = movieRepository.getMovieByMid(session.getMid());
+                    allMovieList.add(mov);
+                    if(mid != 0 && mov.getMid() == mid){
+                        movie = mov;
+                    }
+                }
+
+                HallRepository hallRepository = new HallRepository();
+                hallList = hallRepository.findAllHall(cid);
+                runOnUiThread(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+
+                        if(getDateDiff(movie.getShowdate(),getNowDate()) <= 0){
+                            initMovie_showing();
+                        }else {
+                            initMovie_soon();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void initMovie_showing(){
+        showingMovieList.clear();
+        int index = -1;
+        for (Movie movie : allMovieList) {
+            if(getDateDiff(movie.getShowdate(),getNowDate()) <= 0){
+                showingMovieList.add(movie);
+                if(movie.getMid() == mid){
+                    index = showingMovieList.size() - 1;
+                }
+            }
+        }
+        movieAdapter.notifyDataSetChanged();
+
+        if(index != -1){    //跳转至指定位置
+            initDate(movie);
+            int firstItem = layoutMovie.findFirstVisibleItemPosition();
+            int lastItem = layoutMovie.findLastVisibleItemPosition();
+            if (index <= firstItem) {
+                movieView.scrollToPosition(index);
+            } else if (index <= lastItem) {
+                int top = movieView.getChildAt(index - firstItem).getTop();
+                movieView.scrollBy(0, top);
+            } else {
+                movieView.scrollToPosition(index);
+            }
+        }
+    }
+
+    private void initMovie_soon(){
+
     }
 
     //获取现在时间
@@ -370,11 +426,11 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
 
     @RequiresApi(api = Build.VERSION_CODES.O)
 
-    private void initDate() {
+    private void initDate(Movie mm) {
 
-        Date currentDate = type.equals("用户") ? getNowDate() : movie.getShowdate();
+        Date currentDate = type.equals("用户") ? getNowDate() : mm.getShowdate();
 
-        Date downtime = movie.getDowndate();
+        Date downtime = mm.getDowndate();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         int daynums = getDateDiff(currentDate, downtime);
@@ -386,24 +442,6 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
             realDateList.add(datei);
         }
 
-    }
-
-    private void initSession() {
-        new Thread() {
-            @Override
-            public void run() {
-                int msg = 0;
-                SessionRepository sessionRepository = new SessionRepository();
-                sessionList = sessionRepository.findAllSession(cid, movie.getMid());
-                if (sessionList.size() == 0) {
-                    msg = 1;
-                }
-                HallRepository hallRepository = new HallRepository();
-                hallList = hallRepository.findAllHall(cid);
-
-                hand.sendEmptyMessage(msg);
-            }
-        }.start();
     }
 
     private void initSession(Date date) {
@@ -538,17 +576,4 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
             return view1;
         }
     }
-
-    @SuppressLint("HandlerLeak")
-    final Handler hand = new Handler() {
-        public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-                initSession(realDateList.get(0));
-            } else if (msg.what == 1) {
-                Toast.makeText(getApplicationContext(),
-                        "暂无安排场次", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
-            }
-        }
-    };
 }

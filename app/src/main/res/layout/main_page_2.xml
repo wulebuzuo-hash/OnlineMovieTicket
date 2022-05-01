@@ -191,9 +191,10 @@
         android:id="@+id/m2_addCinema"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="添加电影院"
-        android:textSize="18sp"
+        android:text="添 加 电 影 院"
+        android:textSize="25sp"
         android:textColor="#fff"
+        android:textStyle="bold"
         android:background="@color/purple_500"></Button>
     <ProgressBar
         android:id="@+id/m2_progressbar"

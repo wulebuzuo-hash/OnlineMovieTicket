@@ -1,5 +1,8 @@
 package com.android.onlinemovieticket.z_smallactivity;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -9,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,11 +20,13 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +45,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Info_Movie extends AppCompatActivity implements View.OnClickListener,
-        DatePickerDialog.OnDateSetListener {
+public class Info_Movie extends AppCompatActivity implements View.OnClickListener{
 
     private Button navButton;
     private TextView titleName;
@@ -56,14 +61,19 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
     private List<String> typeList = new ArrayList<>(3);
     private EditText storyEdit;
     private EditText longEdit;
-    private EditText actorEdit;
-    private EditText directorEdit;
+
+    private TextView actorEdit;
+    private List<EditText> actorEditList = new ArrayList<>(5);
+    private Button actorButton;
+
+    private TextView directorEdit;
+    private List<EditText> directorEditList = new ArrayList<>(3);
+    private Button directorButton;
 
     private TextView showdateEdit;
     private Button showButton;
     private TextView downdateEdit;
     private Button downButton;
-    private String date;
 
     private Button readImg;
     private Button add;
@@ -99,8 +109,13 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
         typeButton.setOnClickListener(this);
         storyEdit = (EditText) findViewById(R.id.info_movie_story);
         longEdit = (EditText) findViewById(R.id.info_movie_long);
-        actorEdit = (EditText) findViewById(R.id.info_movie_actor);
-        directorEdit = (EditText) findViewById(R.id.info_movie_director);
+
+        actorEdit = (TextView) findViewById(R.id.info_movie_actor);
+        actorButton = (Button) findViewById(R.id.info_movie_actor_button);
+        actorButton.setOnClickListener(this);
+        directorEdit = (TextView) findViewById(R.id.info_movie_director);
+        directorButton = (Button) findViewById(R.id.info_movie_director_button);
+        directorButton.setOnClickListener(this);
 
         showdateEdit = (TextView) findViewById(R.id.info_movie_showdate);
         showButton = (Button) findViewById(R.id.info_movie_showdateButton);
@@ -155,7 +170,6 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
                 chooseType();
                 break;
             case R.id.info_movie_submit:
-                progressBar.setVisibility(View.VISIBLE);
                 if (movie == null) {
                     if (nameEdit.getText().toString().equals("") ||
                             nameEngEdit.getText().toString().equals("") ||
@@ -170,9 +184,11 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
                         Toast.makeText(Info_Movie.this, "请填写完整信息",
                                 Toast.LENGTH_SHORT).show();
                     } else {
+                        progressBar.setVisibility(View.VISIBLE);
                         addMovie();
                     }
                 } else {
+                    progressBar.setVisibility(View.VISIBLE);
                     updateMovie();
                 }
 
@@ -180,35 +196,48 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
             case R.id.info_movie_showdateButton:
                 //获取实例，包含当前年月日
                 Calendar calendar = Calendar.getInstance();
-                date = "show";
-                DatePickerDialog dialog = new DatePickerDialog(this, this,
+                DatePickerDialog dialog = new DatePickerDialog(this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                                String desc = String.format("%d-%d-%d", i, i1 + 1, i2);
+                                showdateEdit.setText(desc);
+                            }
+                        },
                         calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MARCH),
                         calendar.get(Calendar.DAY_OF_MONTH));
+                DatePicker datePicker = dialog.getDatePicker();
+                datePicker.setMinDate(calendar.getTimeInMillis());
                 dialog.show();
                 break;
             case R.id.info_movie_downdateButton:
                 //获取实例，包含当前年月日
+
                 Calendar calendar1 = Calendar.getInstance();
-                date = "down";
-                DatePickerDialog dialog1 = new DatePickerDialog(this, this,
+                DatePickerDialog dialog1 = new DatePickerDialog(this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                                String desc = String.format("%d-%d-%d", i, i1 + 1, i2);
+                                downdateEdit.setText(desc);
+                            }
+                        },
                         calendar1.get(Calendar.YEAR),
                         calendar1.get(Calendar.MARCH),
                         calendar1.get(Calendar.DAY_OF_MONTH));
+                DatePicker datePicker1 = dialog1.getDatePicker();
+                datePicker1.setMinDate(System.currentTimeMillis());
                 dialog1.show();
+                break;
+            case R.id.info_movie_actor_button:
+                chooseActor();
+                break;
+            case R.id.info_movie_director_button:
+                chooseDirector();
                 break;
             default:
                 break;
-        }
-    }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        String desc = String.format("%d-%d-%d", i, i1 + 1, i2);
-        if (date.equals("show")) {
-            showdateEdit.setText(desc);
-        } else if (date.equals("down")) {
-            downdateEdit.setText(desc);
         }
     }
 
@@ -236,6 +265,211 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    private void chooseActor() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                MATCH_PARENT, WRAP_CONTENT);
+        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                WRAP_CONTENT, WRAP_CONTENT);
+
+        LinearLayout ll = new LinearLayout(this);
+        ll.setLayoutParams(params);
+        ll.setOrientation(LinearLayout.VERTICAL);
+
+        LinearLayout ll1 = new LinearLayout(this);
+        ll1.setLayoutParams(params);
+        ll1.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText editText = new EditText(Info_Movie.this);
+        editText.setLayoutParams(params);
+        editText.setHint("请输入演员名字");
+        ll1.addView(editText);
+        actorEditList.add(editText);
+
+        LinearLayout ll2 = new LinearLayout(this);
+        ll2.setLayoutParams(params);
+        ll2.setGravity(Gravity.CENTER);
+        ll2.setOrientation(LinearLayout.HORIZONTAL);
+
+        Button addActor = new Button(this);
+        addActor.setLayoutParams(params2);
+        addActor.setText("添加演员");
+        addActor.setTextSize(20);
+        addActor.setTextColor(Color.RED);
+        addActor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (actorEditList.size() < 5) {
+                    final EditText editText = new EditText(Info_Movie.this);
+                    editText.setLayoutParams(params);
+                    editText.setHint("请输入演员名字");
+                    ll1.addView(editText);
+                    actorEditList.add(editText);
+                } else {
+                    Toast.makeText(Info_Movie.this, "最多只能添加5个演员",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        ll2.addView(addActor);
+
+        Button deleteActor = new Button(this);
+        deleteActor.setText("删除演员");
+        deleteActor.setTextSize(20);
+        deleteActor.setTextColor(Color.GREEN);
+        deleteActor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (actorEditList.size() > 1) {
+                    actorEditList.remove(actorEditList.size() - 1);
+                    ll1.removeView(actorEditList.get(actorEditList.size() - 1));
+                } else {
+                    Toast.makeText(Info_Movie.this, "至少要有一个演员",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        ll2.addView(deleteActor);
+
+        ll.addView(ll1);
+        ll.addView(ll2);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请输入");
+        builder.setView(ll);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                progressBar.setVisibility(View.VISIBLE);
+                initActor();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
+    private void initActor() {
+        String actor = "";
+        for (int i = 0; i < actorEditList.size(); i++) {
+            if (!actorEditList.get(i).getText().toString().equals("")) {
+                actor += actorEditList.get(i).getText().toString() + "/";
+            }
+        }
+        if (!actor.equals("")) {
+            actorEdit.setText(actor.substring(0, actor.length() - 1));
+        } else {
+            actorEdit.setText("");
+        }
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void chooseDirector() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                MATCH_PARENT, WRAP_CONTENT);
+        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                WRAP_CONTENT, WRAP_CONTENT);
+
+        LinearLayout ll = new LinearLayout(this);
+        ll.setLayoutParams(params);
+        ll.setOrientation(LinearLayout.VERTICAL);
+
+        LinearLayout ll1 = new LinearLayout(this);
+        ll1.setLayoutParams(params);
+        ll1.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText editText = new EditText(Info_Movie.this);
+        editText.setLayoutParams(params);
+        editText.setHint("请输入导演名字");
+        ll1.addView(editText);
+        directorEditList.add(editText);
+
+        LinearLayout ll2 = new LinearLayout(this);
+        ll2.setGravity(Gravity.CENTER);
+        ll2.setLayoutParams(params);
+        ll2.setOrientation(LinearLayout.HORIZONTAL);
+
+        Button adddirector = new Button(this);
+        adddirector.setLayoutParams(params2);
+        adddirector.setText("继续添加");
+        adddirector.setTextSize(20);
+        adddirector.setTextColor(Color.RED);
+        adddirector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (directorEditList.size() < 3) {
+                    final EditText editText = new EditText(Info_Movie.this);
+                    editText.setLayoutParams(params);
+                    editText.setHint("请输入导演名字");
+                    ll1.addView(editText);
+                    directorEditList.add(editText);
+                } else {
+                    Toast.makeText(Info_Movie.this, "最多只能添加3个导演",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        ll2.addView(adddirector);
+
+        Button deletedirector = new Button(this);
+        deletedirector.setText("删除");
+        deletedirector.setTextSize(20);
+        deletedirector.setTextColor(Color.GREEN);
+        deletedirector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (directorEditList.size() > 1) {
+                    directorEditList.remove(directorEditList.size() - 1);
+                    ll1.removeView(directorEditList.get(directorEditList.size() - 1));
+                } else {
+                    Toast.makeText(Info_Movie.this, "至少要有一个导演",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        ll2.addView(deletedirector);
+
+        ll.addView(ll1);
+        ll.addView(ll2);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请输入");
+        builder.setView(ll);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                progressBar.setVisibility(View.VISIBLE);
+                initDirector();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void initDirector() {
+        String director = "";
+        for (int i = 0; i < directorEditList.size(); i++) {
+            if (!directorEditList.get(i).getText().toString().equals("")) {
+                director += directorEditList.get(i).getText().toString() + "/";
+            }
+        }
+        if (!director.equals("")) {
+            directorEdit.setText(director.substring(0, director.length() - 1));
+        } else {
+            directorEdit.setText("");
+        }
+        progressBar.setVisibility(View.GONE);
+    }
+
     private void chooseScreen() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final String[] items = {"2D", "3D"};
@@ -258,15 +492,15 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
 
         builder.setMultiChoiceItems(types, null,
                 new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                if (isChecked) {
-                    typeList.add(types[which]);
-                } else {
-                    typeList.remove(types[which]);
-                }
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            typeList.add(types[which]);
+                        } else {
+                            typeList.remove(types[which]);
+                        }
+                    }
+                });
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

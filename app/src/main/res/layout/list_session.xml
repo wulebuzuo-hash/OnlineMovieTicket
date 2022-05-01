@@ -4,300 +4,182 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffe4e4e4"
     android:orientation="vertical"
     tools:context=".z_smallactivity.List_Session">
 
     <include layout="@layout/lay_title"></include>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#EEEE00"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/list_session_cinema_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="电影院名"
+                android:textColor="#000"
+                android:textSize="25sp"
+                android:textStyle="bold"></TextView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:text="位置:"
+                    android:textColor="#000"></TextView>
+
+                <TextView
+                    android:id="@+id/list_session_cinema_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="电影地理位置"
+                    android:textColor="#000"></TextView>
+
+                <ImageButton
+                    android:id="@+id/list_session_cinema_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5sp"
+                    android:background="@drawable/ic_goposition"></ImageButton>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="联系电话："
+                    android:textColor="#000"></TextView>
+
+                <TextView
+                    android:id="@+id/list_session_cinema_call"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="18813086377"
+                    android:textColor="#000"></TextView>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/list_session_cinema_card"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="#EEEE00"
-            app:cardCornerRadius="15dp"
-            app:cardUseCompatPadding="true">
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/list_session_cinema_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="电影院名"
-                    android:textColor="#000"
-                    android:textSize="30sp"
-                    android:textStyle="bold"></TextView>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:text="位置:"
-                        android:textColor="#000"
-                        android:textSize="18sp"></TextView>
-
-                    <TextView
-                        android:id="@+id/list_session_cinema_position"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="电影地理位置"
-                        android:textColor="#000"
-                        android:textSize="18sp"></TextView>
-
-                    <ImageButton
-                        android:id="@+id/list_session_cinema_map"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5sp"
-                        android:background="@drawable/ic_goposition"></ImageButton>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="联系电话："
-                        android:textColor="#000"
-                        android:textSize="18sp"></TextView>
-
-                    <TextView
-                        android:id="@+id/list_session_cinema_call"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="18813086377"
-                        android:textColor="#000"
-                        android:textSize="18sp"></TextView>
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/list_session_movie_card"
-            android:layout_width="match_parent"
-            android:layout_height="260dp"
-            app:cardBackgroundColor="#009ACD"
-            app:cardCornerRadius="15dp"
-            android:descendantFocusability="blocksDescendants"
-            app:cardUseCompatPadding="true">
-
-            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/list_session_movie_imagelay"
+                <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/list_session_movie_img"
-                        android:layout_width="100dp"
-                        android:layout_height="137.5dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/cool"></ImageView>
-
-
-                    <TextView
-                        android:id="@+id/list_session_movie_sc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:text="9.8分"
-                        android:textColor="#FF6347"
-                        android:textSize="25sp"
-                        android:textStyle="italic|bold"></TextView>
-
-                    <TextView
-                        android:id="@+id/list_session_movie_scnum"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:text="1人参评"></TextView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_toRightOf=
-                        "@+id/list_session_movie_imagelay"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/list_session_movie_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:gravity="center_vertical"
-                            android:text="电影名"
-                            android:textColor="#000"
-                            android:textSize="35sp"
-                            android:textStyle="bold"></TextView>
-
-                        <TextView
-                            android:id="@+id/list_session_movie_long"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text="XXX分钟"
-                            android:textColor="#000"
-                            android:textSize="15dp"></TextView>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="50dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:text="类型:"
-                            android:textColor="#000"></TextView>
-
-                        <TextView
-                            android:id="@+id/list_session_movie_type"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:textColor="#000"></TextView>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="目前票房："
-                            android:textColor="#000"></TextView>
-
-                        <TextView
-                            android:id="@+id/list_session_movie_pf"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:textColor="#000"></TextView>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="上映日期："
-                            android:textColor="#000"></TextView>
-
-                        <TextView
-                            android:id="@+id/list_session_movie_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:textColor="#000"></TextView>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/list_session_movie_story"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="在《美国队长3：内战》的莱比锡机场大战结束后，彼得·帕克在导师托尼·斯塔克的协助下，试图在一名普通高中生和打击犯罪的超级英雄蜘蛛侠间保持平衡..."
-                        android:textSize="15dp"></TextView>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <ProgressBar
-            android:id="@+id/list_session_progressbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            ></ProgressBar>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_session_date"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            ></androidx.recyclerview.widget.RecyclerView>
-
-        <TextView
-            android:id="@+id/list_session_pf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="本日票房：30.00"
-            android:textSize="18sp"
-            android:textColor="#fff"
-            android:background="@color/darkOrange"></TextView>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ListView
-                    android:id="@+id/list_session_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></ListView>
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/btn_shape"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="正在热映"
+                    android:textColor="#fff"
+                    android:textStyle="bold"></Button>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/btn_shape"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="即将上映"
+                    android:textColor="#fff"
+                    android:textStyle="bold"></Button>
             </LinearLayout>
-        </ScrollView>
 
-        <Button
-            android:id="@+id/list_session_add"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_session_movie_view"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                style="@style/recy_horizontal_style"
+                ></androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/list_session_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ProgressBar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_session_date"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        style="@style/recy_horizontal_style"></androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/list_session_pf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkOrange"
+        android:gravity="center"
+        android:text="本日票房：30.00"
+        android:textColor="#fff"
+        android:textSize="18sp"></TextView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="添加场次"
-            android:textSize="25sp"
-            android:textColor="#fff"
-            android:background="@color/purple_500"></Button>
-    </LinearLayout>
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/list_session_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></ListView>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/list_session_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        android:text="添加场次"
+        android:textColor="#fff"
+        android:textSize="25sp"></Button>
 
     <include layout="@layout/lay_bottom"></include>
 

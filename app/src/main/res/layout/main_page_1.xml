@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_blue"
+    android:background="#ffe4e4e4"
     android:orientation="vertical"
     tools:context=".MovieActivity">
 
@@ -31,110 +31,18 @@
             android:background="@drawable/pc_search"></Button>
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/m1_cinema_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="#EEEE00"
-        app:cardCornerRadius="15dp"
-        app:cardUseCompatPadding="true">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/m1_cinema_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="电影院名"
-                android:textColor="#000"
-                android:textSize="30sp"
-                android:textStyle="bold"></TextView>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:text="位置:"
-                    android:textColor="#000"
-                    android:textSize="18sp"></TextView>
-
-                <TextView
-                    android:id="@+id/m1_cinema_position"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="电影地理位置"
-                    android:textColor="#000"
-                    android:textSize="18sp"></TextView>
-
-                <ImageButton
-                    android:id="@+id/m1_cinema_map"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5sp"
-                    android:background="@drawable/ic_goposition"></ImageButton>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="联系电话："
-                    android:textColor="#000"
-                    android:textSize="18sp"></TextView>
-
-                <TextView
-                    android:id="@+id/m1_cinema_call"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="18813086377"
-                    android:textColor="#000"
-                    android:textSize="18sp"></TextView>
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/m1_addMovie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="添加电影"
-        android:textSize="18sp"
-        android:textColor="#fff"
-        android:background="@color/purple_500">
-    </Button>
-
     <ProgressBar
         android:id="@+id/m1_progressbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         ></ProgressBar>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/m1_cardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/purple_200"
-        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="5dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -142,47 +50,52 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RadioGroup
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:text="正在热映"
+                android:textSize="18dp"
+                android:textStyle="bold"></TextView>
 
-                <RadioButton
-                    android:id="@+id/m1_showing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/purple_200"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="正在热映"
-                    android:textColor="#009ACD"></RadioButton>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/m1_showingRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                ></androidx.recyclerview.widget.RecyclerView>
 
-                <RadioButton
-                    android:id="@+id/m1_upcoming"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:background="@color/purple_200"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="即将上映"></RadioButton>
-            </RadioGroup>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:layout_width="400dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/bg_blue"
-                >
-                <ListView
-                    android:id="@+id/m1_movieView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    ></ListView>
-            </LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:text="即将上映"
+                android:textSize="18sp"
+                android:textStyle="bold"></TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/m1_willRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                ></androidx.recyclerview.widget.RecyclerView>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

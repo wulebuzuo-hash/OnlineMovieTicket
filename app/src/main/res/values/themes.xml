@@ -37,4 +37,11 @@
         parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/my</item>
     </style>
+
+    <style name="recy_horizontal_style">
+        <item name="android:scrollbarSize">5dp</item>
+        <item name="android:scrollbars">horizontal</item>
+        <item name="android:scrollbarThumbHorizontal">#f00</item>
+        <item name="android:scrollbarTrackHorizontal">#000</item>
+    </style>
 </resources>

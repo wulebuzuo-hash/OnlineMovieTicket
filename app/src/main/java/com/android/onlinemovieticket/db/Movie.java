@@ -83,6 +83,7 @@ public class Movie implements Serializable {
                  Date downdate, String mactor, String mdir) {
         this.mname = mname;
         this.mname_eng = mname_eng;
+        this.mscreen = mscreen;
         this.mtype = mtype;
         this.mstory = mstory;
         this.mlong = mlong;

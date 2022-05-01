@@ -123,6 +123,7 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true">

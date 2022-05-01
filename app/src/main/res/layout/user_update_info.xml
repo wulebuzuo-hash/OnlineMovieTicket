@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:background="@color/purple_500"
+                android:background="@drawable/btn_shape"
                 android:text="完成"
                 android:textColor="#fff"
                 android:textSize="18sp" />
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="50dp"
-                android:background="@color/purple_500"
+                android:background="@drawable/btn_shape"
                 android:text="返回"
                 android:textColor="#fff"
                 android:textSize="18sp"></Button>

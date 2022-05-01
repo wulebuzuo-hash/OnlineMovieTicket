@@ -72,7 +72,7 @@
 
                 <TextView
                     android:id="@+id/info_movie_screen"
-                    android:layout_width="wrap_content"
+                    android:layout_width="210dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
                     android:textSize="18sp" />
@@ -104,7 +104,7 @@
 
                 <TextView
                     android:id="@+id/info_movie_type"
-                    android:layout_width="wrap_content"
+                    android:layout_width="210dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
                     android:textSize="18sp" />
@@ -154,9 +154,14 @@
 
                 <EditText
                     android:id="@+id/info_movie_long"
-                    android:layout_width="match_parent"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="分钟"></TextView>
             </LinearLayout>
 
             <LinearLayout
@@ -171,18 +176,30 @@
                     android:text="演员："
                     android:textSize="18sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/info_movie_actor"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
+                    android:textColor="#f00"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/info_movie_actor_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="@drawable/btn_shape"
+                    android:text="填写"
                     android:textSize="20sp"
-                    android:textStyle="italic" />
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
 
@@ -192,12 +209,23 @@
                     android:text="导演："
                     android:textSize="18sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/info_movie_director"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textStyle="italic" />
+                    android:textColor="#f00"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/info_movie_director_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="@drawable/btn_shape"
+                    android:text="填写"
+                    android:textSize="20sp"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    />
 
             </LinearLayout>
 
@@ -216,7 +244,7 @@
 
                 <TextView
                     android:id="@+id/info_movie_showdate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="225dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
                     android:textSize="20sp"></TextView>
@@ -248,7 +276,7 @@
 
                 <TextView
                     android:id="@+id/info_movie_downdate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="225dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
                     android:textSize="20sp"></TextView>
@@ -273,7 +301,7 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:text="电影图片："
                     android:textSize="18sp" />

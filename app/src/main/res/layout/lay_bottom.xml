@@ -9,7 +9,7 @@
         <RadioButton
             android:id="@+id/bottom_choose_movie"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="#fff"
             android:button="@null"
@@ -18,7 +18,7 @@
         <RadioButton
             android:id="@+id/bottom_choose_cinema"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="#ffffff"
             android:button="@null"
@@ -37,7 +37,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="50dp" />
     </RadioGroup>
 
 </RelativeLayout>
