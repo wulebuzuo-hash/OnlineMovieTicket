@@ -1,5 +1,6 @@
 package com.android.onlinemovieticket.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -39,6 +40,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     private double ticket_price;
     private onRecyclerItemClickListener listener;
 
+    private int selposition = 0;    //记录选中的位置
+    private int temp = -1;  //记录上一次选中的位置
+
     public void setListener(onRecyclerItemClickListener listener) {
         this.listener = listener;
     }
@@ -71,29 +75,78 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         this.ticket_price = ticket_price;
     }
 
+    public MovieAdapter(List<Movie> movieList, String type) {
+        this.movieList = movieList;
+        this.type = type;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.item_movie, parent, false);
         final ViewHolder holder = new ViewHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        Movie movie = movieList.get(position);
+        holder.movieName.setText(movie.getMname());
+
+        Date currentDate = getNowDate();
+        if (getDateDiff(currentDate, movie.getShowdate()) <= 0) {
+            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            holder.movieReleaseDate.setVisibility(View.GONE);
+            holder.movieRating.setVisibility(View.VISIBLE);
+            holder.movieRating.setText(String.format(
+                    "%.1f", (double) movie.getMscall() / movie.getMscnum()) + "分");
+        } else {
+            holder.movieReleaseDate.setVisibility(View.VISIBLE);
+            holder.movieRating.setVisibility(View.GONE);
+            DateFormat sdf = new SimpleDateFormat("MM-dd");
+            holder.movieReleaseDate.setText(sdf.format(movie.getShowdate()) + "上映");
+        }
+
+        byte[] imageBytes = Base64.decode(movie.getImgString(), Base64.DEFAULT);
+        Glide.with(holder.movieImage.getContext()).load(BitmapFactory.decodeByteArray(
+                imageBytes, 0, imageBytes.length)).into(holder.movieImage);
+
+        holder.movieType.setText(movie.getMscreen());
+
+        if (type.equals("用户") && account != null) {
+            holder.movieBook.setVisibility(View.VISIBLE);
+        } else {
+            holder.movieBook.setVisibility(View.GONE);
+            if(type.equals("管理员")){
+                holder.movieView.setBackground(holder.movieView.getContext().getResources().
+                        getDrawable(R.drawable.bg_item_movie));
+                holder.movieView.setSelected(holder.getLayoutPosition() == selposition);
+            }
+        }
+
         holder.movieView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(listener != null) {
-                    listener.onItemClick(holder.getAdapterPosition());
-                    holder.movieBook.setVisibility(View.GONE);
-                }else {
+
+                if(account != null){    //表明是从MovieActivity跳转过来的
                     Intent intent = null;
-                    if (type.equals("BOSS")) {
-                        intent = new Intent(v.getContext(), Info_Movie.class);
-                    }else if (type.equals("用户")) {
+                    if (type.equals("用户")) {
                         intent = new Intent(v.getContext(), List_Comment.class);
                         intent.putExtra("ticket_price", ticket_price);
+                    }else if(type.equals("BOSS")){
+                        intent = new Intent(v.getContext(), Info_Movie.class);
                     }
-                    intent.putExtra("mid", movieList.get(holder.getAdapterPosition()).getMid());
+                    intent.putExtra("mid", movie.getMid());
                     intent.putExtra("account", account);
                     intent.putExtra("type", type);
                     v.getContext().startActivity(intent);
+
+                }else { //表明是从List_Session跳转过来的
+                    holder.movieView.setSelected(true);
+                    temp = selposition;
+                    selposition = holder.getLayoutPosition();
+                    notifyItemChanged(temp);
+                    listener.onItemClick(position);
                 }
             }
         });
@@ -101,7 +154,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         holder.movieView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Movie movie = movieList.get(holder.getAdapterPosition());
                 if (type.equals("BOSS")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                     builder.setTitle("删除电影" + movie.getMname());
@@ -148,44 +200,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 Intent intent = new Intent(v.getContext(), CinemaActivity.class);
                 intent.putExtra("account", account);
                 intent.putExtra("type", type);
-                intent.putExtra("mid", movieList.get(holder.getAdapterPosition()).getMid());
+                intent.putExtra("mid", movieList.get(position).getMid());
                 v.getContext().startActivity(intent);
             }
         });
-        return holder;
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Movie movie = movieList.get(position);
-        holder.movieName.setText(movie.getMname());
-
-        Date currentDate = getNowDate();
-        if (getDateDiff(currentDate, movie.getShowdate()) <= 0) {
-            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-            holder.movieReleaseDate.setVisibility(View.GONE);
-            holder.movieRating.setVisibility(View.VISIBLE);
-            holder.movieRating.setText(String.format(
-                    "%.1f", (double) movie.getMscall() / movie.getMscnum()) + "分");
-        } else {
-            holder.movieReleaseDate.setVisibility(View.VISIBLE);
-            holder.movieRating.setVisibility(View.GONE);
-            DateFormat sdf = new SimpleDateFormat("MM-dd");
-            holder.movieReleaseDate.setText(sdf.format(movie.getShowdate()) + "上映");
-        }
-
-        byte[] imageBytes = Base64.decode(movie.getImgString(), Base64.DEFAULT);
-        Glide.with(holder.movieImage.getContext()).load(BitmapFactory.decodeByteArray(
-                imageBytes, 0, imageBytes.length)).into(holder.movieImage);
-
-        holder.movieType.setText(movie.getMscreen());
-
-        if (type.equals("用户")) {
-            holder.movieBook.setVisibility(View.VISIBLE);
-        } else {
-            holder.movieBook.setVisibility(View.GONE);
-        }
-
     }
 
     @Override

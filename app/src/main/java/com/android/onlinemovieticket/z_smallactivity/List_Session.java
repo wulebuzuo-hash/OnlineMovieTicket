@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.onlinemovieticket.CinemaActivity;
+import com.android.onlinemovieticket.LoginActivity;
 import com.android.onlinemovieticket.MovieActivity;
 import com.android.onlinemovieticket.My_User;
 import com.android.onlinemovieticket.R;
@@ -64,6 +66,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
 
     private Button navButton;
     private TextView titlename;
+    private ImageButton addSession;
 
     private TextView cinema_name;
     private TextView cinema_position;
@@ -77,6 +80,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
     private MovieAdapter movieAdapter;
 
     private RecyclerView sessionDate;
+    private SessionAdapter dateAdapter;
     private List<String> dateList = new ArrayList<>();
     private List<Date> realDateList = new ArrayList<>();
 
@@ -85,9 +89,9 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
     private List<Session> sessionList = new ArrayList<>();
     private List<Hall> hallList = new ArrayList<>();
     private List<Session> chooseSessionList = new ArrayList<>();
-    private MyAdapter adapter;
+
+    private MyAdapter sessionAdapter;
     private ListView sessionView;
-    private Button addSession;
 
     private RadioButton bottom_1;
     private RadioButton bottom_2;
@@ -118,6 +122,8 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         navButton.setOnClickListener(this);
         titlename = (TextView) findViewById(R.id.title_name);
         titlename.setText("场次");
+        addSession = (ImageButton) findViewById(R.id.title_button_add);
+        addSession.setOnClickListener(this);
 
         cinema_name = (TextView) findViewById(R.id.list_session_cinema_name);
         cinema_position = (TextView) findViewById(R.id.list_session_cinema_position);
@@ -136,24 +142,23 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         layoutMovie = new LinearLayoutManager(this);
         layoutMovie.setOrientation(LinearLayoutManager.HORIZONTAL);
         movieView.setLayoutManager(layoutMovie);
-        movieAdapter = new MovieAdapter(showingMovieList, account, type, ticket_price);
+        movieAdapter = new MovieAdapter(showingMovieList, type);
         movieAdapter.setListener(new onRecyclerItemClickListener() {
-            @Override
-            public void onItemClick(int position, boolean isClick) {
-
-            }
 
             @Override
             public void onItemClick(int position) {
-                Movie mm = showingMovieList.get(position);
-                initDate(mm);
+                movie = showingMovieList.get(position);
+                initDate(movie);
             }
 
             @Override
-            public void onLongClick(int position) {
-
-            }
+            public void onLongClick(int position) {}
+            @Override
+            public void onItemClick(int position, boolean isClick) {}
         });
+        RecyclerView.ItemAnimator itemAnimator = movieView.getItemAnimator();
+        itemAnimator.setChangeDuration(0);
+        movieView.setItemAnimator(itemAnimator);
         movieView.setAdapter(movieAdapter);
 
 
@@ -161,12 +166,12 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         sessionDate.setLayoutManager(layoutManager);
-        SessionAdapter sessionAdapter = new SessionAdapter(dateList);
-        sessionAdapter.setListener(new onRecyclerItemClickListener() {
+        dateAdapter = new SessionAdapter(dateList);
+        dateAdapter.setListener(new onRecyclerItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 progressBar.setVisibility(View.VISIBLE);
-                initSession(realDateList.get(position));
+                initSession(realDateList.get(position),movie);
             }
 
             @Override
@@ -177,8 +182,14 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
             public void onItemClick(int position, boolean isClick) {
             }
         });
-        sessionDate.setAdapter(sessionAdapter);
+        RecyclerView.ItemAnimator itemAnimator1 = sessionDate.getItemAnimator();
+        itemAnimator1.setChangeDuration(0);
+        sessionDate.setItemAnimator(itemAnimator1);
+        sessionDate.setAdapter(dateAdapter);
 
+
+        sessionAdapter = new MyAdapter();
+        sessionView.setAdapter(sessionAdapter);
         //场次展示
         sessionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -236,9 +247,6 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         setBounds(R.drawable.pc_cinema, bottom_2);
         setBounds(R.drawable.my, bottom_3);
 
-        addSession = (Button) findViewById(R.id.list_session_add);
-        addSession.setOnClickListener(this);
-
         if (type.equals("管理员")) {
             addSession.setVisibility(View.VISIBLE);
         } else {
@@ -249,7 +257,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.list_session_add:
+            case R.id.title_button_add:
                 Intent intent = null;
                 if (type.equals("管理员")) {
                     intent = new Intent(List_Session.this, Info_Session.class);
@@ -264,6 +272,10 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.nav_button:
+                if (type.equals("管理员")) {
+                    loginConfirm();
+                    break;
+                }
             case R.id.bottom_choose_movie:
                 Intent intent2 = new Intent(List_Session.this, MovieActivity.class);
                 intent2.putExtra("account", account);
@@ -319,6 +331,26 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         radioButton.setCompoundDrawables(null, drawable_news, null, null);
     }
 
+    private void loginConfirm() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("返回登录页面？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(List_Session.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
     private void loadCinema(){
         new Thread(new Runnable() {
             @Override
@@ -347,26 +379,34 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                 sessionList = sessionRepository.getSessionByCid(cinema.getCid());
 
                 MovieRepository movieRepository = new MovieRepository();
-                for (Session session : sessionList) {
-                    Movie mov = movieRepository.getMovieByMid(session.getMid());
-                    allMovieList.add(mov);
-                    if(mid != 0 && mov.getMid() == mid){
-                        movie = mov;
+                allMovieList = movieRepository.findAllMovie();
+                Date currentDate = getNowDate();
+                for(int i = 0; i < allMovieList.size(); i++){
+                    if(getDateDiff(currentDate, allMovieList.get(i).getDowndate()) < 0){
+                        allMovieList.remove(i);
+                        i--;
                     }
+                }
+
+                if(mid == 0){
+                    movie = allMovieList.get(0);
+                    mid = movie.getMid();
                 }
 
                 HallRepository hallRepository = new HallRepository();
                 hallList = hallRepository.findAllHall(cid);
                 runOnUiThread(new Runnable() {
+
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
 
                         if(getDateDiff(movie.getShowdate(),getNowDate()) <= 0){
-                            initMovie_showing();
-                        }else {
                             initMovie_soon();
+                        }else {
+                            initMovie_showing();
+
                         }
                     }
                 });
@@ -379,7 +419,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         showingMovieList.clear();
         int index = -1;
         for (Movie movie : allMovieList) {
-            if(getDateDiff(movie.getShowdate(),getNowDate()) <= 0){
+            if(getDateDiff(movie.getShowdate(),getNowDate()) >= 0){
                 showingMovieList.add(movie);
                 if(movie.getMid() == mid){
                     index = showingMovieList.size() - 1;
@@ -403,8 +443,33 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initMovie_soon(){
+        showingMovieList.clear();
+        int index = -1;
+        for (Movie movie : allMovieList) {
+            if(getDateDiff(movie.getShowdate(),getNowDate()) >= 0){
+                showingMovieList.add(movie);
+                if(movie.getMid() == mid){
+                    index = showingMovieList.size() - 1;
+                }
+            }
+        }
+        movieAdapter.notifyDataSetChanged();
 
+        if(index != -1){    //跳转至指定位置
+            initDate(movie);
+            int firstItem = layoutMovie.findFirstVisibleItemPosition();
+            int lastItem = layoutMovie.findLastVisibleItemPosition();
+            if (index <= firstItem) {
+                movieView.scrollToPosition(index);
+            } else if (index <= lastItem) {
+                int top = movieView.getChildAt(index - firstItem).getTop();
+                movieView.scrollBy(0, top);
+            } else {
+                movieView.scrollToPosition(index);
+            }
+        }
     }
 
     //获取现在时间
@@ -427,6 +492,8 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
     @RequiresApi(api = Build.VERSION_CODES.O)
 
     private void initDate(Movie mm) {
+        dateList.clear();
+        realDateList.clear();
 
         Date currentDate = type.equals("用户") ? getNowDate() : mm.getShowdate();
 
@@ -442,14 +509,19 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
             realDateList.add(datei);
         }
 
+        dateAdapter.notifyDataSetChanged();
+
+        initSession(realDateList.get(0),mm);
+
     }
 
-    private void initSession(Date date) {
+    private void initSession(Date date,Movie mm) {
 
         chooseSessionList.clear();
         double pf = 0;
         for (Session session : sessionList) {
-            if (session.getShowDate().getTime() == date.getTime()) {
+            if (session.getShowDate().getTime() == date.getTime()
+                    && session.getMid() == mm.getMid()) {
                 chooseSessionList.add(session);
                 String state = session.getState();
                 int count = 0;
@@ -465,8 +537,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         if (chooseSessionList.size() == 0) {
             Toast.makeText(List_Session.this, "当前日期没有场次", Toast.LENGTH_SHORT).show();
         } else {
-            adapter = new MyAdapter();
-            sessionView.setAdapter(adapter);
+            sessionAdapter.notifyDataSetChanged();
         }
 
         if (type.equals("管理员")) {

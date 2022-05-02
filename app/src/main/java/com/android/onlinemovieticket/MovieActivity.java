@@ -61,11 +61,10 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
 
     private Button navButton;
     private TextView titleName;
+    private ImageButton addMovie;
 
     private EditText searchEdit;
     private Button searchButton;
-
-    private ImageButton addMovie;
     private ProgressBar progressBar;
 
     private RecyclerView showingMovie;
@@ -91,6 +90,8 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         navButton.setOnClickListener(this);
         titleName = (TextView) findViewById(R.id.title_name);
         titleName.setText("电影");
+        addMovie = (ImageButton) findViewById(R.id.title_button_add);
+        addMovie.setOnClickListener(this);
 
         searchEdit = (EditText) findViewById(R.id.m1_searchEdit);
         searchButton = (Button) findViewById(R.id.m1_searshButton);
@@ -104,9 +105,6 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
 
         bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
         bottom_3.setOnClickListener(this);
-
-        addMovie = (ImageButton) findViewById(R.id.title_button_add);
-        addMovie.setOnClickListener(this);
         progressBar = (ProgressBar) findViewById(R.id.m1_progressbar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -276,7 +274,7 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void loginConfirm() {
+    private void loginConfirm() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("返回登录页面？");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {

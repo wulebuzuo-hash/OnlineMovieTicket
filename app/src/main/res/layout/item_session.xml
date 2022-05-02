@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:text="20:00——22:00"
                 android:textColor="#000"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:textStyle="bold"></TextView>
 
             <TextView
@@ -29,8 +29,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="北京信息科技大学健翔桥1号厅"
-                android:textColor="#000"
-                android:textSize="15sp"></TextView>
+                android:textSize="15sp"
+                android:textColor="@color/black"></TextView>
         </LinearLayout>
 
         <TextView
@@ -41,16 +41,27 @@
             android:gravity="center"
             android:text="￥29.9"
             android:textColor="#f60"
-            android:textSize="25sp"></TextView>
+            android:textSize="20sp"></TextView>
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/item_session_send_progress"
-        style="@android:style/Widget.ProgressBar.Horizontal"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:max="100"
-        android:progress="50"
-        android:descendantFocusability="beforeDescendants"
-        android:progressDrawable="@drawable/send_progress_bg" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="上座率："></TextView>
+        <ProgressBar
+            android:id="@+id/item_session_send_progress"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity="center_vertical"
+            android:max="100"
+            android:progress="50"
+            android:descendantFocusability="beforeDescendants"
+            android:progressDrawable="@drawable/send_progress_bg" />
+    </LinearLayout>
 </LinearLayout>

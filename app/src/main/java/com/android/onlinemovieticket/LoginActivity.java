@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.android.onlinemovieticket.repository.BossRepository;
 import com.android.onlinemovieticket.service.TicketNotificate_IntentService;
+import com.android.onlinemovieticket.z_smallactivity.List_Session;
 import com.android.onlinemovieticket.z_smallactivity.User_Register;
 import com.android.onlinemovieticket.repository.AdminRepository;
 import com.android.onlinemovieticket.repository.UserRepository;
@@ -228,14 +229,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 editor.apply();
 
-                Intent intent = new Intent(LoginActivity.this, MovieActivity.class);
-                intent.putExtra("account", account);
-                intent.putExtra("type", js);
-
-                if (!cidEdit.getText().toString().equals("")) {
-                    intent.putExtra("cid", Integer.valueOf(cidEdit.getText().toString()));
-                }
-
                 if (js.equals("用户")) {
                     Intent startIntent = new Intent(LoginActivity.this,
                             TicketNotificate_IntentService.class);
@@ -243,6 +236,16 @@ public class LoginActivity extends AppCompatActivity {
                     startIntent.putExtra("type", js);
                     startService(startIntent);  //启动服务
                 }
+
+                Intent intent;
+                if (!cidEdit.getText().toString().equals("") && js.equals("管理员")) {
+                    intent = new Intent(LoginActivity.this, List_Session.class);
+                    intent.putExtra("cid", Integer.valueOf(cidEdit.getText().toString()));
+                }else {
+                    intent = new Intent(LoginActivity.this, MovieActivity.class);
+                }
+                intent.putExtra("account", account);
+                intent.putExtra("type", js);
                 startActivity(intent);
                 finish();
             } else if (msg.what == 2) {

@@ -55,9 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="left"
-                android:text="正在热映"
-                android:textSize="18dp"
-                android:textStyle="bold"></TextView>
+                android:text="正在热映"></TextView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/m1_showingRecyclerView"
@@ -86,9 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="left"
-                android:text="即将上映"
-                android:textSize="18sp"
-                android:textStyle="bold"></TextView>
+                android:text="即将上映"></TextView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/m1_willRecyclerView"

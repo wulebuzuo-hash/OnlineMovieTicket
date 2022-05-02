@@ -24,7 +24,8 @@ import java.util.zip.Inflater;
 
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.ViewHolder> {
     private List<String> dateList;
-    private int pos;
+    private int pos;    //选择的位置
+    private int temp = -1;  //记录上一次选择的位置
 
     private onRecyclerItemClickListener listener;
 
@@ -64,7 +65,6 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.ViewHold
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.item_session_date, parent, false);
         ViewHolder holder = new ViewHolder(view);
-
         return holder;
     }
 
@@ -72,17 +72,17 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String date = dateList.get(position);
         holder.dateText.setText(date);
-        if (pos == position) {
-            holder.dateText.setBackgroundColor(Color.parseColor("#00CED1"));
-        } else {
-            holder.dateText.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        }
+        holder.view.setSelected(holder.getLayoutPosition() == pos);
 
         if (listener != null) {
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClick(position);
+                    holder.view.setSelected(true);
+                    temp = pos;
+                    pos = holder.getLayoutPosition();
+                    notifyItemChanged(temp);
+                    listener.onItemClick(holder.getAdapterPosition());
                 }
             });
         }

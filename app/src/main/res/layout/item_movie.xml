@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="87.5dp"
-    android:layout_height="210dp"
+    android:layout_width="75dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="87.5dp"
-        android:layout_height="140dp">
+        android:layout_width="62.5dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/item_movie_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/avanger4"></ImageView>
+            android:src="@drawable/pc_load2"></ImageView>
 
         <TextView
             android:id="@+id/item_movie_type1"
@@ -23,7 +24,7 @@
             android:background="@color/darkOrange"
             android:text="3D"
             android:textColor="#fff"
-            android:textSize="18sp"></TextView>
+            android:textSize="12sp"></TextView>
 
         <TextView
             android:id="@+id/item_movie_rating"
@@ -33,7 +34,7 @@
             android:layout_alignParentBottom="true"
             android:text="9.8分"
             android:textColor="#f00"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="italic|bold"></TextView>
     </RelativeLayout>
 
@@ -41,25 +42,26 @@
     <TextView
         android:id="@+id/item_movie_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:maxLines="1"
+        android:maxLines="2"
         android:text="电影名"
-        android:textColor="#000"
-        android:textStyle="bold"></TextView>
+        android:textColor="#000"></TextView>
 
     <TextView
         android:id="@+id/item_movie_date"
         android:layout_width="match_parent"
-        android:layout_height="17dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="5月4日上映"></TextView>
+        android:text="5月4日上映"
+        android:textSize="10sp"></TextView>
 
     <Button
         android:id="@+id/item_movie_book"
         android:layout_width="70dp"
         android:layout_height="20dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center"
         android:background="@drawable/btn_shape"
         android:text="购票"
