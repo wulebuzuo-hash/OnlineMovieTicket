@@ -1,40 +1,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:orientation="vertical"
-    android:descendantFocusability="blocksDescendants">
+    android:layout_height="50dp"
+    android:layout_margin="10dp"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@color/Wheat"
+    android:orientation="horizontal">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/item_uh_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:text="05-01"></TextView>
+
+    <TextView
+        android:id="@+id/item_uh_content"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/Wheat"
-        app:cardCornerRadius="5dp"
-        app:cardUseCompatPadding="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/item_uh_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_vertical"
-                android:text="05-01"></TextView>
-
-            <TextView
-                android:id="@+id/item_uh_content"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="添加{十面埋伏}场次 激光1号厅:2022-05-01 20:00"
-                ></TextView>
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:text="添加{十面埋伏}场次 激光1号厅:2022-05-01 20:00"></TextView>
 </LinearLayout>

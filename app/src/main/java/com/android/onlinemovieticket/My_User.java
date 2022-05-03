@@ -1,11 +1,16 @@
 package com.android.onlinemovieticket;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,12 +28,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.onlinemovieticket.db.Movie;
 import com.android.onlinemovieticket.db.Session;
 import com.android.onlinemovieticket.db.Ticket;
+import com.android.onlinemovieticket.fragment.Lay_bottom;
 import com.android.onlinemovieticket.repository.CinemaRepository;
 import com.android.onlinemovieticket.repository.HallRepository;
 import com.android.onlinemovieticket.repository.MovieRepository;
@@ -85,10 +92,6 @@ public class My_User extends AppCompatActivity implements View.OnClickListener {
 
     private RadioButton feedback;
     private RadioButton callus;
-
-    private RadioButton bottom_1;
-    private RadioButton bottom_2;
-    private RadioButton bottom_3;
 
     private String account;
     private String type;
@@ -149,26 +152,14 @@ public class My_User extends AppCompatActivity implements View.OnClickListener {
         callus = (RadioButton) findViewById(R.id.my_callus);
         callus.setOnClickListener(this);
 
-        bottom_1 = (RadioButton) findViewById(R.id.bottom_choose_movie);
-        bottom_1.setOnClickListener(this);
-        bottom_2 = (RadioButton) findViewById(R.id.bottom_choose_cinema);
-        bottom_2.setOnClickListener(this);
-        bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
-        bottom_3.setOnClickListener(this);
-
-        setBounds(R.drawable.pc_movie,bottom_1);
-        setBounds(R.drawable.pc_cinema,bottom_2);
-        setBounds(R.drawable.my,bottom_3);
-
+        showBottom();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.nav_button:
-                Intent intent = new Intent(My_User.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                loginConfirm();
                 break;
             case R.id.my_image:
             case R.id.my_imageButton:
@@ -193,53 +184,48 @@ public class My_User extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.my_callus:
                 break;
-            case R.id.bottom_choose_movie:
-                Intent intent3 = new Intent(My_User.this, MovieActivity.class);
-                intent3.putExtra("account", account);
-                intent3.putExtra("type", type);
-                startActivity(intent3);
-                finish();
-                break;
-            case R.id.bottom_choose_cinema:
-                Intent intent4 = new Intent(My_User.this, CinemaActivity.class);
-                intent4.putExtra("account", account);
-                intent4.putExtra("type", type);
-                startActivity(intent4);
-                finish();
-                break;
-            case R.id.bottom_choose_my:
-                Intent intent5 = null;
-                if (type.equals("用户")) {
-                    intent5 = new Intent(My_User.this, My_User.class);
-                } else if (type.equals("管理员")) {
-                    intent5 = new Intent(My_User.this, List_Uh.class);
-                } else if (type.equals("BOSS")) {
-                    intent5 = new Intent(My_User.this, List_Admin.class);
-                }
-                intent5.putExtra("account", account);
-                intent5.putExtra("type", type);
-                startActivity(intent5);
-                finish();
-                break;
             default:
                 break;
         }
     }
 
-    /**
-     *
-     * @param drawableId  drawableLeft  drawableTop drawableBottom 所用的选择器 通过R.drawable.xx 获得
-     * @param radioButton  需要限定图片大小的radioButton
-     */
-    private void setBounds(int drawableId, RadioButton radioButton) {
-        //定义底部标签图片大小和位置
-        Drawable drawable_news = getResources().getDrawable(drawableId);
-        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形  (这里的长和宽写死了 自己可以可以修改成 形参传入)
-        drawable_news.setBounds(0, 0, 120, 120);
-        //设置图片在文字的哪个方向
-        radioButton.setCompoundDrawables(null,drawable_news,null, null);
+    private void showBottom(){
+        FragmentManager manager = getSupportFragmentManager();  //获取FragmentManager
+        FragmentTransaction transaction = manager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("account", account);
+        bundle.putString("type", type);
+        Fragment bottom_fragment = new Lay_bottom();
+        bottom_fragment.setArguments(bundle);
+        transaction.add(R.id.my_user_frame, bottom_fragment).commit();
     }
 
+    /**
+     * 返回登录界面确认
+     */
+    private void loginConfirm() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("返回登录页面？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(My_User.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    /**
+     * 加载用户头像
+     */
     private void loadUserImage(){
         new Thread(){
             @Override
@@ -259,6 +245,9 @@ public class My_User extends AppCompatActivity implements View.OnClickListener {
         }.start();
     }
 
+    /**
+     * 加载最新购买的电影票信息
+     */
     private void initTicket() {
         new Thread() {
             @Override
@@ -329,8 +318,11 @@ public class My_User extends AppCompatActivity implements View.OnClickListener {
         }.start();
     }
 
-    //获取现在时间
-    public Date getNowDate() {
+    /**
+     * 获取当前日期
+     * @return
+     */
+    private Date getNowDate() {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
@@ -340,12 +332,23 @@ public class My_User extends AppCompatActivity implements View.OnClickListener {
         return currentTime_2;
     }
 
-    //计算日期差
-    public int getDateDiff(Date startDate, Date endDate) {
+    /**
+     * 获取两个日期之间的天数
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    private int getDateDiff(Date startDate, Date endDate) {
         int days = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
         return Math.abs(days);
     }
 
+    /**
+     * 获取用户从相册选择的照片
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -372,6 +375,11 @@ public class My_User extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * 更新用户头像
+     * @param account
+     * @param imageString
+     */
     public void updateImage(String account, String imageString) {
         new Thread() {
             @Override

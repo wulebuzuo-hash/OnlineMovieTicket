@@ -1,8 +1,13 @@
 package com.android.onlinemovieticket.z_smallactivity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,6 +32,7 @@ import com.android.onlinemovieticket.MovieActivity;
 import com.android.onlinemovieticket.My_User;
 import com.android.onlinemovieticket.R;
 import com.android.onlinemovieticket.db.Admin;
+import com.android.onlinemovieticket.fragment.Lay_bottom;
 import com.android.onlinemovieticket.repository.AdminRepository;
 
 import java.util.ArrayList;
@@ -48,10 +54,6 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
     private ListView adminView;
     private MyAdapter adapter;
 
-    private RadioButton bottom_1;
-    private RadioButton bottom_2;
-    private RadioButton bottom_3;
-
     private String account;
     private String type;
 
@@ -69,18 +71,6 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         searchEdit = (EditText) findViewById(R.id.my_boss_searchEdit);
         searchButton = (Button) findViewById(R.id.my_boss_searshButton);
         searchButton.setOnClickListener(this);
-
-        bottom_1 = (RadioButton) findViewById(R.id.bottom_choose_movie);
-        bottom_1.setOnClickListener(this);
-        bottom_2 = (RadioButton) findViewById(R.id.bottom_choose_cinema);
-        bottom_2.setOnClickListener(this);
-        bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
-        bottom_3.setText("管理员");
-        bottom_3.setOnClickListener(this);
-
-        setBounds(R.drawable.pc_movie,bottom_1);
-        setBounds(R.drawable.pc_hall,bottom_2);
-        setBounds(R.drawable.my,bottom_3);
 
         addAdmin = (Button) findViewById(R.id.list_admin_add);
         addAdmin.setOnClickListener(this);
@@ -109,15 +99,14 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
                 startActivity(intent);
             }
         });
+        showBottom();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.nav_button:
-                Intent intent = new Intent(List_Admin.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                loginConfirm();
                 break;
             case R.id.my_boss_searshButton:
                 String search = searchEdit.getText().toString();
@@ -135,34 +124,6 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
                 intent1.putExtra("type", type);
                 startActivity(intent1);
                 break;
-            case R.id.bottom_choose_movie:
-                Intent intent2 = new Intent(List_Admin.this, MovieActivity.class);
-                intent2.putExtra("account", account);
-                intent2.putExtra("type", type);
-                startActivity(intent2);
-                finish();
-                break;
-            case R.id.bottom_choose_cinema:
-                Intent intent3 = new Intent(List_Admin.this, CinemaActivity.class);
-                intent3.putExtra("account", account);
-                intent3.putExtra("type", type);
-                startActivity(intent3);
-                finish();
-                break;
-            case R.id.bottom_choose_my:
-                Intent intent4 = null;
-                if (type.equals("用户")) {
-                    intent4 = new Intent(List_Admin.this, My_User.class);
-                } else if (type.equals("管理员")) {
-                    intent4 = new Intent(List_Admin.this, List_Uh.class);
-                } else if (type.equals("BOSS")) {
-                    intent4 = new Intent(List_Admin.this, List_Admin.class);
-                }
-                intent4.putExtra("account", account);
-                intent4.putExtra("type", type);
-                startActivity(intent4);
-                finish();
-                break;
             default:
                 break;
 
@@ -171,17 +132,37 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
     }
 
     /**
-     *
-     * @param drawableId  drawableLeft  drawableTop drawableBottom 所用的选择器 通过R.drawable.xx 获得
-     * @param radioButton  需要限定图片大小的radioButton
+     * 返回登录界面确认
      */
-    private void setBounds(int drawableId, RadioButton radioButton) {
-        //定义底部标签图片大小和位置
-        Drawable drawable_news = getResources().getDrawable(drawableId);
-        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形  (这里的长和宽写死了 自己可以可以修改成 形参传入)
-        drawable_news.setBounds(0, 0, 120, 120);
-        //设置图片在文字的哪个方向
-        radioButton.setCompoundDrawables(null,drawable_news,null, null);
+    private void loginConfirm() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("返回登录页面？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(List_Admin.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void showBottom(){
+        FragmentManager manager = getSupportFragmentManager();  //获取FragmentManager
+        FragmentTransaction transaction = manager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("account", account);
+        bundle.putString("type", type);
+        Fragment bottom_fragment = new Lay_bottom();
+        bottom_fragment.setArguments(bundle);
+        transaction.add(R.id.list_admin_frame, bottom_fragment).commit();
     }
 
     private void initAdmins() {

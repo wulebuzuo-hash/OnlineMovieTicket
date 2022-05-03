@@ -7,6 +7,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -24,12 +26,15 @@ import android.widget.Toast;
 
 import com.android.onlinemovieticket.repository.BossRepository;
 import com.android.onlinemovieticket.service.TicketNotificate_IntentService;
+import com.android.onlinemovieticket.z_smallactivity.List_Admin;
+import com.android.onlinemovieticket.z_smallactivity.List_Hall;
 import com.android.onlinemovieticket.z_smallactivity.List_Session;
+import com.android.onlinemovieticket.z_smallactivity.List_Uh;
 import com.android.onlinemovieticket.z_smallactivity.User_Register;
 import com.android.onlinemovieticket.repository.AdminRepository;
 import com.android.onlinemovieticket.repository.UserRepository;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RadioGroup juese;
     private String js;
@@ -60,13 +65,60 @@ public class LoginActivity extends AppCompatActivity {
         title.setText("登 录");
         Button nav_button = (Button) findViewById(R.id.nav_button);
         nav_button.setVisibility(View.GONE);
+        ImageButton add = (ImageButton) findViewById(R.id.title_button_add);
+        add.setVisibility(View.GONE);
 
-        cidEdit = (EditText) findViewById(R.id.login_cid);
+        //设置登录角色
+        setJuese();
 
         /**
-         * 设置登录角色
+         *提取账号密码
          */
+        accountEdit = (EditText) findViewById(R.id.account);
+        passwordEdit = (EditText) findViewById(R.id.password);
+        cidEdit = (EditText) findViewById(R.id.login_cid);
+        rememberPass = (CheckBox) findViewById(R.id.remember_pass);
+        getAccountandPassword();
+
+        login = (Button) findViewById(R.id.login);
+        progressBar = (ProgressBar) findViewById(R.id.login_progressbar);
+        progressBar.setVisibility(View.GONE);
+        login.setOnClickListener(this);
+
+        goRegister = (Button) findViewById(R.id.login_goregister);
+        goRegister.setOnClickListener(this);
+
+        forgetPass = (Button) findViewById(R.id.login_forgetPass);
+        drawerLayout = (DrawerLayout) findViewById(R.id.logina_layout);
+        forgetPass.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.login:
+                loginListener();
+                break;
+            case R.id.login_goregister:
+                Intent intent = new Intent(LoginActivity.this, User_Register.class);
+                startActivityForResult(intent, 1);
+                break;
+            case R.id.login_forgetPass:
+                drawerLayout.openDrawer(GravityCompat.START);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 登录角色模块
+     */
+    private void setJuese(){
         juese = (RadioGroup) findViewById(R.id.RadioGroup1);
+        juese.check(0);
+        js = "用户";
         juese.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -80,15 +132,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        /**
-         *提取账号密码
-         */
-        accountEdit = (EditText) findViewById(R.id.account);
-        passwordEdit = (EditText) findViewById(R.id.password);
-        //记住密码
+    /**
+     * 获取缓存的账号密码
+     */
+    private void getAccountandPassword() {
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        rememberPass = (CheckBox) findViewById(R.id.remember_pass);
         boolean isRemember = pref.getBoolean("remember_password", false);
         if (isRemember) {
             //将账号密码都设置到文本框中
@@ -106,72 +156,45 @@ public class LoginActivity extends AppCompatActivity {
                 juese.check(R.id.BOSS);
             }
         }
-
-        /**
-         * 登录
-         */
-        login = (Button) findViewById(R.id.login);
-        progressBar = (ProgressBar) findViewById(R.id.login_progressbar);
-        progressBar.setVisibility(View.GONE);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String account = accountEdit.getText().toString();
-                String password = passwordEdit.getText().toString();
-
-                if (account.equals("") || account == null) {
-                    Toast.makeText(getApplicationContext(), "请输入用户名！",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    if (password.equals("") || password == null) {
-                        Toast.makeText(getApplicationContext(), "请输入密码！",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (js.equals("") || js == null) {
-                            Toast.makeText(getApplicationContext(), "请选择登陆角色！",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            progressBar.setVisibility(View.VISIBLE);
-                            if (js.equals("用户")) {
-                                userLogin(account, password);
-                            } else if (js.equals("管理员")) {
-                                adminLogin(account, password, cidEdit.getText().toString());
-                            } else if (js.equals("BOSS")) {
-                                bossLogin(account, password);
-                            }
-                        }
-                    }
-
-                }
-            }
-        });
-
-        /**
-         * 注册账号
-         */
-        goRegister = (Button) findViewById(R.id.login_goregister);
-        goRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, User_Register.class);
-                startActivityForResult(intent, 1);
-            }
-        });
-
-        /**
-         * 忘记密码
-         */
-        forgetPass = (Button) findViewById(R.id.login_forgetPass);
-        drawerLayout = (DrawerLayout) findViewById(R.id.logina_layout);
-        forgetPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
-
     }
 
+    /**
+     * login点击事件
+     */
+    private void loginListener() {
+        String account = accountEdit.getText().toString();
+        String password = passwordEdit.getText().toString();
+
+        if (account.equals("") || account == null) {
+            Toast.makeText(getApplicationContext(), "请输入用户名！",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            if (password.equals("") || password == null) {
+                Toast.makeText(getApplicationContext(), "请输入密码！",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                if (js.equals("") || js == null) {
+                    Toast.makeText(getApplicationContext(), "请选择登陆角色！",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    if (js.equals("用户")) {
+                        userLogin(account, password);
+                    } else if (js.equals("管理员")) {
+                        adminLogin(account, password, cidEdit.getText().toString());
+                    } else if (js.equals("BOSS")) {
+                        bossLogin(account, password);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 从数据库获取用户账号密码，并校验
+     * @param account
+     * @param password
+     */
     private void userLogin(String account, String password) {
 
         new Thread() {
@@ -185,6 +208,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 从数据库获取管理员账号密码，并校验
+     * @param account
+     * @param password
+     * @param cid
+     */
     private void adminLogin(String account, String password, String cid) {
         new Thread() {
             @Override
@@ -196,6 +225,11 @@ public class LoginActivity extends AppCompatActivity {
         }.start();
     }
 
+    /**
+     * 从数据库获取BOSS账号密码，并校验
+     * @param account
+     * @param password
+     */
     private void bossLogin(String account, String password) {
         new Thread() {
             @Override
@@ -241,7 +275,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (!cidEdit.getText().toString().equals("") && js.equals("管理员")) {
                     intent = new Intent(LoginActivity.this, List_Session.class);
                     intent.putExtra("cid", Integer.valueOf(cidEdit.getText().toString()));
-                }else {
+                } else {
                     intent = new Intent(LoginActivity.this, MovieActivity.class);
                 }
                 intent.putExtra("account", account);

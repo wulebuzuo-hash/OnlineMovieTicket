@@ -48,6 +48,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         ></ListView>
-    <include layout="@layout/lay_bottom"></include>
 
+    <FrameLayout
+        android:id="@+id/list_admin_frame"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></FrameLayout>
 </LinearLayout>

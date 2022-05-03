@@ -3,6 +3,8 @@ package com.android.onlinemovieticket.z_smallactivity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -82,7 +84,7 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.nav_button:
-                finish();
+                backConfirm();
                 break;
             case R.id.info_admin_submit:
                 progressBar.setVisibility(View.VISIBLE);
@@ -91,6 +93,28 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    private void backConfirm(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("返回首页？");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Info_Admin.this, MovieActivity.class);
+                intent.putExtra("account", account);
+                intent.putExtra("type", type);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void addAdmin() {

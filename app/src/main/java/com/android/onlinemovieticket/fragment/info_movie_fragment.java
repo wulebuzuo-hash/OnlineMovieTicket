@@ -1,4 +1,4 @@
-package com.android.onlinemovieticket.z_smallactivity;
+package com.android.onlinemovieticket.fragment;
 
 
 import android.content.Intent;

@@ -108,6 +108,9 @@ public class Update_Hall extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    /**
+     * 根据获取到的放映厅信息绘制布局
+     */
     private void initView(){
         hallNameEdit.setText(hall.getHname());
         rowEdit.setText(String.valueOf(hall.getRow()));
@@ -115,6 +118,9 @@ public class Update_Hall extends AppCompatActivity implements View.OnClickListen
         initSeat();
     }
 
+    /**
+     * 根据hid获取放映厅信息，根据cid获取该电影院所有放映厅列表
+     */
     private void initHall(){
         new Thread(new Runnable() {
             @Override
@@ -132,6 +138,9 @@ public class Update_Hall extends AppCompatActivity implements View.OnClickListen
         }).start();
     }
 
+    /**
+     * 绘制座位布局
+     */
     private void initSeat() {
         seatList.clear();
         int col = colEdit.getText().toString().equals("") ? 0 :
@@ -149,6 +158,9 @@ public class Update_Hall extends AppCompatActivity implements View.OnClickListen
         hallView.setAdapter(adapter);
     }
 
+    /**
+     * 更新放映厅信息
+     */
     private void updateHall() {
         final String hname = hallNameEdit.getText().toString();
         int count = 0;
@@ -194,7 +206,10 @@ public class Update_Hall extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    //获取现在时间
+    /**
+     * 获取当前日期
+     * @return
+     */
     private Date getNowDate() {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

@@ -2,6 +2,9 @@ package com.android.onlinemovieticket.z_smallactivity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,9 +17,11 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +33,7 @@ import com.android.onlinemovieticket.R;
 import com.android.onlinemovieticket.db.Hall;
 import com.android.onlinemovieticket.db.Session;
 import com.android.onlinemovieticket.db.Uh;
+import com.android.onlinemovieticket.fragment.Lay_bottom;
 import com.android.onlinemovieticket.repository.UhRepository;
 
 import java.text.ParsePosition;
@@ -47,10 +53,6 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
     private ListView uhView;
     private MyAdapter myAdapter;
 
-    private RadioButton bottom_1;
-    private RadioButton bottom_2;
-    private RadioButton bottom_3;
-
     private ProgressBar progressBar;
 
     private String account;
@@ -69,23 +71,15 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         navButton = findViewById(R.id.nav_button);
         navButton.setOnClickListener(this);
         titlename = findViewById(R.id.title_name);
-        titlename.setText("修改历史");
+        titlename.setText("管理历史");
+        ImageButton addUh = (ImageButton) findViewById(R.id.title_button_add);
+        addUh.setVisibility(View.GONE);
 
         searchEdit = findViewById(R.id.list_uh_searchEdit);
         searchButton = findViewById(R.id.list_uh_searchButton);
         searchButton.setOnClickListener(this);
         progressBar = findViewById(R.id.list_uh_progressbar);
         progressBar.setVisibility(View.VISIBLE);
-
-        bottom_1 = findViewById(R.id.bottom_choose_movie);
-        bottom_2 = findViewById(R.id.bottom_choose_cinema);
-        bottom_3 = findViewById(R.id.bottom_choose_my);
-        bottom_1.setOnClickListener(this);
-        bottom_2.setOnClickListener(this);
-        bottom_3.setOnClickListener(this);
-        setBounds(R.drawable.pc_movie,bottom_1);
-        setBounds(R.drawable.pc_cinema,bottom_2);
-        setBounds(R.drawable.my,bottom_3);
 
         uhView = findViewById(R.id.list_uh_view);
         myAdapter = new MyAdapter();
@@ -98,15 +92,14 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
                 updateAgainConfirm(uh);
             }
         });
+        showBottom();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.nav_button:
-                Intent intent = new Intent(List_Uh.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                loginConfirm();
                 break;
             case R.id.list_uh_searchButton:
                 String search = searchEdit.getText().toString();
@@ -117,49 +110,50 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
                     searchUh(search);
                 }
                 break;
-            case R.id.bottom_choose_movie:
-                Intent intent2 = new Intent(List_Uh.this, MovieActivity.class);
-                intent2.putExtra("account", account);
-                intent2.putExtra("type", type);
-                intent2.putExtra("cid", cid);
-                startActivity(intent2);
-                finish();
-                break;
-            case R.id.bottom_choose_cinema:
-                Intent intent3 = new Intent(List_Uh.this, List_Hall.class);
-                intent3.putExtra("cid", cid);
-                intent3.putExtra("account", account);
-                intent3.putExtra("type", type);
-                startActivity(intent3);
-                finish();
-                break;
-            case R.id.bottom_choose_my:
-                Intent intent4 = new Intent(List_Uh.this, List_Uh.class);
-                intent4.putExtra("cid", cid);
-                intent4.putExtra("account", account);
-                intent4.putExtra("type", type);
-                startActivity(intent4);
-                finish();
-                break;
             default:
                 break;
         }
     }
 
     /**
-     *
-     * @param drawableId  drawableLeft  drawableTop drawableBottom 所用的选择器 通过R.drawable.xx 获得
-     * @param radioButton  需要限定图片大小的radioButton
+     * 返回登录界面确认
      */
-    private void setBounds(int drawableId, RadioButton radioButton) {
-        //定义底部标签图片大小和位置
-        Drawable drawable_news = getResources().getDrawable(drawableId);
-        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形  (这里的长和宽写死了 自己可以可以修改成 形参传入)
-        drawable_news.setBounds(0, 0, 120, 120);
-        //设置图片在文字的哪个方向
-        radioButton.setCompoundDrawables(null,drawable_news,null, null);
+    private void loginConfirm() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("返回登录页面？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(List_Uh.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
+    private void showBottom(){
+        FragmentManager manager = getSupportFragmentManager();  //获取FragmentManager
+        FragmentTransaction transaction = manager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("account", account);
+        bundle.putString("type", type);
+        bundle.putInt("cid", cid);
+        Fragment bottom_fragment = new Lay_bottom();
+        bottom_fragment.setArguments(bundle);
+        transaction.add(R.id.list_uh_frame, bottom_fragment).commit();
+    }
+
+    /**
+     * 再去编辑确认弹窗
+     * @param uh
+     */
     private void updateAgainConfirm(final Uh uh) {
         AlertDialog.Builder builder = new AlertDialog.Builder(List_Uh.this);
         builder.setTitle("提示");
@@ -183,6 +177,10 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         builder.show();
     }
 
+    /**
+     * 去更新场次
+     * @param uh
+     */
     private void updateSession(Uh uh) {
         String[] sessionDate = uh.getUhcontent().split(":")[1].split(" ");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -206,6 +204,10 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * 去更新放映厅
+     * @param uh
+     */
     private void updateHall(Uh uh) {
         Intent intent = new Intent(List_Uh.this, Update_Hall.class);
         intent.putExtra("account", account);
@@ -215,7 +217,10 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         startActivity(intent);
     }
 
-    //获取现在时间
+    /**
+     * 获取当前时间
+     * @return
+     */
     private Date getNowDate() {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -226,6 +231,10 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         return currentTime_2;
     }
 
+    /**
+     * 搜索修改历史
+     * @param searchStr
+     */
     private void searchUh(String searchStr) {
         List<Uh> tempList = new ArrayList<>();
         for (int i = 0; i < uhList.size(); i++) {
@@ -243,6 +252,9 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         progressBar.setVisibility(View.GONE);
     }
 
+    /**
+     * 从数据库获取数据
+     */
     private void initUh() {
         new Thread(new Runnable() {
             @Override
@@ -272,6 +284,9 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         }).start();
     }
 
+    /**
+     * 修改历史listview适配器
+     */
     private class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {

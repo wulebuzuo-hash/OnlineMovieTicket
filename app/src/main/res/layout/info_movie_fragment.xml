@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackGround"
     android:orientation="vertical"
-    tools:context=".z_smallactivity.info_movie_fragment">
+    tools:context=".fragment.info_movie_fragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -88,7 +88,8 @@
     <TextView
         android:id="@+id/movie_fragment_story"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="在《美国队长3：内战》的莱比锡机场大战结束后，彼得·帕克在导师托尼·斯塔克的协助下，试图在一名普通高中生和打击犯罪的超级英雄蜘蛛侠间保持平衡..."
         android:textSize="15dp"></TextView>
@@ -142,6 +143,7 @@
         android:id="@+id/movie_fragment_buy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@drawable/btn_shape"
         android:text="购票"
         android:textColor="@color/white"

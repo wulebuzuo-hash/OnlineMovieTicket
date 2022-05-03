@@ -6,7 +6,9 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -96,7 +98,7 @@ public class Info_Hall extends AppCompatActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.nav_button:
-                finish();
+                backConfirm();
                 break;
             case R.id.info_hall_add:
                 addHall();
@@ -112,6 +114,28 @@ public class Info_Hall extends AppCompatActivity implements View.OnClickListener
             default:
                 break;
         }
+    }
+
+    private void backConfirm(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("返回首页？");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Info_Hall.this, MovieActivity.class);
+                intent.putExtra("account", account);
+                intent.putExtra("type", type);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void addHall() {

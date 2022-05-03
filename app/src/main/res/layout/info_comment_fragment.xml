@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".z_smallactivity.info_comment_fragment">
+    android:background="@color/colorBackGround"
+    tools:context=".fragment.info_comment_fragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,29 +15,50 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="观众热评"></TextView>
+            <ImageButton
+                android:id="@+id/comment_fragment_button_suggest"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/pc_suggest2"></ImageButton>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/comment_fragment_button_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
                 android:layout_marginLeft="20dp"
-                android:background="@color/Gainsboro"
-                android:text="全部"
-                android:textSize="20sp"></Button>
+                android:background="@drawable/btn_shape"
+                android:backgroundTint="@color/white"
+                android:text="全部"></Button>
 
             <Button
                 android:id="@+id/comment_fragment_button_my"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
-                android:background="@color/Gainsboro"
-                android:text="我的"
-                android:textSize="20sp"></Button>
+                android:background="@drawable/btn_shape"
+                android:backgroundTint="@color/white"
+                android:text="我的"></Button>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comment_fragment_listview"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
@@ -45,12 +68,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"></ProgressBar>
-
     <ImageButton
         android:id="@+id/comment_fragment_button_comment"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="60dp"
         android:background="@drawable/pc_comment"></ImageButton>
+    <TextView
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加评论"></TextView>
 </RelativeLayout>

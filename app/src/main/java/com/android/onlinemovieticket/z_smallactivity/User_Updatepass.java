@@ -57,7 +57,7 @@ public class User_Updatepass extends Fragment {
         passEdit = (EditText) view.findViewById(R.id.upass_pass);
         pass2Edit = (EditText) view.findViewById(R.id.upass_pass2);
         updatePass = (Button) view.findViewById(R.id.updatePass);
-        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.update_pass_progressbar);
+        progressBar = (ProgressBar) view.findViewById(R.id.update_pass_progressbar);
         progressBar.setVisibility(View.GONE);
 
         question_list = new ArrayList<>();
@@ -83,7 +83,6 @@ public class User_Updatepass extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
 
         questionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -116,6 +115,14 @@ public class User_Updatepass extends Fragment {
         });
     }
 
+    /**
+     * 更新用户密码
+     * @param account
+     * @param question
+     * @param answer
+     * @param pass
+     * @param pass2
+     */
     private void updatePassInfo(String account, String question, String answer,
                                 String pass, String pass2) {
         new Thread() {
@@ -152,7 +159,6 @@ public class User_Updatepass extends Fragment {
                 Toast.makeText(getContext(), "查找账号失败，请核对账号", Toast.LENGTH_LONG).show();
             } else if (msg.what == 1) {
                 Toast.makeText(getContext(), "修改成功", Toast.LENGTH_LONG).show();
-
                 if (getActivity() instanceof LoginActivity) {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);

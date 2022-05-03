@@ -2,6 +2,9 @@ package com.android.onlinemovieticket.z_smallactivity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -36,6 +39,7 @@ import com.android.onlinemovieticket.db.Hall;
 import com.android.onlinemovieticket.db.Movie;
 import com.android.onlinemovieticket.db.Session;
 import com.android.onlinemovieticket.db.Ticket;
+import com.android.onlinemovieticket.fragment.Lay_bottom;
 import com.android.onlinemovieticket.repository.CinemaRepository;
 import com.android.onlinemovieticket.repository.HallRepository;
 import com.android.onlinemovieticket.repository.MovieRepository;
@@ -71,10 +75,6 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
     private ListView ticketView;
     private MyAdapter adapter;
 
-    private RadioButton bottom_1;
-    private RadioButton bottom_2;
-    private RadioButton bottom_3;
-
     private List<Ticket> ticketList;
     private List<Session> sessionList;
     private String account;
@@ -97,17 +97,6 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
         navButton.setOnClickListener(this);
         titleName = (TextView) findViewById(R.id.title_name);
         titleName.setText("电影票");
-
-        bottom_1 = (RadioButton) findViewById(R.id.bottom_choose_movie);
-        bottom_1.setOnClickListener(this);
-        bottom_2 = (RadioButton) findViewById(R.id.bottom_choose_cinema);
-        bottom_2.setOnClickListener(this);
-        bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
-        bottom_3.setOnClickListener(this);
-
-        setBounds(R.drawable.pc_movie,bottom_1);
-        setBounds(R.drawable.pc_cinema,bottom_2);
-        setBounds(R.drawable.my,bottom_3);
 
         searchEdit = (EditText) findViewById(R.id.list_ticket_searchEdit);
         searchButton = (Button) findViewById(R.id.list_ticket_searshButton);
@@ -171,6 +160,7 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
                 return true;
             }
         });
+        showBottom();
     }
 
     @Override
@@ -189,46 +179,26 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
                     searchTicket(search);
                 }
                 break;
-            case R.id.bottom_choose_movie:
-                Intent intent2 = new Intent(List_Ticket.this, MovieActivity.class);
-                intent2.putExtra("account", account);
-                intent2.putExtra("type", type);
-                startActivity(intent2);
-                finish();
-                break;
-            case R.id.bottom_choose_cinema:
-                Intent intent3 = new Intent(List_Ticket.this, CinemaActivity.class);
-                intent3.putExtra("account", account);
-                intent3.putExtra("type", type);
-                startActivity(intent3);
-                finish();
-                break;
-            case R.id.bottom_choose_my:
-                Intent intent4 = new Intent(List_Ticket.this, My_User.class);
-                intent4.putExtra("account", account);
-                intent4.putExtra("type", type);
-                startActivity(intent4);
-                finish();
-                break;
             default:
                 break;
         }
     }
 
-    /**
-     *
-     * @param drawableId  drawableLeft  drawableTop drawableBottom 所用的选择器 通过R.drawable.xx 获得
-     * @param radioButton  需要限定图片大小的radioButton
-     */
-    private void setBounds(int drawableId, RadioButton radioButton) {
-        //定义底部标签图片大小和位置
-        Drawable drawable_news = getResources().getDrawable(drawableId);
-        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形  (这里的长和宽写死了 自己可以可以修改成 形参传入)
-        drawable_news.setBounds(0, 0, 120, 120);
-        //设置图片在文字的哪个方向
-        radioButton.setCompoundDrawables(null,drawable_news,null, null);
+    private void showBottom(){
+        FragmentManager manager = getSupportFragmentManager();  //获取FragmentManager
+        FragmentTransaction transaction = manager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("account", account);
+        bundle.putString("type", type);
+        Fragment bottom_fragment = new Lay_bottom();
+        bottom_fragment.setArguments(bundle);
+        transaction.add(R.id.list_ticket_frame, bottom_fragment).commit();
     }
 
+    /**
+     * 获取当前时间
+     * @return
+     */
     public Date getNowDate() {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -239,12 +209,22 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
         return currentTime_2;
     }
 
-    //计算时间差
+    /**
+     * 获取时间差
+     * @param startTime
+     * @param endTime
+     * @return
+     */
     public long getTime(Date startTime, Date endTime) {
         long time = (endTime.getTime() - startTime.getTime()) / 1000;
         return time;
     }
 
+    /**
+     * 更新票是否已经打分的状态
+     * @param tid
+     * @param isGrade
+     */
     private void updateIsGrade(int tid, int isGrade) {
         new Thread(new Runnable() {
             @Override
@@ -255,6 +235,14 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
         }).start();
     }
 
+    /**
+     * 退票或改签页面
+     * @param ticket
+     * @param movie
+     * @param hall
+     * @param cinema
+     * @param session
+     */
     private void updateTickets(Ticket ticket, Movie movie, Hall hall,
                                Cinema cinema, Session session) {
         AlertDialog.Builder builder = new AlertDialog.Builder(List_Ticket.this);
@@ -300,6 +288,11 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
         builder.show();
     }
 
+    /**
+     * 退票确认
+     * @param ticket
+     * @param session
+     */
     private void delConfirm(Ticket ticket, Session session) {
         AlertDialog.Builder builder = new AlertDialog.Builder(List_Ticket.this);
         builder.setTitle("提示");
@@ -319,6 +312,15 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
         builder.show();
     }
 
+    /**
+     * 执行退票操作
+     * @param ticket
+     * @param session
+     * @param movie
+     * @param hall
+     * @param cinema
+     * @param index
+     */
     private void deleteTicket(Ticket ticket, Session session, Movie movie,
                               Hall hall, Cinema cinema, int index) {
 
@@ -437,6 +439,14 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
         }).start();
     }
 
+    /**
+     * 改签确认
+     * @param ticket
+     * @param movie
+     * @param hall
+     * @param cinema
+     * @param session
+     */
     private void changefirm(Ticket ticket, Movie movie, Hall hall, Cinema cinema, Session session) {
         AlertDialog.Builder builder = new AlertDialog.Builder(List_Ticket.this);
         builder.setTitle("提示");
@@ -472,6 +482,9 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
     }
 
 
+    /**
+     * 从数据库查询所有当前账号的电影票
+     */
     private void initTicket() {
         new Thread(new Runnable() {
             @Override
@@ -500,6 +513,10 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
         }).start();
     }
 
+    /**
+     * 搜索电影票
+     * @param search
+     */
     private void searchTicket(String search) {
         showTicketList.clear();
         showHallList.clear();
@@ -540,6 +557,9 @@ public class List_Ticket extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    /**
+     * 适配器
+     */
     private class MyAdapter extends BaseAdapter {
 
         @Override

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".z_smallactivity.List_Hall"
-    android:background="@drawable/bg_green"
+    android:background="@color/colorBackGround"
     android:orientation="vertical">
 
     <include layout="@layout/lay_title"></include>
@@ -28,15 +28,6 @@
             android:background="@drawable/pc_search"></Button>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/list_hall_addHall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="添加放映厅"
-        android:textColor="#fff"
-        android:background="@color/purple_500"
-        android:textSize="25sp">
-    </Button>
     <ProgressBar
         android:id="@+id/list_hall_progressbar"
         android:layout_width="match_parent"
@@ -51,6 +42,8 @@
         ></ListView>
 
 
-    <include layout="@layout/lay_bottom"></include>
-
+    <FrameLayout
+        android:id="@+id/list_hall_frame"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></FrameLayout>
 </LinearLayout>

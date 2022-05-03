@@ -3,6 +3,9 @@ package com.android.onlinemovieticket;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,12 +36,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.onlinemovieticket.adapter.MovieAdapter;
 import com.android.onlinemovieticket.db.Cinema;
 import com.android.onlinemovieticket.db.Session;
+import com.android.onlinemovieticket.fragment.Lay_bottom;
 import com.android.onlinemovieticket.repository.SessionRepository;
 import com.android.onlinemovieticket.service.MyService;
 import com.android.onlinemovieticket.z_smallactivity.Info_Movie;
@@ -74,9 +79,8 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
     private List<Movie> willMovieList = new ArrayList<>();
     private MovieAdapter willAdapter;
 
-    private RadioButton bottom_1;
-    private RadioButton bottom_2;
-    private RadioButton bottom_3;
+    private FragmentManager manager;
+    private Fragment bottom_fragment;
 
     private String account;
     private String type;
@@ -97,14 +101,6 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         searchButton = (Button) findViewById(R.id.m1_searshButton);
         searchButton.setOnClickListener(this);
 
-        bottom_1 = (RadioButton) findViewById(R.id.bottom_choose_movie);
-        bottom_1.setOnClickListener(this);
-
-        bottom_2 = (RadioButton) findViewById(R.id.bottom_choose_cinema);
-        bottom_2.setOnClickListener(this);
-
-        bottom_3 = (RadioButton) findViewById(R.id.bottom_choose_my);
-        bottom_3.setOnClickListener(this);
         progressBar = (ProgressBar) findViewById(R.id.m1_progressbar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -112,12 +108,15 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         type = getIntent().getStringExtra("type");
         ticket_price = getIntent().getDoubleExtra("ticket_price", 0.0);
 
-        setBounds(R.drawable.pc_movie, bottom_1);
-        setBounds(R.drawable.pc_cinema, bottom_2);
-        setBounds(R.drawable.my, bottom_3);
+        addBottom();
+        if(ticket_price != 0.0) {
+            manager.beginTransaction().remove(bottom_fragment).commit();
+        }else {
+            manager.beginTransaction().show(bottom_fragment).commit();
+        }
+
         if (type.equals("BOSS")) {
             addMovie.setVisibility(View.VISIBLE);
-            bottom_3.setText("管理员");
         } else {
             addMovie.setVisibility(View.GONE);
         }
@@ -135,7 +134,6 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         willMovie.setLayoutManager(layoutManager2);
         willAdapter = new MovieAdapter(willMovieList, account, type, ticket_price);
         willMovie.setAdapter(willAdapter);
-
         initMovies();
     }
 
@@ -156,38 +154,7 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
                 }
                 break;
             case R.id.title_button_add:
-                Intent intent1 = new Intent(MovieActivity.this, Info_Movie.class);
-                intent1.putExtra("account", account);
-                intent1.putExtra("type", type);
-                startActivity(intent1);
-                finish();
-                break;
-            case R.id.bottom_choose_movie:
-                Intent intent2 = new Intent(MovieActivity.this, MovieActivity.class);
-                intent2.putExtra("account", account);
-                intent2.putExtra("type", type);
-                startActivity(intent2);
-                finish();
-                break;
-            case R.id.bottom_choose_cinema:
-                Intent intent3 = new Intent(MovieActivity.this, CinemaActivity.class);
-                intent3.putExtra("account", account);
-                intent3.putExtra("type", type);
-                startActivity(intent3);
-                finish();
-                break;
-            case R.id.bottom_choose_my:
-                Intent intent4 = null;
-                if (type.equals("用户")) {
-                    intent4 = new Intent(MovieActivity.this, My_User.class);
-                }else if (type.equals("BOSS")) {
-                    intent4 = new Intent(MovieActivity.this, List_Admin.class);
-                }
-
-                intent4.putExtra("account", account);
-                intent4.putExtra("type", type);
-                startActivity(intent4);
-                finish();
+                addConfirm();
                 break;
             default:
                 break;
@@ -195,20 +162,21 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    /**
-     * @param drawableId  drawableLeft  drawableTop drawableBottom 所用的选择器 通过R.drawable.xx 获得
-     * @param radioButton 需要限定图片大小的radioButton
-     */
-    private void setBounds(int drawableId, RadioButton radioButton) {
-        //定义底部标签图片大小和位置
-        Drawable drawable_news = getResources().getDrawable(drawableId);
-        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形  (这里的长和宽写死了 自己可以可以修改成 形参传入)
-        drawable_news.setBounds(0, 0, 120, 120);
-        //设置图片在文字的哪个方向
-        radioButton.setCompoundDrawables(null, drawable_news, null, null);
+    private void addBottom(){
+        manager = getSupportFragmentManager();  //获取FragmentManager
+        FragmentTransaction transaction = manager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("account", account);
+        bundle.putString("type", type);
+        bottom_fragment = new Lay_bottom();
+        bottom_fragment.setArguments(bundle);
+        transaction.add(R.id.m1_frame, bottom_fragment).commit();
     }
 
 
+    /**
+     * 从数据库加载所有正在上映的和即将上映的电影
+     */
     private void initMovies() {
         new Thread() {
             @Override
@@ -222,10 +190,12 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     Date currentDate = getNowDate();
                     for(Movie movie : allMovieList){
-                        if(movie.getShowdate().compareTo(currentDate) <= 0){
-                            showingMovieList.add(movie);
-                        }else {
-                            willMovieList.add(movie);
+                        if(movie.getDowndate().compareTo(currentDate) > 0){
+                            if(movie.getShowdate().compareTo(currentDate) <= 0){
+                                showingMovieList.add(movie);
+                            }else {
+                                willMovieList.add(movie);
+                            }
                         }
                     }
                 }
@@ -234,7 +204,10 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         }.start();
     }
 
-    //获取现在时间
+    /**
+     * 获取当前日期
+     * @return
+     */
     private Date getNowDate() {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -245,7 +218,10 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         return currentTime_2;
     }
 
-    //根据电影名提示，搜索电影
+    /**
+     * 根据电影名提示，搜索电影
+     * @param movieName
+     */
     private void searchMovie(String movieName) {
         List<Movie> showtemplist = new ArrayList<>();
         for(Movie movie:showingMovieList){
@@ -274,6 +250,34 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * 添加电影确认
+     */
+    private void addConfirm() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("添加电影？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(MovieActivity.this, Info_Movie.class);
+                intent.putExtra("account", account);
+                intent.putExtra("type", type);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    /**
+     * 返回登录界面确认
+     */
     private void loginConfirm() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("返回登录页面？");

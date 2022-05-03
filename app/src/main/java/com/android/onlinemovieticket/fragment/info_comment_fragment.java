@@ -1,4 +1,4 @@
-package com.android.onlinemovieticket.z_smallactivity;
+package com.android.onlinemovieticket.fragment;
 
 
 import android.annotation.SuppressLint;
@@ -20,12 +20,14 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +38,7 @@ import com.android.onlinemovieticket.db.Comment;
 import com.android.onlinemovieticket.repository.CommentRepository;
 import com.android.onlinemovieticket.repository.MovieRepository;
 import com.android.onlinemovieticket.repository.UserRepository;
+import com.android.onlinemovieticket.z_smallactivity.Info_Comment;
 import com.bumptech.glide.Glide;
 
 import java.text.ParsePosition;
@@ -47,6 +50,7 @@ import java.util.List;
 public class info_comment_fragment extends Fragment {
     private Button btn_all;
     private Button btn_my;
+    private ImageButton btn_suggest;
     private ImageButton btn_comment;
     private ProgressBar progressBar;
 
@@ -77,6 +81,7 @@ public class info_comment_fragment extends Fragment {
 
         btn_all = view.findViewById(R.id.comment_fragment_button_all);
         btn_my = view.findViewById(R.id.comment_fragment_button_my);
+        btn_suggest = view.findViewById(R.id.comment_fragment_button_suggest);
         btn_comment = view.findViewById(R.id.comment_fragment_button_comment);
         progressBar = view.findViewById(R.id.comment_fragment_progressbar);
         progressBar.setVisibility(View.VISIBLE);
@@ -84,6 +89,8 @@ public class info_comment_fragment extends Fragment {
         commentView = view.findViewById(R.id.comment_fragment_listview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         commentView.setLayoutManager(layoutManager);
+        commentView.addItemDecoration(new DividerItemDecoration(getContext()
+                ,DividerItemDecoration.VERTICAL));
 
         if (isbuy) {
             alert_edit(true);
@@ -115,12 +122,38 @@ public class info_comment_fragment extends Fragment {
             }
         });
 
+        btn_suggest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert_suggest();
+            }
+        });
+
         btn_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alert_edit(false);
             }
         });
+    }
+
+    private void alert_suggest() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("评论提示");
+        TextView textView = new TextView(getContext());
+        textView.setText("1、为了更具参考性，我们将仅展示打分影评\n" +
+                "2购买并观看过该影片的用户拥有一次打分权利，并会将该打分及评论展示在影评中\n" +
+                "3、未拥有打分权利的用户，也可进行评论，但只会展示在“我的”页面中，不会展示在影评中\n" +
+                "4、所有用户均可再评论影评，但同样，不会展示在首页影评中，但会展示在“我的”页面，和该影评信息页面\n" +
+                "5、评论内容请遵守国家相关法律法规，文明发言，不得发表色情、暴力、恐怖、政治等内容\n");
+        builder.setView(textView);
+        builder.setPositiveButton("了解", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     public void alert_edit(boolean isGrade) {

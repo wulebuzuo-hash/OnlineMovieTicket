@@ -95,5 +95,8 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <include layout="@layout/lay_bottom"></include>
+    <FrameLayout
+        android:id="@+id/m1_frame"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></FrameLayout>
 </LinearLayout>

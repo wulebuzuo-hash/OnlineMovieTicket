@@ -145,6 +145,15 @@ public class User_updateInfo extends AppCompatActivity {
 
     }
 
+    /**
+     * 更新用户信息
+     * @param account
+     * @param question1
+     * @param answer1
+     * @param question2
+     * @param answer2
+     * @param type
+     */
     private void updateInfo(String account, String question1, String answer1,
                             String question2, String answer2, String type) {
         new Thread(){

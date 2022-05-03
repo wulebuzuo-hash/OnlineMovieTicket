@@ -97,7 +97,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorBackGround"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="5dp"
                 app:cardUseCompatPadding="true">
 
@@ -106,37 +106,38 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <RadioGroup
+                        android:id="@+id/list_session_radiogroup"
+                        android:layout_width="180dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <Button
+                        <RadioButton
+                            android:id="@+id/list_session_btn_showing"
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/btn_shape"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/radiobutton_selector"
+                            android:button="@null"
                             android:text="正在热映"
-                            android:textColor="#fff"
-                            android:textStyle="bold"></Button>
+                            android:textSize="18sp"></RadioButton>
 
-                        <Button
+                        <RadioButton
+                            android:id="@+id/list_session_btn_soon"
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/btn_shape"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/radiobutton_selector"
+                            android:button="@null"
                             android:text="即将上映"
-                            android:textColor="#fff"
-                            android:textStyle="bold"></Button>
-                    </LinearLayout>
+                            android:textColor="#666"
+                            android:textSize="18sp"
+                            android:textStyle="bold"></RadioButton>
+                    </RadioGroup>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/list_session_movie_view"
-                        style="@style/recy_horizontal_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         ></androidx.recyclerview.widget.RecyclerView>
@@ -146,7 +147,6 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_session_date"
-                style="@style/recy_horizontal_style"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"></androidx.recyclerview.widget.RecyclerView>
 
@@ -168,11 +168,11 @@
         </LinearLayout>
     </ScrollView>
 
-    <include
-        layout="@layout/lay_bottom"
+    <FrameLayout
+        android:id="@+id/list_session_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/list_session_layout"></include>
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/list_session_layout"></FrameLayout>
 
     <ProgressBar
         android:id="@+id/list_session_progressbar"

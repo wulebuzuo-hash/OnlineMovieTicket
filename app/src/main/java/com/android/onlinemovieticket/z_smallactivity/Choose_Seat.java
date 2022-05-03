@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -135,13 +137,35 @@ public class Choose_Seat extends AppCompatActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.nav_button:
-                finish();
+                backConfirm();
                 break;
             case R.id.choose_seat_submit:
                 progressBar.setVisibility(View.VISIBLE);
                 submitTicket();
                 break;
         }
+    }
+
+    private void backConfirm(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("返回首页？");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Choose_Seat.this, MovieActivity.class);
+                intent.putExtra("account", account);
+                intent.putExtra("type", type);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void initSeat() {

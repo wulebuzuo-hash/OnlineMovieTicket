@@ -8,6 +8,8 @@
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/drawable/bg_selector.xml" value="0.101" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/drawable/btn_shape.xml" value="0.101" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/drawable/ic_launcher_background.xml" value="0.101" />
+        <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/drawable/radiobutton_selector.xml" value="0.101" />
+        <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/drawable/send_progress_bg.xml" value="0.101" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/activity_admin.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/activity_list_session.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
@@ -22,6 +24,7 @@
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/bottom.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/choose_seat.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/common_datetime.xml" value="0.16666666666666666" />
+        <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/fragment_lay_bottom.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/info_admin.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/info_cinema.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/info_comment.xml" value="0.16666666666666666" />
@@ -45,7 +48,7 @@
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/item_session_date.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/item_sessiondate.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/item_ticket.xml" value="0.22" />
-        <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/item_uh.xml" value="0.22" />
+        <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/item_uh.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/lay_bottom.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/lay_title.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/list_admin.xml" value="0.16666666666666666" />
