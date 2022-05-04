@@ -95,6 +95,7 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         titleName = (TextView) findViewById(R.id.title_name);
         titleName.setText("电影");
         addMovie = (ImageButton) findViewById(R.id.title_button_add);
+        addMovie.setVisibility(View.VISIBLE);
         addMovie.setOnClickListener(this);
 
         searchEdit = (EditText) findViewById(R.id.m1_searchEdit);
@@ -172,7 +173,6 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         bottom_fragment.setArguments(bundle);
         transaction.add(R.id.m1_frame, bottom_fragment).commit();
     }
-
 
     /**
      * 从数据库加载所有正在上映的和即将上映的电影

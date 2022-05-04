@@ -42,11 +42,11 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
 
     private Button navButton;
     private TextView titlename;
+    private Button addAdmin;
 
     private EditText searchEdit;
     private Button searchButton;
 
-    private Button addAdmin;
     private ProgressBar progressBar;
 
     private List<Admin> allAdminList = new ArrayList<>();
@@ -73,6 +73,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         searchButton.setOnClickListener(this);
 
         addAdmin = (Button) findViewById(R.id.list_admin_add);
+        addAdmin.setVisibility(View.VISIBLE);
         addAdmin.setOnClickListener(this);
         progressBar = (ProgressBar) findViewById(R.id.list_admin_progressbar);
 

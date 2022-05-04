@@ -65,8 +65,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         title.setText("登 录");
         Button nav_button = (Button) findViewById(R.id.nav_button);
         nav_button.setVisibility(View.GONE);
-        ImageButton add = (ImageButton) findViewById(R.id.title_button_add);
-        add.setVisibility(View.GONE);
 
         //设置登录角色
         setJuese();

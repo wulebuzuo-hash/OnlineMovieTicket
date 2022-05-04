@@ -95,6 +95,44 @@ public class CommentRepository {
         return comment;
     }
 
+    public Comment getCommentByAccount(String uaccount) {
+        Comment comment = null;
+        Connection connection = JDBCUtils.getConn();
+        String sql = "select * from comment where uaccount = ? order by sc,comment_time desc limit 1";
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, uaccount);
+            resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                comment = new Comment(resultSet.getInt(1),  // comment_id
+                        resultSet.getInt(2),  // mid
+                        resultSet.getString(3),  // user_image
+                        resultSet.getString(4),  // uaccount
+                        resultSet.getInt(5),  // sc
+                        resultSet.getString(6),  // comment_text
+                        new Date(resultSet.getDate(7).getTime()),  // comment_time
+                        resultSet.getInt(8),  // good_num
+                        resultSet.getString(9),  // good_user_id
+                        resultSet.getInt(10)  // other_comment_id
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return comment;
+    }
+
     /**
      * 添加评论
      */

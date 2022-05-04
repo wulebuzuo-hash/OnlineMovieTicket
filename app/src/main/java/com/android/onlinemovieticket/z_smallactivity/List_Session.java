@@ -131,6 +131,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         titlename = (TextView) findViewById(R.id.title_name);
         titlename.setText("场次");
         addSession = (ImageButton) findViewById(R.id.title_button_add);
+        addSession.setVisibility(View.VISIBLE);
         addSession.setOnClickListener(this);
         pftext = (TextView) findViewById(R.id.list_session_pf);
 

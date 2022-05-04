@@ -72,8 +72,6 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         navButton.setOnClickListener(this);
         titlename = findViewById(R.id.title_name);
         titlename.setText("管理历史");
-        ImageButton addUh = (ImageButton) findViewById(R.id.title_button_add);
-        addUh.setVisibility(View.GONE);
 
         searchEdit = findViewById(R.id.list_uh_searchEdit);
         searchButton = findViewById(R.id.list_uh_searchButton);

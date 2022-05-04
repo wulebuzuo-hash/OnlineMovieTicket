@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackGround"
+    android:orientation="vertical"
+    tools:context=".fragment.Census_Ticket">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="累计观影: "></TextView>
+        <TextView
+            android:id="@+id/census_ticket_all_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/red"
+            android:text="0部"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:text="累计消费: "></TextView>
+        <TextView
+            android:id="@+id/census_ticket_all_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/darkOrange"
+            android:text="￥ 0.00"></TextView>
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textSize="20sp"
+        android:text="类型统计: "></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.android.onlinemovieticket.utils.CircleProgressView
+                    android:id="@+id/census_ticket_circle_1"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    app:backColor="#E6DBDBDB"
+                    app:backWidth="10dp"
+                    app:progColor="#20AEFF"
+                    app:progWidth="10dp"
+                    app:progress="85"></com.android.onlinemovieticket.utils.CircleProgressView>
+
+                <TextView
+                    android:id="@+id/census_ticket_progress_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="85%"
+                    android:textColor="#ff4d4d4d"
+                    android:textSize="18sp"></TextView>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/census_ticket_text_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:text="喜剧"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.android.onlinemovieticket.utils.CircleProgressView
+                    android:id="@+id/census_ticket_circle_2"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    app:backColor="#E6DBDBDB"
+                    app:backWidth="10dp"
+                    app:progColor="#20AEFF"
+                    app:progWidth="10dp"
+                    app:progress="85"></com.android.onlinemovieticket.utils.CircleProgressView>
+
+                <TextView
+                    android:id="@+id/census_ticket_progress_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="85%"
+                    android:textColor="#ff4d4d4d"
+                    android:textSize="18sp"></TextView>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/census_ticket_text_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="爱情"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.android.onlinemovieticket.utils.CircleProgressView
+                    android:id="@+id/census_ticket_circle_3"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    app:backColor="#E6DBDBDB"
+                    app:backWidth="10dp"
+                    app:progColor="#20AEFF"
+                    app:progWidth="10dp"
+                    app:progress="85"></com.android.onlinemovieticket.utils.CircleProgressView>
+
+                <TextView
+                    android:id="@+id/census_ticket_progress_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="85%"
+                    android:textColor="#ff4d4d4d"
+                    android:textSize="18sp"></TextView>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/census_ticket_text_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="喜剧"
+                android:textSize="18sp"
+                android:textColor="@color/black"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:text="您目前最喜爱的电影: "></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="电影名称: "></TextView>
+
+            <TextView
+                android:id="@+id/census_favorite_movie_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="复仇者联盟4：终局之战"
+                android:textColor="@color/red"
+                android:textSize="18sp"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="您的打分: "></TextView>
+
+            <TextView
+                android:id="@+id/census_favorite_movie_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="9 分"
+                android:textColor="@color/red"
+                android:textSize="18sp"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="最新评论: "></TextView>
+
+            <TextView
+                android:id="@+id/census_favorite_movie_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="大苏打水水水水水水水水水水水水水水水水水水水水水水水水水水水水水水水水水水sssssssssssssssssss"
+                android:textColor="@color/red"
+                android:textSize="20sp"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -34,7 +34,9 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class List_Comment extends AppCompatActivity implements View.OnClickListener {
 
@@ -193,6 +195,20 @@ public class List_Comment extends AppCompatActivity implements View.OnClickListe
         }).start();
     }
 
+    /**
+     * 获取当前日期
+     * @return
+     */
+    private Date getNowDate() {
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime);
+        ParsePosition pos = new ParsePosition(0);
+        Date currentTime_2 = formatter.parse(dateString, pos);
+
+        return currentTime_2;
+    }
+
     @SuppressLint("HandlerLeak")
     final Handler hand = new Handler() {
         public void handleMessage(Message msg) {
@@ -216,9 +232,20 @@ public class List_Comment extends AppCompatActivity implements View.OnClickListe
                     movie_date.setText(showdate + " 上映");
 
                     manager = getSupportFragmentManager();  //获取FragmentManager
-                    add_movie_fragment();
-                    add_comment_fragment();
-                    manager.beginTransaction().hide(comment_fragment).show(movie_fragment).commit();
+
+
+                    if(movie.getDowndate().before(getNowDate())){
+                        btn_comment.setVisibility(View.GONE);
+                        btn_message.setText("该影片已下线");
+                        btn_message.setEnabled(false);
+                        add_comment_fragment();
+                        manager.beginTransaction().show(comment_fragment).commit();
+                    }else {
+                        add_movie_fragment();
+                        add_comment_fragment();
+                        manager.beginTransaction().hide(comment_fragment).show(movie_fragment).commit();
+                    }
+
                 }
             }
         }

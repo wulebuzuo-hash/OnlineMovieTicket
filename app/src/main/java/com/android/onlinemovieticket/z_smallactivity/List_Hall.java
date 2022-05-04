@@ -68,6 +68,7 @@ public class List_Hall extends AppCompatActivity implements View.OnClickListener
         titlename = (TextView) findViewById(R.id.title_name);
         titlename.setText("影厅列表");
         addHall = (ImageButton)findViewById(R.id.title_button_add);
+        addHall.setVisibility(View.VISIBLE);
         addHall.setOnClickListener(this);
 
         searchEdit = (EditText) findViewById(R.id.list_hall_searchEdit);

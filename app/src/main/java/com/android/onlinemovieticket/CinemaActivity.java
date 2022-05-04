@@ -101,6 +101,7 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
         titlename = (TextView) findViewById(R.id.title_name);
         titlename.setText("电影院");
         addCinema = (ImageButton) findViewById(R.id.title_button_add);
+        addCinema.setVisibility(View.VISIBLE);
         addCinema.setOnClickListener(this);
 
         searchEdit = (EditText) findViewById(R.id.m2_searchEdit);
