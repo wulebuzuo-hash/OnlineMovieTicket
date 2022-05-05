@@ -88,6 +88,43 @@ public class TicketRepository {
     }
 
     /**
+     * 查询所有电影票
+     */
+    public List<Ticket> getAllTicket(){
+        List<Ticket> ticketList = new ArrayList<>();
+        Connection connection = JDBCUtils.getConn();
+        String sql = "select * from ticket";
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            ps = connection.prepareStatement(sql);
+            resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                Ticket ticket = new Ticket(resultSet.getInt(1), //tid
+                        resultSet.getString(2),         //ticket_code
+                        resultSet.getString(3),         //uaccount
+                        resultSet.getInt(4),            //sid
+                        resultSet.getString(5),        //seat
+                        resultSet.getDouble(6),      //price
+                        resultSet.getInt(7));          //isGrade
+                ticketList.add(ticket);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return ticketList;
+    }
+
+    /**
      * 删除电影票
      */
     public boolean deleteTicket(Ticket ticket) {

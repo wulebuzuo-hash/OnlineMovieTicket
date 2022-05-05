@@ -101,8 +101,6 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
         titlename = (TextView) findViewById(R.id.title_name);
         titlename.setText("电影院");
         addCinema = (ImageButton) findViewById(R.id.title_button_add);
-        addCinema.setVisibility(View.VISIBLE);
-        addCinema.setOnClickListener(this);
 
         searchEdit = (EditText) findViewById(R.id.m2_searchEdit);
         searchButton = (Button) findViewById(R.id.m2_searshButton);
@@ -128,6 +126,7 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
 
         if (type.equals("BOSS")) {
             addCinema.setVisibility(View.VISIBLE);
+            addCinema.setOnClickListener(this);
         } else {
             addCinema.setVisibility(View.GONE);
         }
@@ -179,11 +178,8 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        showBottom();
-        if(ticket_price != 0.0) {
-            manager.beginTransaction().remove(bottom_fragment).commit();
-        }else {
-            manager.beginTransaction().show(bottom_fragment).commit();
+        if(ticket_price == 0.0) {
+            showBottom();
         }
     }
 
@@ -202,6 +198,7 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
                     progressBar.setVisibility(View.VISIBLE);
                     searchCinemas(searsh);
                 }
+                break;
             case R.id.title_button_add:
                 addConfirm();
                 break;

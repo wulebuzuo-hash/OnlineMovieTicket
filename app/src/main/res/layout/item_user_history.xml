@@ -25,21 +25,21 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/item_ticket_image"
+                    android:id="@+id/item_user_history_image"
                     android:layout_width="100dp"
                     android:layout_height="137.5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/cool"></ImageView>
 
                 <TextView
-                    android:id="@+id/item_ticket_price"
+                    android:id="@+id/item_user_history_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="￥ 30.0"
                     android:textColor="#f00"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="italic"></TextView>
 
             </LinearLayout>
@@ -51,15 +51,47 @@
                 android:layout_toRightOf="@+id/item_ticket_imagelay"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/item_ticket_name"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="电影名"
-                    android:textColor="#000"
-                    android:textSize="25dp"
-                    android:textStyle="bold"></TextView>
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="用户名: "></TextView>
+                    <TextView
+                        android:id="@+id/item_user_history_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="dsadsa"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"></TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="电影名: "></TextView>
+
+                    <TextView
+                        android:id="@+id/item_user_history_movie_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="电影名"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textStyle="bold"></TextView>
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -76,27 +108,19 @@
                         android:textColor="#000"></TextView>
 
                     <TextView
-                        android:id="@+id/item_ticket_code"
+                        android:id="@+id/item_user_history_ticket_code"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:gravity="center"
                         android:text="0000 0000 0000"
                         android:textColor="#000"
+                        android:textSize="18sp"
                         android:textStyle="bold"></TextView>
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/item_ticket_seat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:text="X排X座 X排X座"
-                    android:textColor="#000"></TextView>
-
-                <TextView
-                    android:id="@+id/item_ticket_time"
+                    android:id="@+id/item_user_history_ticket_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -105,16 +129,7 @@
                     android:textColor="#000"></TextView>
 
                 <TextView
-                    android:id="@+id/item_ticket_cinema"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:text="XXX影院"
-                    android:textColor="#000"></TextView>
-
-                <TextView
-                    android:id="@+id/item_ticket_hall"
+                    android:id="@+id/item_user_history_ticket_hall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

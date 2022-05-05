@@ -57,6 +57,49 @@ public class CommentRepository {
         return commentList;
     }
 
+    /**
+     * 根据account获取评论
+     * @return
+     */
+    public List<Comment> getAllCommentByAccount(String account) {
+        List<Comment> commentList = new ArrayList<>();
+        Connection connection = JDBCUtils.getConn();
+        String sql = "select * from comment where uaccount = ?,other_comment_id != -1";
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, account);
+            resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                Comment comment = new Comment(resultSet.getInt(1),  // comment_id
+                        resultSet.getInt(2),  // mid
+                        resultSet.getString(3),  // user_image
+                        resultSet.getString(4),  // uaccount
+                        resultSet.getInt(5),  // sc
+                        resultSet.getString(6),  // comment_text
+                        new Date(resultSet.getDate(7).getTime()),  // comment_time
+                        resultSet.getInt(8),  // good_num
+                        resultSet.getString(9),  // good_user_id
+                        resultSet.getInt(10)  // other_comment_id
+                );
+                commentList.add(comment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return commentList;
+    }
+
     public Comment getCommentBycommentId(int comment_id) {
         Comment comment = null;
         Connection connection = JDBCUtils.getConn();

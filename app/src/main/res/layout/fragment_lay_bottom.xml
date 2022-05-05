@@ -28,6 +28,15 @@
             android:textColor="#666"
             android:textStyle="bold"></RadioButton>
         <RadioButton
+            android:id="@+id/bottom_choose_user"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="用户购票"></RadioButton>
+        <RadioButton
             style="@style/CompoundButtonThem.CustomRadioTheme"
             android:id="@+id/bottom_choose_my"
             android:text="我的"

@@ -131,8 +131,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         titlename = (TextView) findViewById(R.id.title_name);
         titlename.setText("场次");
         addSession = (ImageButton) findViewById(R.id.title_button_add);
-        addSession.setVisibility(View.VISIBLE);
-        addSession.setOnClickListener(this);
+
         pftext = (TextView) findViewById(R.id.list_session_pf);
 
         //电影院展示
@@ -172,14 +171,15 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
 
         if (type.equals("管理员")) {
             addSession.setVisibility(View.VISIBLE);
+            addSession.setOnClickListener(this);
         } else {
             addSession.setVisibility(View.GONE);
         }
 
         showBottom();
-        if(ticket_price != 0.0) {
+        if (ticket_price != 0.0) {
             manager.beginTransaction().remove(bottom_fragment).commit();
-        }else {
+        } else {
             manager.beginTransaction().show(bottom_fragment).commit();
         }
     }
@@ -189,26 +189,23 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.title_button_add:
-                Intent intent = null;
-                if (type.equals("管理员")) {
-                    intent = new Intent(List_Session.this, Info_Session.class);
-                    intent.putExtra("cid", cinema.getCid());
-                    intent.putExtra("mid", movie.getMid());
-                    intent.putExtra("mlong", movie.getMlong());
-                    intent.putExtra("sessionList", (Serializable) sessionList);
-                }
+                Intent intent = new Intent(List_Session.this, Info_Session.class);
+                intent.putExtra("cid", cinema.getCid());
+                intent.putExtra("mid", movie.getMid());
+                intent.putExtra("mname", movie.getMname());
+                intent.putExtra("mlong", movie.getMlong());
+                intent.putExtra("sessionList", (Serializable) sessionList);
                 intent.putExtra("account", account);
                 intent.putExtra("type", type);
                 startActivity(intent);
-                finish();
                 break;
             case R.id.nav_button:
                 if (type.equals("管理员")) {
                     loginConfirm();
-                    break;
-                }else {
+                } else {
                     backConfirm();
                 }
+                break;
             case R.id.list_session_btn_showing:
                 initMovie_showing();
                 break;
@@ -220,7 +217,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void backConfirm(){
+    private void backConfirm() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle("返回首页？");
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
@@ -250,7 +247,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         cinema_map.setOnClickListener(this);
     }
 
-    private void showBottom(){
+    private void showBottom() {
         manager = getSupportFragmentManager();  //获取FragmentManager
         FragmentTransaction transaction = manager.beginTransaction();
         Bundle bundle = new Bundle();

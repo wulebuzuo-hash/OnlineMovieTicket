@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.Soon_ticket">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/soon_ticket_searchEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="输入想要搜索的电影票名"></EditText>
+
+        <Button
+            android:id="@+id/soon_ticket_searchBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/pc_search"></Button>
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/soon_ticket_radiogroup"
+        android:layout_width="380dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/soon_ticket_btn_soon"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton_selector"
+            android:button="@null"
+            android:text="待观影"
+            android:textSize="18sp"></RadioButton>
+
+        <RadioButton
+            android:id="@+id/soon_ticket_btn_saw"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton_selector"
+            android:button="@null"
+            android:text="观影过"
+            android:textColor="#666"
+            android:textSize="18sp"
+            android:textStyle="bold"></RadioButton>
+    </RadioGroup>
+
+    <ProgressBar
+        android:id="@+id/soon_ticket_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"></ProgressBar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/soon_ticket_ticketView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>

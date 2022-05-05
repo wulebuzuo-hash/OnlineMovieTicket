@@ -24,6 +24,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -181,12 +182,60 @@ public class My_User extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent2);
                 break;
             case R.id.my_feedback:
+                feedbackConfirm();
                 break;
             case R.id.my_callus:
+                callusConfirm();
                 break;
             default:
                 break;
         }
+    }
+
+    private void feedbackConfirm(){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout ll = new LinearLayout(this);
+        ll.setLayoutParams(params);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        EditText et = new EditText(this);
+        et.setLayoutParams(params);
+        ll.addView(et);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请输入");
+        builder.setView(ll);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(My_User.this, "感谢您的反馈", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void callusConfirm(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("系统管理员");
+        builder.setMessage("联系电话：18888888888");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(My_User.this, "感谢您的反馈", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void showBottom(){
@@ -303,7 +352,7 @@ public class My_User extends AppCompatActivity implements View.OnClickListener {
                             ticket_time.setText(date + " " + time);
                             ticket_cinema.setText(cname);
                             ticket_hall.setText(hname);
-                            ticket_price.setText("￥ "+String.valueOf(ss.getPrice()));
+                            ticket_price.setText("￥ "+tt.getPrice());
 
                             String seat = tt.getSeat();
                             seat = seat.replace(",","排");

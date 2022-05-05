@@ -58,6 +58,7 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
     private Button navButton;
     private TextView titleName;
 
+    private TextView movie_name;
     private TextView dateEdit;
     private Date date;
     private Button dateButton;
@@ -92,6 +93,7 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
 
     private String account;
     private String type;
+    private String movieName;
     private int cid;
     private int mid;
     private Movie movie;
@@ -114,6 +116,7 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
         type = getIntent().getStringExtra("type");
         cid = getIntent().getIntExtra("cid", 0);
         mid = getIntent().getIntExtra("mid", 0);
+        movieName = getIntent().getStringExtra("mname");
         session_update = (Session) getIntent().getSerializableExtra("session");
         sessionList = (List<Session>) getIntent().getSerializableExtra("sessionList");
         sid = getIntent().getIntExtra("sid", 0);
@@ -122,6 +125,8 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
             loadMovie();
         }
 
+        movie_name = (TextView) findViewById(R.id.info_session_mname);
+        movie_name.setText(movieName);
         layout = (LinearLayout) findViewById(R.id.info_session_layout);
         dateEdit = (TextView) findViewById(R.id.info_session_date);
         dateButton = (Button) findViewById(R.id.info_session_dateButton);

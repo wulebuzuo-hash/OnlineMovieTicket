@@ -12,9 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".z_smallactivity.List_UserHistory"
+            android:exported="false" />
+
         <service
             android:name=".service.TicketNotificate_IntentService"
-            android:exported="false"></service>
+            android:exported="false" />
         <service
             android:name=".service.MyService"
             android:enabled="true"
@@ -22,74 +26,74 @@
 
         <activity
             android:name=".z_smallactivity.Update_Hall"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.List_Comment"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.Choose_Seat"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.Info_Comment"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.Info_Session"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.Info_Admin"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.List_Admin"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.List_Uh"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.List_Hall"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.List_Session"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.Info_Hall"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.List_Ticket"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.Info_Cinema"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".My_User"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -103,30 +107,30 @@
 
         <activity
             android:name=".z_smallactivity.Info_Movie"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.User_updateInfo"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".MovieActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".z_smallactivity.User_Register"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".LoginActivity"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -135,9 +139,9 @@
         </activity>
         <activity
             android:name=".CinemaActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
 
 </manifest>

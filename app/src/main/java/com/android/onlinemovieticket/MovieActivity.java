@@ -95,8 +95,6 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
         titleName = (TextView) findViewById(R.id.title_name);
         titleName.setText("电影");
         addMovie = (ImageButton) findViewById(R.id.title_button_add);
-        addMovie.setVisibility(View.VISIBLE);
-        addMovie.setOnClickListener(this);
 
         searchEdit = (EditText) findViewById(R.id.m1_searchEdit);
         searchButton = (Button) findViewById(R.id.m1_searshButton);
@@ -118,6 +116,7 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
 
         if (type.equals("BOSS")) {
             addMovie.setVisibility(View.VISIBLE);
+            addMovie.setOnClickListener(this);
         } else {
             addMovie.setVisibility(View.GONE);
         }

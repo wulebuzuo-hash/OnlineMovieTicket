@@ -22,6 +22,7 @@ import com.android.onlinemovieticket.z_smallactivity.List_Admin;
 import com.android.onlinemovieticket.z_smallactivity.List_Hall;
 import com.android.onlinemovieticket.z_smallactivity.List_Session;
 import com.android.onlinemovieticket.z_smallactivity.List_Uh;
+import com.android.onlinemovieticket.z_smallactivity.List_UserHistory;
 
 public class Lay_bottom extends Fragment {
 
@@ -29,6 +30,7 @@ public class Lay_bottom extends Fragment {
     RadioButton bottom_1;
     RadioButton bottom_2;
     RadioButton bottom_3;
+    RadioButton bottom_4;
 
     private String account;
     private String type;
@@ -46,16 +48,22 @@ public class Lay_bottom extends Fragment {
         bottom_1 = view.findViewById(R.id.bottom_choose_movie);
         bottom_2 = view.findViewById(R.id.bottom_choose_cinema);
         bottom_3 = view.findViewById(R.id.bottom_choose_my);
+        bottom_4 = view.findViewById(R.id.bottom_choose_user);
+        bottom_4.setVisibility(View.GONE);
         setBounds(R.drawable.pc_movie, bottom_1);
         setBounds(R.drawable.pc_cinema, bottom_2);
         setBounds(R.drawable.my, bottom_3);
 
         if (type.equals("管理员")) {
             setBounds(R.drawable.pc_hall, bottom_2);
+            setBounds(R.drawable.pc_history, bottom_3);
+            setBounds(R.drawable.my, bottom_4);
             bottom_2.setText("放映厅");
             bottom_3.setText("管理历史");
+            bottom_4.setVisibility(View.VISIBLE);
         } else if (type.equals("BOSS")) {
             bottom_3.setText("管理员");
+
         }
         return view;
     }
@@ -111,6 +119,18 @@ public class Lay_bottom extends Fragment {
                 } else {
                     intent = new Intent(getActivity(), My_User.class);
                 }
+                intent.putExtra("account", account);
+                intent.putExtra("type", type);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+        bottom_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), List_UserHistory.class);
+                intent.putExtra("cid", cid);
                 intent.putExtra("account", account);
                 intent.putExtra("type", type);
                 startActivity(intent);
