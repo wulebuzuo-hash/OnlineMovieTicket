@@ -43,8 +43,7 @@ import com.android.onlinemovieticket.repository.MovieRepository;
 import com.android.onlinemovieticket.repository.SessionRepository;
 import com.android.onlinemovieticket.repository.UhRepository;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,8 +51,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class Info_Session extends AppCompatActivity implements View.OnClickListener,
-        DatePickerDialog.OnDateSetListener {
+public class Info_Session extends AppCompatActivity implements View.OnClickListener {
 
     private Button navButton;
     private TextView titleName;
@@ -121,6 +119,8 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
         sessionList = (List<Session>) getIntent().getSerializableExtra("sessionList");
         sid = getIntent().getIntExtra("sid", 0);
 
+        timeSpinner = (Spinner) findViewById(R.id.info_session_time);
+        hallnameSpinner = (Spinner) findViewById(R.id.info_session_hall);
         if (mid != 0) {
             loadMovie();
         }
@@ -128,11 +128,13 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
         movie_name = (TextView) findViewById(R.id.info_session_mname);
         movie_name.setText(movieName);
         layout = (LinearLayout) findViewById(R.id.info_session_layout);
+        layoutList.add(layout);
         dateEdit = (TextView) findViewById(R.id.info_session_date);
         dateButton = (Button) findViewById(R.id.info_session_dateButton);
         dateButton.setOnClickListener(this);
 
         priceEdit = (EditText) findViewById(R.id.info_session_price);
+        priceEditList.add(priceEdit);
 
         addBtn = (RadioButton) findViewById(R.id.info_session_add);
         addBtn.setOnClickListener(this);
@@ -144,10 +146,6 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
         progressBar = (ProgressBar) findViewById(R.id.info_session_progressbar);
         progressBar.setVisibility(View.GONE);
 
-        timeSpinner = (Spinner) findViewById(R.id.info_session_time);
-
-        hallnameSpinner = (Spinner) findViewById(R.id.info_session_hall);
-
     }
 
     @Override
@@ -158,10 +156,19 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.info_session_dateButton:
                 Calendar calendar = Calendar.getInstance();
-                DatePickerDialog dialog = new DatePickerDialog(this, this,
+                DatePickerDialog dialog = new DatePickerDialog(this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                                String desc = String.format("%d-%d-%d", i, i1 + 1, i2);
+                                dateEdit.setText(desc);
+                            }
+                        },
                         calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MARCH),
                         calendar.get(Calendar.DAY_OF_MONTH));
+                DatePicker datePicker = dialog.getDatePicker();
+                datePicker.setMinDate(calendar.getTimeInMillis());
                 dialog.show();
                 break;
             case R.id.info_session_add:
@@ -194,16 +201,6 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        String getDate = String.format("%d-%d-%d", i, i1 + 1, i2);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        ParsePosition pos = new ParsePosition(0);
-        Date date = format.parse(getDate, pos);
-        dateEdit.setText(format.format(date));
-
     }
 
     private void loadMovie() {
@@ -247,14 +244,19 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
                     showtime = allTimeList.get(position);
+                    choosetimeList.add(showtime);
                     allTimeList.remove(showtime);
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-                    ParsePosition pos = new ParsePosition(0);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     if (dateEdit.getText().toString().equals("")) {
                         Toast.makeText(Info_Session.this,
                                 "请先选择日期", Toast.LENGTH_SHORT).show();
                     } else {
-                        date = format.parse(dateEdit.getText().toString(), pos);
+                        try {
+                            date = new Date(new SimpleDateFormat("yyyy-MM-dd").
+                                    parse(dateEdit.getText().toString()).getTime());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         initHalls(date, showtime, allhnameList, allhidList);
                         ArrayAdapter<String> hallAdapter = new ArrayAdapter<String>(
                                 Info_Session.this, android.R.layout.simple_spinner_item, allhnameList);
@@ -275,12 +277,14 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
                 if (position != 0) {
                     chooseHid = allhidList.get(position - 1);
                     Hall chooseHall = allhallList.get(position - 1);
+                    chooseHidList.add(chooseHid);
                     for (int m = 0; m < chooseHall.getRow(); m++) {
                         for (int n = 0; n < chooseHall.getColumn(); n++) {
                             state += "0";
                         }
                         state += ",";
                     }
+                    choosestateList.add(state);
                 }
             }
 
@@ -612,7 +616,7 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(Info_Session.this, "添加成功",
                         Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
-                Intent intent = new Intent(Info_Session.this, MovieActivity.class);
+                Intent intent = new Intent(Info_Session.this, List_Session.class);
                 intent.putExtra("cid", cid);
                 intent.putExtra("account", account);
                 intent.putExtra("type", type);
@@ -626,7 +630,7 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(Info_Session.this, "更新成功",
                         Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
-                Intent intent = new Intent(Info_Session.this, MovieActivity.class);
+                Intent intent = new Intent(Info_Session.this, List_Session.class);
                 intent.putExtra("cid", cid);
                 intent.putExtra("account", account);
                 intent.putExtra("type", type);

@@ -40,6 +40,7 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
 
     private String account;
     private String type;
+    private Admin admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
         progressBar = (ProgressBar) findViewById(R.id.info_admin_progressbar);
         progressBar.setVisibility(View.GONE);
 
-        Admin admin = (Admin)getIntent().getSerializableExtra("admin");
+        admin = (Admin)getIntent().getSerializableExtra("admin");
         if(admin != null){
             accountEdit.setText(admin.getAaccount());
             passwordEdit.setText(admin.getApassword());
@@ -87,8 +88,13 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
                 backConfirm();
                 break;
             case R.id.info_admin_submit:
-                progressBar.setVisibility(View.VISIBLE);
-                addAdmin();
+
+                if(admin == null){
+                    progressBar.setVisibility(View.VISIBLE);
+                    addAdmin(true);
+                }else {
+                    addAdmin(false);
+                }
                 break;
             default:
                 break;
@@ -117,7 +123,7 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
         builder.show();
     }
 
-    private void addAdmin() {
+    private void addAdmin(boolean isAdd){
         new Thread() {
             @Override
             public void run() {
@@ -136,7 +142,16 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
 
                 Admin aa = adminRepository.findAdmin(account, admin.getCid());
                 if(aa != null){
-                    msg = 1;
+                    if(isAdd){
+                        msg = 1;
+                    }else {
+                        boolean flag = adminRepository.updateAdmin(admin);
+                        if(flag){
+                            msg = 3;
+                        }else {
+                            msg = 4;
+                        }
+                    }
                 }else{
                     boolean flag = adminRepository.addAdmin(admin);
                     if (flag) {
@@ -151,22 +166,29 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
     @SuppressLint("HandlerLeak")
     final Handler hand = new Handler() {
         public void handleMessage(Message msg) {
+            progressBar.setVisibility(View.GONE);
             if (msg.what == 0) {
                 Toast.makeText(Info_Admin.this,
                         "添加失败，网络有问题！！", Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
             } else if (msg.what == 1) {
                 Toast.makeText(Info_Admin.this, "该影院的账号已经存在，请换一个账号",
                         Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
             } else if (msg.what == 2) {
                 Toast.makeText(Info_Admin.this, "注册成功", Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
                 Intent intent = new Intent(Info_Admin.this, List_Admin.class);
                 intent.putExtra("account", account);
                 intent.putExtra("type", type);
                 startActivity(intent);
                 finish();
+            }else if (msg.what == 3) {
+                Toast.makeText(Info_Admin.this, "修改成功", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Info_Admin.this, List_Admin.class);
+                intent.putExtra("account", account);
+                intent.putExtra("type", type);
+                startActivity(intent);
+                finish();
+            }else if (msg.what == 4) {
+                Toast.makeText(Info_Admin.this, "修改失败", Toast.LENGTH_LONG).show();
             }
         }
     };

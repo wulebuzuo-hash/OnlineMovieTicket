@@ -113,11 +113,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         holder.movieType.setText(movie.getMscreen());
 
-        if (type.equals("用户") && account != null) {
+        if (type.equals("用户") && account != null &&
+                getDateDiff(currentDate, movie.getShowdate()) <= 7) {
             holder.movieBook.setVisibility(View.VISIBLE);
         } else {
             holder.movieBook.setVisibility(View.GONE);
-            if(type.equals("管理员")){
+            if (type.equals("管理员")) {
                 holder.movieView.setBackground(holder.movieView.getContext().getResources().
                         getDrawable(R.drawable.bg_item_movie));
                 holder.movieView.setSelected(holder.getLayoutPosition() == selposition);
@@ -128,12 +129,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
 
-                if(account != null){    //表明是从MovieActivity跳转过来的
+                if (account != null) {    //表明是从MovieActivity跳转过来的
                     Intent intent = null;
                     if (type.equals("用户")) {
                         intent = new Intent(v.getContext(), List_Comment.class);
                         intent.putExtra("ticket_price", ticket_price);
-                    }else if(type.equals("BOSS")){
+                    } else if (type.equals("BOSS")) {
                         intent = new Intent(v.getContext(), Info_Movie.class);
                     }
                     intent.putExtra("mid", movie.getMid());
@@ -141,7 +142,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                     intent.putExtra("type", type);
                     v.getContext().startActivity(intent);
 
-                }else { //表明是从List_Session跳转过来的
+                } else { //表明是从List_Session跳转过来的
                     holder.movieView.setSelected(true);
                     temp = selposition;
                     selposition = holder.getLayoutPosition();

@@ -131,9 +131,7 @@
                             android:background="@drawable/radiobutton_selector"
                             android:button="@null"
                             android:text="即将上映"
-                            android:textColor="#666"
-                            android:textSize="18sp"
-                            android:textStyle="bold"></RadioButton>
+                            android:textSize="18sp"></RadioButton>
                     </RadioGroup>
 
                     <androidx.recyclerview.widget.RecyclerView

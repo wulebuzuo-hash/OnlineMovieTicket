@@ -34,6 +34,7 @@
                     android:id="@+id/info_movie_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="必填（20字以内）"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -54,6 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:hint="选填（20字以内）"
                     android:textStyle="italic" />
 
             </LinearLayout>
@@ -75,6 +77,7 @@
                     android:layout_width="210dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
+                    android:hint="必选"
                     android:textSize="18sp" />
 
                 <Button
@@ -107,6 +110,7 @@
                     android:layout_width="210dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
+                    android:hint="必选"
                     android:textSize="18sp" />
 
                 <Button
@@ -137,7 +141,8 @@
                 <EditText
                     android:id="@+id/info_movie_story"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="必填(150字以内)"/>
             </LinearLayout>
 
             <LinearLayout
@@ -156,6 +161,7 @@
                     android:id="@+id/info_movie_long"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
+                    android:hint="必填"
                     android:inputType="number"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -181,6 +187,7 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
+                    android:hint="必选"
                     android:textSize="18sp" />
 
                 <Button
@@ -214,6 +221,7 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
+                    android:hint="必选"
                     android:textSize="18sp" />
 
                 <Button
@@ -247,6 +255,7 @@
                     android:layout_width="225dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
+                    android:hint="必选"
                     android:textSize="20sp"></TextView>
 
                 <Button
@@ -279,6 +288,7 @@
                     android:layout_width="225dp"
                     android:layout_height="wrap_content"
                     android:textColor="#f00"
+                    android:hint="必选"
                     android:textSize="20sp"></TextView>
 
                 <Button
@@ -303,7 +313,7 @@
                 <TextView
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="电影图片："
+                    android:text="电影图片：必选"
                     android:textSize="18sp" />
 
                 <Button

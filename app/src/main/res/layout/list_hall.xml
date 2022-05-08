@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="输入想要搜索的电影院名"></EditText>
+            android:hint="输入想要搜索的放映厅名"></EditText>
         <Button
             android:id="@+id/list_hall_searshButton"
             android:layout_width="50dp"

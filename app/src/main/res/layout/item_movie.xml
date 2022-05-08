@@ -7,8 +7,8 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="62.5dp"
-        android:layout_height="100dp"
+        android:layout_width="75dp"
+        android:layout_height="120dp"
         android:layout_gravity="center">
 
         <ImageView
@@ -55,7 +55,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="5月4日上映"
-        android:textSize="10sp"></TextView>
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        android:textSize="12sp"></TextView>
 
     <Button
         android:id="@+id/item_movie_book"

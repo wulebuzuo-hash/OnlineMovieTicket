@@ -136,17 +136,6 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:text="记住密码"></TextView>
-
-                    <CheckBox
-                        android:id="@+id/zidong_pass"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></CheckBox>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:text="自动登录"></TextView>
                 </LinearLayout>
 
                 <Button

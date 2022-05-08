@@ -224,14 +224,15 @@ public class TicketNotificate_IntentService extends IntentService {
             Date endTime = session.getEndTime();
             SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String showDateStr = sdf2.format(showDate);
             String showTimeStr = sdf1.format(showTime);
             String endTimeStr = sdf1.format(endTime);
 
             ParsePosition pos = new ParsePosition(0);
             ParsePosition pos2 = new ParsePosition(0);
-            Date startTime = sdf1.parse(showDateStr + " " + showTimeStr, pos);
-            Date endTime2 = sdf1.parse(showDateStr + " " + endTimeStr, pos2);
+            Date startTime = sdf3.parse(showDateStr + " " + showTimeStr, pos);
+            Date endTime2 = sdf3.parse(showDateStr + " " + endTimeStr, pos2);
 
             long sleep1 = getTime(nowTime, startTime) - 3600;
             ViewNotification(sleep1);

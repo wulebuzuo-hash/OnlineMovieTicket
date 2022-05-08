@@ -3,12 +3,20 @@ package com.android.onlinemovieticket.z_smallactivity;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,9 +34,12 @@ import com.android.onlinemovieticket.MovieActivity;
 import com.android.onlinemovieticket.R;
 import com.android.onlinemovieticket.db.Cinema;
 import com.android.onlinemovieticket.db.Movie;
+import com.android.onlinemovieticket.fragment.Census_Ticket;
+import com.android.onlinemovieticket.fragment.choose_area;
 import com.android.onlinemovieticket.repository.CinemaRepository;
 import com.android.onlinemovieticket.repository.MovieRepository;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +58,9 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
     private List<TextView> callEditList = new ArrayList<>();
 
     private EditText nameEdit;
+
+    public TextView countryEdit;
+    private Button countryButton;
     private EditText positionEdit;
     private EditText callEdit;
 
@@ -71,6 +85,9 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
         titleName.setText("电影院");
 
         nameEdit = (EditText) findViewById(R.id.info_cinema_name);
+        countryEdit = (TextView) findViewById(R.id.info_cinema_country);
+        countryButton = (Button) findViewById(R.id.info_cinema_country_button);
+        countryButton.setOnClickListener(this);
         positionEdit = (EditText) findViewById(R.id.info_cinema_position);
         callEdit = (EditText) findViewById(R.id.info_cinema_call);
         addButton = (Button) findViewById(R.id.info_cinema_add);
@@ -86,7 +103,9 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
         cinema = (Cinema) getIntent().getSerializableExtra("cinema");
         if (cinema != null) {
             nameEdit.setText(cinema.getCname());
-            positionEdit.setText(cinema.getCposition());
+            String[] address = cinema.getCposition().split("区");
+            countryEdit.setText(address[0]+"区");
+            positionEdit.setText(address[1]);
             callEdit.setText(cinema.getCcall());
             addButton.setVisibility(View.GONE);
             delButton.setVisibility(View.GONE);
@@ -104,6 +123,7 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
         cinemaList = (List<Cinema>) getIntent().getSerializableExtra("cinemaList");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -124,12 +144,33 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
                 } else {
                     add_submit();
                 }
+                break;
+            case R.id.info_cinema_country_button:
+                outDrawer_choose();
             default:
                 break;
         }
     }
 
-    private void backConfirm(){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void outDrawer_choose() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        choose_area area = new choose_area();
+        ft.add(R.id.info_cinema_drawer_frame, area).commit();
+
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.info_cinema_drawer);
+        drawerLayout.openDrawer(GravityCompat.END);
+    }
+
+    public void delDrawer_choose() {
+
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.info_cinema_drawer);
+        drawerLayout.closeDrawer(GravityCompat.END);
+    }
+
+    private void backConfirm() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("返回首页？");
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
@@ -154,14 +195,12 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
     private void addCinemaLayout() {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 MATCH_PARENT, WRAP_CONTENT);
-        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
-                50, WRAP_CONTENT);
 
         LinearLayout linearLayout1 = new LinearLayout(this);
         linearLayout1.setLayoutParams(params);
         linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
         TextView nameText = new TextView(this);
-        nameText.setText("电影院名");
+        nameText.setText("电影院名:");
         nameText.setTextSize(18);
         EditText nameEdit = new EditText(this);
         nameEdit.setLayoutParams(params);
@@ -169,39 +208,40 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
         linearLayout1.addView(nameText);
         linearLayout1.addView(nameEdit);
 
-        LinearLayout linearLayout2 = new LinearLayout(this);
-        linearLayout2.setLayoutParams(params);
-        linearLayout2.setOrientation(LinearLayout.HORIZONTAL);
-        TextView positionText = new TextView(this);
-        positionText.setText("地理位置");
-        positionText.setTextSize(18);
-        EditText positionEdit = new EditText(this);
-        positionEdit.setLayoutParams(params);
-        positionEditList.add(positionEdit);
-        linearLayout2.addView(positionText);
-        linearLayout2.addView(positionEdit);
 
         LinearLayout linearLayout3 = new LinearLayout(this);
         linearLayout3.setLayoutParams(params);
         linearLayout3.setOrientation(LinearLayout.HORIZONTAL);
+        TextView positionText2 = new TextView(this);
+        positionText2.setText("地理位置");
+        positionText2.setTextSize(18);
+        EditText positionEdit2 = new EditText(this);
+        positionEdit.setLayoutParams(params);
+        positionEditList.add(positionEdit2);
+        linearLayout3.addView(positionText2);
+        linearLayout3.addView(positionEdit2);
+
+        LinearLayout linearLayout4 = new LinearLayout(this);
+        linearLayout4.setLayoutParams(params);
+        linearLayout4.setOrientation(LinearLayout.HORIZONTAL);
         TextView callText = new TextView(this);
         callText.setText("联系电话");
         callText.setTextSize(18);
         EditText callEdit = new EditText(this);
         callEdit.setLayoutParams(params);
         callEditList.add(callEdit);
-        linearLayout3.addView(callText);
-        linearLayout3.addView(callEdit);
+        linearLayout4.addView(callText);
+        linearLayout4.addView(callEdit);
 
-        LinearLayout linearLayout4 = new LinearLayout(this);
-        linearLayout4.setLayoutParams(params);
-        linearLayout4.setOrientation(LinearLayout.VERTICAL);
-        linearLayout4.addView(linearLayout1);
-        linearLayout4.addView(linearLayout2);
-        linearLayout4.addView(linearLayout3);
+        LinearLayout linearLayout5 = new LinearLayout(this);
+        linearLayout5.setLayoutParams(params);
+        linearLayout5.setOrientation(LinearLayout.VERTICAL);
+        linearLayout5.addView(linearLayout1);
+        linearLayout5.addView(linearLayout3);
+        linearLayout5.addView(linearLayout4);
 
-        layout.addView(linearLayout4);
-        layoutList.add(linearLayout4);
+        layout.addView(linearLayout5);
+        layoutList.add(linearLayout5);
     }
 
     private void delCinemaLayout() {
@@ -233,7 +273,7 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
                     int msg = 0;
                     CinemaRepository cinemaRepository = new CinemaRepository();
                     boolean flag = cinemaRepository.updateCinema(new Cinema(
-                            cinema.getCid(), cname, position, call));
+                            cinema.getCid(), cname, countryEdit.getText() + position, call));
                     if (flag) {
                         msg = 1;
                     }

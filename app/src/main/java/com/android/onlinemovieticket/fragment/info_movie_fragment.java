@@ -59,6 +59,13 @@ public class info_movie_fragment extends Fragment {
         type = getArguments().getString("type");
         mid = getArguments().getInt("mid");
         ticket_price = getArguments().getDouble("ticket_price");
+
+        boolean flag = getArguments().getBoolean("flag");
+        if (flag) {
+            movie_buy.setVisibility(View.VISIBLE);
+        }else {
+            movie_buy.setVisibility(View.GONE);
+        }
         return view;
     }
 

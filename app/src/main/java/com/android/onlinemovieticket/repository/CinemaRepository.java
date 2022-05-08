@@ -51,42 +51,6 @@ public class CinemaRepository {
     }
 
     /**
-     * 查找某部电影院
-     */
-    public Cinema findCinema(String name){
-        Connection connection = JDBCUtils.getConn();
-        String sql = "select * from cinema where cname = ?";
-        Cinema cinema = null;
-        PreparedStatement ps = null;
-        ResultSet resultSet = null;
-
-        try {
-            ps = connection.prepareStatement(sql);
-            ps.setString(1, name);
-            resultSet = ps.executeQuery();
-
-            if (resultSet.next()) {
-                cinema = new Cinema(resultSet.getInt(1),//cid
-                        resultSet.getString(2), //cname
-                        resultSet.getString(3),  //cposition
-                        resultSet.getString(4)  //ccall
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                connection.close();
-                ps.close();
-                resultSet.close();
-            }catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return cinema;
-    }
-
-    /**
      * 根据cid，查找cname
      */
     public String getCnameByCid(int cid){
@@ -160,7 +124,7 @@ public class CinemaRepository {
     public boolean addCinema(Cinema cinema) {
         Connection connection = JDBCUtils.getConn();
         String sql = "insert into cinema(cname,cposition,ccall) " +
-                "values(?,?,?";
+                "values(?,?,?)";
         PreparedStatement ps = null;
         try {
 

@@ -150,6 +150,8 @@ public class List_Comment extends AppCompatActivity implements View.OnClickListe
         bundle.putString("story", movie.getMstory());
         bundle.putString("director", movie.getMdir());
         bundle.putString("actor", movie.getMactor());
+        boolean flag = getDateDiff(getNowDate(), movie.getShowdate()) <= 7 ? true : false;
+        bundle.putBoolean("flag", flag);
         movie_fragment.setArguments(bundle);
         transaction.add(R.id.list_comment_frame, movie_fragment, "movie_fragment").commit();
     }
@@ -197,6 +199,7 @@ public class List_Comment extends AppCompatActivity implements View.OnClickListe
 
     /**
      * 获取当前日期
+     *
      * @return
      */
     private Date getNowDate() {
@@ -207,6 +210,12 @@ public class List_Comment extends AppCompatActivity implements View.OnClickListe
         Date currentTime_2 = formatter.parse(dateString, pos);
 
         return currentTime_2;
+    }
+
+    //计算日期差
+    public int getDateDiff(Date startDate, Date endDate) {
+        int days = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+        return days;
     }
 
     @SuppressLint("HandlerLeak")
@@ -234,13 +243,18 @@ public class List_Comment extends AppCompatActivity implements View.OnClickListe
                     manager = getSupportFragmentManager();  //获取FragmentManager
 
 
-                    if(movie.getDowndate().before(getNowDate())){
+                    if (movie.getDowndate().before(getNowDate())) {
                         btn_comment.setVisibility(View.GONE);
                         btn_message.setText("该影片已下线");
                         btn_message.setEnabled(false);
                         add_comment_fragment();
                         manager.beginTransaction().show(comment_fragment).commit();
-                    }else {
+                    } else if (movie.getShowdate().before(getNowDate())) {
+                        btn_comment.setText("该影片未上映，暂无评论");
+                        btn_comment.setEnabled(false);
+                        add_movie_fragment();
+                        manager.beginTransaction().show(movie_fragment).commit();
+                    } else {
                         add_movie_fragment();
                         add_comment_fragment();
                         manager.beginTransaction().hide(comment_fragment).show(movie_fragment).commit();

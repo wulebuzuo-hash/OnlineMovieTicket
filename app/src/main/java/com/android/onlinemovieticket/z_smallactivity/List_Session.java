@@ -170,7 +170,6 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         }
 
         if (type.equals("管理员")) {
-            addSession.setVisibility(View.VISIBLE);
             addSession.setOnClickListener(this);
         } else {
             addSession.setVisibility(View.GONE);
@@ -398,6 +397,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                 sessionList = sessionRepository.getSessionByCid(cinema.getCid());
 
                 MovieRepository movieRepository = new MovieRepository();
+                movie = movieRepository.getMovieByMid(mid);
                 allMovieList = movieRepository.findAllMovie();
                 Date currentDate = getNowDate();
                 for (int i = 0; i < allMovieList.size(); i++) {
@@ -420,7 +420,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
-
+                        addSession.setVisibility(View.VISIBLE);
                         if (getDateDiff(movie.getShowdate(), getNowDate()) <= 0) {
                             initMovie_soon();
                         } else {
@@ -466,7 +466,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         showingMovieList.clear();
         int index = -1;
         for (Movie movie : allMovieList) {
-            if (getDateDiff(movie.getShowdate(), getNowDate()) >= 0) {
+            if (getDateDiff(movie.getShowdate(), getNowDate()) < 0) {
                 showingMovieList.add(movie);
                 if (movie.getMid() == mid) {
                     index = showingMovieList.size() - 1;
@@ -526,7 +526,26 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
             realDateList.add(datei);
         }
 
-        dateAdapter.notifyDataSetChanged();
+        dateAdapter = new SessionAdapter(dateList);
+        dateAdapter.setListener(new onRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                progressBar.setVisibility(View.VISIBLE);
+                initSession(realDateList.get(position), movie);
+            }
+
+            @Override
+            public void onLongClick(int position) {
+            }
+
+            @Override
+            public void onItemClick(int position, boolean isClick) {
+            }
+        });
+        RecyclerView.ItemAnimator itemAnimator1 = sessionDate.getItemAnimator();
+        itemAnimator1.setChangeDuration(0);
+        sessionDate.setItemAnimator(itemAnimator1);
+        sessionDate.setAdapter(dateAdapter);
 
         initSession(realDateList.get(0), mm);
 
@@ -552,7 +571,8 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
         }
 
         if (chooseSessionList.size() == 0) {
-            Toast.makeText(List_Session.this, "当前日期没有场次", Toast.LENGTH_SHORT).show();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM月dd日");
+            Toast.makeText(List_Session.this, dateFormat.format(date) + "：没有场次", Toast.LENGTH_SHORT).show();
         } else {
             sessionAdapter.notifyDataSetChanged();
         }
@@ -615,7 +635,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
 
             price.setText("￥" + session.getPrice());
 
-            if (type.equals("管理员") && getDateDiff(session.getShowDate(), getNowDate()) >= 0) {
+            if (type.equals("管理员")) {
                 progressBar.setVisibility(View.VISIBLE);
                 String[] state = session.getState().split(",");
                 List<String> seatList = new ArrayList<>();
@@ -659,6 +679,8 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                 });
             } else {
                 progressBar.setVisibility(View.GONE);
+                LinearLayout lay_progress = view1.findViewById(R.id.item_session_progress);
+                lay_progress.setVisibility(View.GONE);
             }
 
             return view1;

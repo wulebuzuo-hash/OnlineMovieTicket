@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -34,6 +36,7 @@ import com.android.onlinemovieticket.R;
 import com.android.onlinemovieticket.db.Admin;
 import com.android.onlinemovieticket.fragment.Lay_bottom;
 import com.android.onlinemovieticket.repository.AdminRepository;
+import com.android.onlinemovieticket.repository.CinemaRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
 
     private Button navButton;
     private TextView titlename;
-    private Button addAdmin;
+    private ImageButton addAdmin;
 
     private EditText searchEdit;
     private Button searchButton;
@@ -51,6 +54,8 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
 
     private List<Admin> allAdminList = new ArrayList<>();
     private List<Admin> showAdminList = new ArrayList<>();
+    private List<String> cnameList = new ArrayList<>();
+    private List<String> showcnameList = new ArrayList<>();
     private ListView adminView;
     private MyAdapter adapter;
 
@@ -67,14 +72,14 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         navButton.setOnClickListener(this);
         titlename = (TextView) findViewById(R.id.title_name);
         titlename.setText("电影院");
+        addAdmin = (ImageButton) findViewById(R.id.title_button_add);
+        addAdmin.setVisibility(View.VISIBLE);
+        addAdmin.setOnClickListener(this);
 
         searchEdit = (EditText) findViewById(R.id.my_boss_searchEdit);
         searchButton = (Button) findViewById(R.id.my_boss_searshButton);
         searchButton.setOnClickListener(this);
 
-        addAdmin = (Button) findViewById(R.id.list_admin_add);
-        addAdmin.setVisibility(View.VISIBLE);
-        addAdmin.setOnClickListener(this);
         progressBar = (ProgressBar) findViewById(R.id.list_admin_progressbar);
 
         account = getIntent().getStringExtra("account");
@@ -119,17 +124,36 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
                     searchAdmin(search);
                 }
                 break;
-            case R.id.list_admin_add:
-                Intent intent1 = new Intent(List_Admin.this, Info_Admin.class);
-                intent1.putExtra("account", account);
-                intent1.putExtra("type", type);
-                startActivity(intent1);
+            case R.id.title_button_add:
+                addConfirm();
                 break;
             default:
                 break;
 
         }
 
+    }
+
+    private void addConfirm() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(List_Admin.this);
+        builder.setTitle("提示");
+        builder.setMessage("确定要添加管理员吗？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(List_Admin.this, Info_Admin.class);
+                intent.putExtra("account", account);
+                intent.putExtra("type", type);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 
     /**
@@ -173,9 +197,15 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
                 int msg = 0;
                 AdminRepository adminRepository = new AdminRepository();
                 allAdminList = adminRepository.findAllAdmin();
+                CinemaRepository cinemaRepository = new CinemaRepository();
                 if (allAdminList.size() == 0) {
                     msg = 1;
                 }else {
+
+                    for (int i = 0; i < allAdminList.size(); i++) {
+                        cnameList.add(cinemaRepository.getCnameByCid(allAdminList.get(i).getCid()));
+                    }
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -191,16 +221,22 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
 
     private void initAdmin_all(){
         showAdminList.clear();
+        showcnameList.clear();
         showAdminList.addAll(allAdminList);
+        showcnameList.addAll(cnameList);
         progressBar.setVisibility(View.GONE);
         adapter.notifyDataSetChanged();
     }
 
     private void searchAdmin(final String search){
         showAdminList.clear();
-        for(Admin admin : allAdminList){
+        showcnameList.clear();
+
+        for(int i = 0; i < allAdminList.size(); i++){
+            Admin admin = allAdminList.get(i);
             if(admin.getAaccount().contains(search)){
                 showAdminList.add(admin);
+                showcnameList.add(cnameList.get(i));
             }
         }
         if(showAdminList.size() == 0){
@@ -244,7 +280,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
             Admin admin = showAdminList.get(i);
 
             account.setText(admin.getAaccount());
-            cname.setText(admin.getCid()+"");
+            cname.setText(showcnameList.get(i));
 
             return view1;
         }
@@ -253,8 +289,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
     @SuppressLint("HandlerLeak")
     final Handler hand = new Handler() {
         public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-            } else if (msg.what == 1) {
+            if (msg.what == 1) {
                 Toast.makeText(List_Admin.this, "没有管理员", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }

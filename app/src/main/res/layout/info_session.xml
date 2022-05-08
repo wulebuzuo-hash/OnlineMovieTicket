@@ -119,19 +119,18 @@
 
 
             <TextView
-                android:layout_width="10dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="影票价格:"
+                android:text="影票价格: ￥ "
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/info_session_price"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:inputType="numberDecimal"
-                android:ems="10" />
+                android:hint="保留两位数字"
+                />
         </LinearLayout>
     </LinearLayout>
 

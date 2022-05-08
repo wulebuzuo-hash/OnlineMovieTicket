@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_green"
+    android:background="@color/colorBackGround"
     tools:context=".z_smallactivity.List_Admin">
 
     <include layout="@layout/lay_title"></include>
@@ -25,18 +25,8 @@
             android:id="@+id/my_boss_searshButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/searchbtn_01"></Button>
+            android:background="@drawable/pc_search"></Button>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/list_admin_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="添加管理员"
-        android:textColor="#fff"
-        android:background="@color/purple_500"
-        android:textSize="25sp">
-    </Button>
     <ProgressBar
         android:id="@+id/list_admin_progressbar"
         android:layout_width="match_parent"

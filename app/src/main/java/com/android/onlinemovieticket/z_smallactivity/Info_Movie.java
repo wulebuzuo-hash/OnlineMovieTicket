@@ -167,21 +167,21 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.info_movie_submit:
                 if (movie == null) {
-                    if (nameEdit.getText().toString().equals("") ||
-                            nameEngEdit.getText().toString().equals("") ||
-                            storyEdit.getText().toString().equals("") ||
-                            longEdit.getText().toString().equals("") ||
-                            actorEdit.getText().toString().equals("") ||
-                            directorEdit.getText().toString().equals("") ||
-                            showdateEdit.getText().toString().equals("") ||
-                            downdateEdit.getText().toString().equals("") ||
-                            screenEdit.getText().toString().equals("") ||
-                            typeEdit.getText().toString().equals("")) {
-                        Toast.makeText(Info_Movie.this, "请填写完整信息",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
+                    if (!nameEdit.getText().toString().equals("") &&
+                            !screenEdit.getText().toString().equals("") &&
+                            !storyEdit.getText().toString().equals("") &&
+                            !longEdit.getText().toString().equals("") &&
+                            !actorEdit.getText().toString().equals("") &&
+                            !directorEdit.getText().toString().equals("") &&
+                            !showdateEdit.getText().toString().equals("") &&
+                            !downdateEdit.getText().toString().equals("") &&
+                            !screenEdit.getText().toString().equals("") &&
+                            !typeEdit.getText().toString().equals("")) {
                         progressBar.setVisibility(View.VISIBLE);
                         addMovie();
+                    } else {
+                        Toast.makeText(Info_Movie.this, "请至少填写必填项",
+                                Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
@@ -333,7 +333,7 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
         Button deleteActor = new Button(this);
         deleteActor.setText("删除演员");
         deleteActor.setTextSize(20);
-        deleteActor.setTextColor(Color.GREEN);
+        deleteActor.setTextColor(Color.BLUE);
         deleteActor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -436,7 +436,7 @@ public class Info_Movie extends AppCompatActivity implements View.OnClickListene
         Button deletedirector = new Button(this);
         deletedirector.setText("删除");
         deletedirector.setTextSize(20);
-        deletedirector.setTextColor(Color.GREEN);
+        deletedirector.setTextColor(Color.BLUE);
         deletedirector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

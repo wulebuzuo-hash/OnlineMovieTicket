@@ -45,19 +45,21 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/item_session_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
+            android:textSize="12sp"
+            android:textColor="@color/black"
             android:text="上座率："></TextView>
         <ProgressBar
             android:id="@+id/item_session_send_progress"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10dp"
             android:layout_gravity="center_vertical"
             android:max="100"
             android:progress="50"

@@ -504,19 +504,11 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
 
             TextView name = (TextView) view1.findViewById(R.id.cinema_item_name);
             TextView position = (TextView) view1.findViewById(R.id.cinema_item_position);
-            ImageButton go = (ImageButton) view1.findViewById(R.id.cinema_item_map);
 
             Cinema cinema = showCinemaList.get(i);
 
             name.setText(cinema.getCname());
             position.setText(cinema.getCposition());
-
-            go.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
             return view1;
         }
     }
