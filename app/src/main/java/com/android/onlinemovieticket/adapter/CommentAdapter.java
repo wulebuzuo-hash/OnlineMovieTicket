@@ -31,13 +31,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         this.listener = listener;
     }
 
-    public CommentAdapter(String account,List<Comment> mCommentList) {
+    public CommentAdapter(String account, List<Comment> mCommentList) {
         this.mCommentList = mCommentList;
         isGood = new boolean[mCommentList.size()];
-        for(int i = 0; i < mCommentList.size(); i++) {
-            if(mCommentList.get(i).getGood_user_id().contains(account)) {
+        for (int i = 0; i < mCommentList.size(); i++) {
+            if (mCommentList.get(i).getGood_user_id().contains(account)) {
                 isGood[i] = true;
-            }else {
+            } else {
                 isGood[i] = false;
             }
         }
@@ -87,16 +87,27 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             }
         });
 
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int position = holder.getAdapterPosition();
+                if (listener != null) {
+                    listener.onLongClick(position);
+                }
+                return true;
+            }
+        });
+
         holder.good_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isGood[holder.getAdapterPosition()]) {
+                if (isGood[holder.getAdapterPosition()]) {
                     holder.good_image.setImageResource(R.drawable.ic_comment_good_0);
                     holder.good_num.setText(String.valueOf(Integer.parseInt(
                             holder.good_num.getText().toString()) - 1));
                     isGood[holder.getAdapterPosition()] = false;
                     listener.onItemClick(holder.getAdapterPosition(), false);
-                }else {
+                } else {
                     holder.good_image.setImageResource(R.drawable.ic_comment_good_1);
                     holder.good_num.setText(String.valueOf(Integer.parseInt(
                             holder.good_num.getText().toString()) + 1));
@@ -129,9 +140,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         holder.comment_time.setText(dateFormat.format(comment.getComment_time()));
         holder.good_num.setText(String.valueOf(comment.getGood_num()));
-        if(isGood[position]) {
+        if (isGood[position]) {
             holder.good_image.setImageResource(R.drawable.ic_comment_good_1);
-        }else {
+        } else {
             holder.good_image.setImageResource(R.drawable.ic_comment_good_0);
         }
     }

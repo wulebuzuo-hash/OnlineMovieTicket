@@ -71,7 +71,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         navButton = (Button) findViewById(R.id.nav_button);
         navButton.setOnClickListener(this);
         titlename = (TextView) findViewById(R.id.title_name);
-        titlename.setText("电影院");
+        titlename.setText("影院管理员");
         addAdmin = (ImageButton) findViewById(R.id.title_button_add);
         addAdmin.setVisibility(View.VISIBLE);
         addAdmin.setOnClickListener(this);
@@ -105,6 +105,14 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
                 startActivity(intent);
             }
         });
+        adminView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Admin mm = showAdminList.get(i);
+                delConfirm(mm);
+                return true;
+            }
+        });
         showBottom();
     }
 
@@ -119,7 +127,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
                 if (search.equals("")) {
                     Toast.makeText(List_Admin.this,
                             "请输入搜索内容", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     progressBar.setVisibility(View.VISIBLE);
                     searchAdmin(search);
                 }
@@ -156,6 +164,55 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         builder.show();
     }
 
+    private void delConfirm(final Admin mm) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(List_Admin.this);
+        builder.setTitle("删除管理员");
+        builder.setMessage("确定删除{" + mm.getAaccount() + "}吗？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                progressBar.setVisibility(View.VISIBLE);
+                delAdmin(mm);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void delAdmin(final Admin mm) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AdminRepository adminRepository = new AdminRepository();
+                boolean flag = adminRepository.delAdmin(mm.getAid());
+                if (flag) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(List_Admin.this, "删除成功",
+                                    Toast.LENGTH_SHORT).show();
+                            initAdmins();
+                        }
+                    });
+                }else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(List_Admin.this, "删除失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
     /**
      * 返回登录界面确认
      */
@@ -179,7 +236,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         builder.show();
     }
 
-    private void showBottom(){
+    private void showBottom() {
         FragmentManager manager = getSupportFragmentManager();  //获取FragmentManager
         FragmentTransaction transaction = manager.beginTransaction();
         Bundle bundle = new Bundle();
@@ -200,7 +257,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
                 CinemaRepository cinemaRepository = new CinemaRepository();
                 if (allAdminList.size() == 0) {
                     msg = 1;
-                }else {
+                } else {
 
                     for (int i = 0; i < allAdminList.size(); i++) {
                         cnameList.add(cinemaRepository.getCnameByCid(allAdminList.get(i).getCid()));
@@ -219,7 +276,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         }.start();
     }
 
-    private void initAdmin_all(){
+    private void initAdmin_all() {
         showAdminList.clear();
         showcnameList.clear();
         showAdminList.addAll(allAdminList);
@@ -228,22 +285,22 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         adapter.notifyDataSetChanged();
     }
 
-    private void searchAdmin(final String search){
+    private void searchAdmin(final String search) {
         showAdminList.clear();
         showcnameList.clear();
 
-        for(int i = 0; i < allAdminList.size(); i++){
+        for (int i = 0; i < allAdminList.size(); i++) {
             Admin admin = allAdminList.get(i);
-            if(admin.getAaccount().contains(search)){
+            if (admin.getAaccount().contains(search)) {
                 showAdminList.add(admin);
                 showcnameList.add(cnameList.get(i));
             }
         }
-        if(showAdminList.size() == 0){
+        if (showAdminList.size() == 0) {
             Toast.makeText(List_Admin.this,
                     "搜索失败，请核对管理员名", Toast.LENGTH_LONG).show();
             initAdmin_all();
-        }else {
+        } else {
             progressBar.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
         }

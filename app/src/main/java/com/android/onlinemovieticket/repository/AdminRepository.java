@@ -73,12 +73,7 @@ public class AdminRepository {
                 Admin admin = new Admin(resultSet.getInt(1),//aid
                         resultSet.getString(2), //aaccount
                         resultSet.getString(3), //apassword
-                        resultSet.getInt(4),    //cid
-                        resultSet.getString(5),    //aname
-                        resultSet.getInt(6),    //asex
-                        resultSet.getString(7),   //aidcard
-                        resultSet.getString(8),   //acall
-                        resultSet.getString(9)  //amail
+                        resultSet.getInt(4)    //cid
                 );
                 adminList.add(admin);
             }
@@ -121,12 +116,7 @@ public class AdminRepository {
                 admin = new Admin(resultSet.getInt(1),  //aid
                         resultSet.getString(2),         //aaccount
                         resultSet.getString(3),         //apssword
-                        resultSet.getInt(4),            //cid
-                        resultSet.getString(5),         //aname
-                        resultSet.getInt(6),            //asex
-                        resultSet.getString(7),         //aidcard
-                        resultSet.getString(8),         //acall
-                        resultSet.getString(9)          //amail
+                        resultSet.getInt(4)            //cid
                 );
             }
         } catch (SQLException e) {
@@ -149,19 +139,13 @@ public class AdminRepository {
      */
     public boolean addAdmin(Admin admin) {
         Connection connection = JDBCUtils.getConn();
-        String sql = "insert into admin(aaccount,apassword,cid,aname,asex,aidcard,acall,amail) " +
-                "values(?,?,?,?,?,?,?,?)";
+        String sql = "insert into admin(aaccount,apassword,cid) values(?,?,?)";
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(sql);
             ps.setString(1, admin.getAaccount());
             ps.setString(2, admin.getApassword());
             ps.setInt(3, admin.getCid());
-            ps.setString(4, admin.getAname());
-            ps.setInt(5, admin.getAsex());
-            ps.setString(6, admin.getAidCard());
-            ps.setString(7, admin.getAcall());
-            ps.setString(8, admin.getAmail());
             int rs = ps.executeUpdate();
             if (rs > 0) {
                 return true;
@@ -186,18 +170,13 @@ public class AdminRepository {
      */
     public boolean updateAdmin(Admin admin) {
         Connection connection = JDBCUtils.getConn();
-        String sql = "update admin set aname = ?, " +
-                "asex = ?, aidcard = ?, acall = ?, amail = ? where aaccount = ? and cid = ?";
+        String sql = "update admin set apassword = ?,aaccount = ? where cid = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, admin.getAname());
-            statement.setInt(2, admin.getAsex());
-            statement.setString(3, admin.getAidCard());
-            statement.setString(4, admin.getAcall());
-            statement.setString(5, admin.getAmail());
-            statement.setString(6, admin.getAaccount());
-            statement.setInt(7, admin.getCid());
+            statement.setString(1, admin.getApassword());
+            statement.setString(2, admin.getAaccount());
+            statement.setInt(3, admin.getCid());
             int rs = statement.executeUpdate();
             if (rs > 0) {
                 return true;
@@ -214,4 +193,30 @@ public class AdminRepository {
         }
         return false;
     }
+
+    public boolean delAdmin(int aid) {
+        Connection connection = JDBCUtils.getConn();
+        String sql = "delete from admin where aid = ?";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, aid);
+            int rs = statement.executeUpdate();
+            if (rs > 0) {
+                return true;
+            }else return false;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }finally {
+            try {
+                connection.close();
+                statement.close();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+
 }

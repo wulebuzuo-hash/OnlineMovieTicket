@@ -109,8 +109,8 @@
                     <RadioGroup
                         android:id="@+id/list_session_radiogroup"
                         android:layout_width="180dp"
-                        android:layout_marginLeft="10dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -137,8 +137,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/list_session_movie_view"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        ></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -162,7 +161,7 @@
             <ListView
                 android:id="@+id/list_session_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></ListView>
+                android:layout_height="200dp"></ListView>
         </LinearLayout>
     </ScrollView>
 

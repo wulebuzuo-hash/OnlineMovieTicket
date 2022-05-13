@@ -143,7 +143,7 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
         cinemaView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cinema cinema = cinemaList.get(i);
+                Cinema cinema = showCinemaList.get(i);
                 Intent intent = null;
                 if (type.equals("BOSS")) {
                     intent = new Intent(CinemaActivity.this, Info_Cinema.class);
@@ -340,17 +340,18 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
      * @param cinemaName
      */
     private void searchCinemas(String cinemaName) {
-        List<Cinema> tempList = showCinemaList;
-        showCinemaList.clear();
-        for (Cinema cinema : tempList) {
+        List<Cinema> tempList = new ArrayList<>();
+        for (Cinema cinema : showCinemaList) {
             if (cinema.getCname().contains(cinemaName)) {
-                showCinemaList.add(cinema);
+                tempList.add(cinema);
             }
         }
-        if (showCinemaList.size() == 0) {
+        if (tempList.size() == 0) {
             Toast.makeText(CinemaActivity.this,
                     "没有找到相关影院", Toast.LENGTH_SHORT).show();
         } else {
+            showCinemaList.clear();
+            showCinemaList.addAll(tempList);
             adapter.notifyDataSetChanged();
         }
         progressBar.setVisibility(View.GONE);

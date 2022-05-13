@@ -35,6 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="请设置账号，长度为6-20位"
                 android:ems="10"
                 />
         </LinearLayout>
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="请设置密码，长度为6-20位"
                 android:inputType="textPassword"
                 />
         </LinearLayout>
@@ -82,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="请再次输入密码"
                 android:inputType="textPassword"
                 />
         </LinearLayout>
@@ -126,6 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="请输入问题答案"
                 android:inputType="textPersonName"
                 />
         </LinearLayout>
@@ -169,6 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="请输入问题答案"
                 android:inputType="textPersonName"
                 />
         </LinearLayout>

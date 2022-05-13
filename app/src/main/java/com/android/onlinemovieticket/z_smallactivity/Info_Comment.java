@@ -240,16 +240,9 @@ public class Info_Comment extends AppCompatActivity implements View.OnClickListe
                         getImgByAccount(account), account, -1, content, getNowDate(),
                         0, "", other_comment_id);
 
-                int result = commentRepository.addComment(comment);
+                int result = commentRepository.addComment(comm);
                 if (result == 1) {
                     msg = 3;
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            allCommentList.add(comm);
-                            initComment();
-                        }
-                    });
                 }
                 hand.sendEmptyMessage(msg);
             }
@@ -340,7 +333,7 @@ public class Info_Comment extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(Info_Comment.this, "提交评论成功",
                         Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
-                initComment();
+                loadComment();
             } else if (msg.what == 4) {
                 Toast.makeText(Info_Comment.this, "点赞失败，请检查网络",
                         Toast.LENGTH_SHORT).show();

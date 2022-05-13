@@ -204,6 +204,7 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
         nameText.setTextSize(18);
         EditText nameEdit = new EditText(this);
         nameEdit.setLayoutParams(params);
+        nameEdit.setHint("请填写名称，长度为3-20位");
         nameEditList.add(nameEdit);
         linearLayout1.addView(nameText);
         linearLayout1.addView(nameEdit);
@@ -213,10 +214,11 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
         linearLayout3.setLayoutParams(params);
         linearLayout3.setOrientation(LinearLayout.HORIZONTAL);
         TextView positionText2 = new TextView(this);
-        positionText2.setText("地理位置");
+        positionText2.setText("具体位置:");
         positionText2.setTextSize(18);
         EditText positionEdit2 = new EditText(this);
-        positionEdit.setLayoutParams(params);
+        positionEdit2.setLayoutParams(params);
+        positionEdit2.setHint("请填写具体位置，长度为3-20位");
         positionEditList.add(positionEdit2);
         linearLayout3.addView(positionText2);
         linearLayout3.addView(positionEdit2);
@@ -229,6 +231,7 @@ public class Info_Cinema extends AppCompatActivity implements View.OnClickListen
         callText.setTextSize(18);
         EditText callEdit = new EditText(this);
         callEdit.setLayoutParams(params);
+        callEdit.setHint("请填写联系电话");
         callEditList.add(callEdit);
         linearLayout4.addView(callText);
         linearLayout4.addView(callEdit);

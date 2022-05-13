@@ -188,15 +188,7 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.title_button_add:
-                Intent intent = new Intent(List_Session.this, Info_Session.class);
-                intent.putExtra("cid", cinema.getCid());
-                intent.putExtra("mid", movie.getMid());
-                intent.putExtra("mname", movie.getMname());
-                intent.putExtra("mlong", movie.getMlong());
-                intent.putExtra("sessionList", (Serializable) sessionList);
-                intent.putExtra("account", account);
-                intent.putExtra("type", type);
-                startActivity(intent);
+                addConfirm();
                 break;
             case R.id.nav_button:
                 if (type.equals("管理员")) {
@@ -214,6 +206,33 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
         }
+    }
+
+    private void addConfirm(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(List_Session.this);
+        builder.setTitle("提示");
+        builder.setMessage("确定要添加{"+movie.getMname()+"}场次？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(List_Session.this, Info_Session.class);
+                intent.putExtra("cid", cinema.getCid());
+                intent.putExtra("mid", movie.getMid());
+                intent.putExtra("mname", movie.getMname());
+                intent.putExtra("mlong", movie.getMlong());
+                intent.putExtra("sessionList", (Serializable) sessionList);
+                intent.putExtra("account", account);
+                intent.putExtra("type", type);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void backConfirm() {
@@ -330,23 +349,92 @@ public class List_Session extends AppCompatActivity implements View.OnClickListe
                             break;
                         }
                     }
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("session", session);
-                    intent.putExtras(bundle);
+
                     intent.putExtra("movieName", movie.getMname());
 
                 } else {
                     intent = new Intent(List_Session.this, Info_Session.class);
                     intent.putExtra("cid", cinema.getCid());
                     intent.putExtra("sessionList", (Serializable) sessionList);
+                    intent.putExtra("mname", movie.getMname());
                 }
 
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("session", session);
+                intent.putExtras(bundle);
                 intent.putExtra("mid", movie.getMid());
                 intent.putExtra("account", account);
                 intent.putExtra("type", type);
                 startActivity(intent);
             }
         });
+        sessionView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if(type.equals("管理员")){
+                    Session session = chooseSessionList.get(i);
+                    delConfirm(session);
+                }
+                return true;
+            }
+        });
+    }
+
+    private void delConfirm(final Session session) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(List_Session.this);
+        builder.setTitle("删除场次");
+        builder.setMessage("确定删除吗？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if(getDateDiff(session.getShowDate(),getNowDate())>0){
+                    Toast.makeText(List_Session.this, "不能删除过去的场次", Toast.LENGTH_SHORT).show();
+                }else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    delSession(session);
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void delSession(final Session session) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SessionRepository sessionRepository = new SessionRepository();
+                boolean flag = sessionRepository.delSession(session.getSid());
+                if (flag) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(List_Session.this, "删除成功",
+                                    Toast.LENGTH_SHORT).show();
+                            chooseSessionList.remove(session);
+                            sessionAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(List_Session.this, "删除失败",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     private void loginConfirm() {

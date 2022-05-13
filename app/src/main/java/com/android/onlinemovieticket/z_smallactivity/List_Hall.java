@@ -33,6 +33,7 @@ import com.android.onlinemovieticket.MovieActivity;
 import com.android.onlinemovieticket.R;
 import com.android.onlinemovieticket.db.Hall;
 import com.android.onlinemovieticket.fragment.Lay_bottom;
+import com.android.onlinemovieticket.repository.AdminRepository;
 import com.android.onlinemovieticket.repository.HallRepository;
 
 import java.io.Serializable;
@@ -67,7 +68,7 @@ public class List_Hall extends AppCompatActivity implements View.OnClickListener
         navButton.setOnClickListener(this);
         titlename = (TextView) findViewById(R.id.title_name);
         titlename.setText("影厅列表");
-        addHall = (ImageButton)findViewById(R.id.title_button_add);
+        addHall = (ImageButton) findViewById(R.id.title_button_add);
         addHall.setVisibility(View.VISIBLE);
         addHall.setOnClickListener(this);
 
@@ -100,7 +101,13 @@ public class List_Hall extends AppCompatActivity implements View.OnClickListener
                 startActivity(intent);
             }
         });
-
+        hallView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                delConfirm(hallList.get(position));
+                return true;
+            }
+        });
         showBottom();
     }
 
@@ -109,6 +116,9 @@ public class List_Hall extends AppCompatActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.nav_button:
                 loginConfirm();
+                break;
+            case R.id.title_button_add:
+                addConfirm();
                 break;
             case R.id.list_hall_searshButton:
                 String search = searchEdit.getText().toString();
@@ -122,6 +132,73 @@ public class List_Hall extends AppCompatActivity implements View.OnClickListener
             default:
                 break;
         }
+    }
+
+    private void addConfirm() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(List_Hall.this);
+        builder.setTitle("提示");
+        builder.setMessage("确定要添加放映厅吗？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(List_Hall.this, Info_Hall.class);
+                intent.putExtra("account", account);
+                intent.putExtra("type", type);
+                intent.putExtra("cid", cid);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void delConfirm(final Hall hh) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(List_Hall.this);
+        builder.setTitle("删除确认");
+        builder.setMessage("确定要删除{"+hh.getHname()+"}吗？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                delHall(hh);
+            }
+        });
+        builder.setNegativeButton("取消", null);
+        builder.show();
+    }
+
+    private void delHall(final Hall hall) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HallRepository hallRepository = new HallRepository();
+                boolean flag = hallRepository.delHall(hall);
+                if (flag) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(List_Hall.this, "删除成功",
+                                    Toast.LENGTH_SHORT).show();
+                            initHalls();
+                        }
+                    });
+                }else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(List_Hall.this, "删除失败",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     /**
@@ -147,7 +224,7 @@ public class List_Hall extends AppCompatActivity implements View.OnClickListener
         builder.show();
     }
 
-    private void showBottom(){
+    private void showBottom() {
         FragmentManager manager = getSupportFragmentManager();  //获取FragmentManager
         FragmentTransaction transaction = manager.beginTransaction();
         Bundle bundle = new Bundle();
@@ -183,9 +260,9 @@ public class List_Hall extends AppCompatActivity implements View.OnClickListener
                 tempList.add(hallList.get(i));
             }
         }
-        if(tempList.size()==0){
+        if (tempList.size() == 0) {
             Toast.makeText(List_Hall.this, "没有搜索到相关信息", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             hallList.clear();
             hallList.addAll(tempList);
             myAdapter.notifyDataSetChanged();
@@ -234,9 +311,9 @@ public class List_Hall extends AppCompatActivity implements View.OnClickListener
     final Handler hand = new Handler() {
         public void handleMessage(Message msg) {
             progressBar.setVisibility(View.GONE);
-            if(msg.what == 0){
+            if (msg.what == 0) {
                 myAdapter.notifyDataSetChanged();
-            }else if (msg.what == 1) {
+            } else if (msg.what == 1) {
                 Toast.makeText(List_Hall.this, "没有找到放映厅", Toast.LENGTH_SHORT).show();
             }
 

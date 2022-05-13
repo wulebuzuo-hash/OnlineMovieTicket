@@ -21,8 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="输入想要搜索的电影名"
-            android:enabled="false"></EditText>
+            android:hint="输入想要搜索的电影名"></EditText>
 
         <Button
             android:id="@+id/m1_searshButton"
@@ -89,7 +88,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/m1_willRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="210dp"
+                android:layout_height="220dp"
                 ></androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>

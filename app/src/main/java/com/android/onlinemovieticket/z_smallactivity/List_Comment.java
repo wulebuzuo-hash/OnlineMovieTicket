@@ -249,7 +249,7 @@ public class List_Comment extends AppCompatActivity implements View.OnClickListe
                         btn_message.setEnabled(false);
                         add_comment_fragment();
                         manager.beginTransaction().show(comment_fragment).commit();
-                    } else if (movie.getShowdate().before(getNowDate())) {
+                    } else if (movie.getShowdate().after(getNowDate())) {
                         btn_comment.setText("该影片未上映，暂无评论");
                         btn_comment.setEnabled(false);
                         add_movie_fragment();

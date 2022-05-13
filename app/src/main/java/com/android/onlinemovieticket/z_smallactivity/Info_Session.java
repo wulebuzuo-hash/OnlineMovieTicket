@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -246,7 +247,6 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
                     showtime = allTimeList.get(position);
                     choosetimeList.add(showtime);
                     allTimeList.remove(showtime);
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     if (dateEdit.getText().toString().equals("")) {
                         Toast.makeText(Info_Session.this,
                                 "请先选择日期", Toast.LENGTH_SHORT).show();
@@ -325,15 +325,23 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
                     String showtime = allTimeList.get(i);
                     choosetimeList.add(showtime);
                     allTimeList.remove(showtime);
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-                    ParsePosition pos = new ParsePosition(0);
-                    date = format.parse(dateEdit.getText().toString(), pos);
-                    initHalls(date, showtime, hnameList, hidList);
-                    ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(Info_Session.this,
-                            android.R.layout.simple_spinner_item, hnameList);
-                    nameAdapter.setDropDownViewResource(android.R.layout.
-                            simple_spinner_dropdown_item);
-                    hallSpinner.setAdapter(nameAdapter);
+                    if (dateEdit.getText().toString().equals("")) {
+                        Toast.makeText(Info_Session.this,
+                                "请先选择日期", Toast.LENGTH_SHORT).show();
+                    } else {
+                        try {
+                            date = new Date(new SimpleDateFormat("yyyy-MM-dd").
+                                    parse(dateEdit.getText().toString()).getTime());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        initHalls(date, showtime, hnameList, hidList);
+                        ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(Info_Session.this,
+                                android.R.layout.simple_spinner_item, hnameList);
+                        nameAdapter.setDropDownViewResource(android.R.layout.
+                                simple_spinner_dropdown_item);
+                        hallSpinner.setAdapter(nameAdapter);
+                    }
                 }
             }
 
@@ -382,7 +390,8 @@ public class Info_Session extends AppCompatActivity implements View.OnClickListe
         priceLayout.setLayoutParams(params);
         priceLayout.setOrientation(LinearLayout.HORIZONTAL);
         TextView priceText = new TextView(this);
-        priceText.setText("影票价格");
+        priceText.setText("影票价格：");
+        priceText.setInputType(InputType.TYPE_CLASS_NUMBER);
         priceText.setTextSize(20);
         EditText priceEdit = new EditText(this);
         priceEdit.setLayoutParams(params);

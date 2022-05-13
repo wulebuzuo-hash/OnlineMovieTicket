@@ -109,7 +109,6 @@ public class Info_Hall extends AppCompatActivity implements View.OnClickListener
             case R.id.info_hall_submit:
                 progressBar.setVisibility(View.VISIBLE);
                 submitHall();
-                progressBar.setVisibility(View.GONE);
                 break;
             default:
                 break;
@@ -142,13 +141,13 @@ public class Info_Hall extends AppCompatActivity implements View.OnClickListener
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 MATCH_PARENT, WRAP_CONTENT);
         LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
-                50, WRAP_CONTENT);
+                200, WRAP_CONTENT);
 
         LinearLayout linearLayout1 = new LinearLayout(this);
         linearLayout1.setLayoutParams(params);
         linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
         TextView nameText = new TextView(this);
-        nameText.setText("放映厅名");
+        nameText.setText("放映厅名：");
         nameText.setTextSize(20);
         EditText nameEdit = new EditText(this);
         nameEdit.setLayoutParams(params);
@@ -160,7 +159,7 @@ public class Info_Hall extends AppCompatActivity implements View.OnClickListener
         linearLayout2.setLayoutParams(params);
         linearLayout2.setOrientation(LinearLayout.HORIZONTAL);
         TextView text = new TextView(this);
-        text.setText("影厅规模");
+        text.setText("影厅规模：");
         text.setTextSize(20);
         EditText rowEdit = new EditText(this);
         rowEdit.setLayoutParams(params2);
@@ -242,33 +241,45 @@ public class Info_Hall extends AppCompatActivity implements View.OnClickListener
                         UhRepository uhRepository = new UhRepository();
                         int msg = 0;
 
-                        for (int i = 0; i < nameList.size(); i++) {
-                            String name = nameList.get(i);
-                            String row = rowList.get(i);
-                            String column = columnList.get(i);
-                            Hall hh = hallRepository.findHall(name, cid);
-                            if (hh != null) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(Info_Hall.this,
-                                                "现有放映厅已有{" + name + "}，添加失败，其余添加成功",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            } else {
-                                boolean flag = hallRepository.addHall(new Hall(cid, name,
-                                        Integer.parseInt(row), Integer.parseInt(column)));
+                        boolean flag = true;
+                        int index = 0;
 
-                                boolean flag2 = uhRepository.addUh(new Uh(
+                        for (int i = 0; i < nameList.size(); i++) {
+                            Hall hh = hallRepository.findHall(nameList.get(i), cid);
+                            if (hh != null) {
+                                flag = false;
+                                index = i;
+                                break;
+                            }
+                        }
+
+                        if (flag) {
+                            for(int i = 0; i < nameList.size(); i++) {
+                                String name = nameList.get(i);
+                                String row = rowList.get(i);
+                                String column = columnList.get(i);
+                                boolean flag2 = hallRepository.addHall(new Hall(cid, name,
+                                        Integer.parseInt(row), Integer.parseInt(column)));
+                                boolean flag3 = uhRepository.addUh(new Uh(
                                         "添加放映厅{" + name + "},规模为"
                                                 + row + "行" + column + "列",
                                         hallRepository.findHall(name, cid).getHid(),
                                         "hall", account, getNowDate()));
-                                if (flag && flag2) {
+                                if(flag2 && flag3) {
                                     msg = 1;
                                 }
                             }
+                        }else {
+                            int finalIndex = index;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(Info_Hall.this,
+                                            "现有放映厅已有{" + nameList.get(finalIndex) +
+                                                    "}，添加失败，请修改后重试",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         hand.sendEmptyMessage(msg);
@@ -292,13 +303,13 @@ public class Info_Hall extends AppCompatActivity implements View.OnClickListener
     @SuppressLint("HandlerLeak")
     final Handler hand = new Handler() {
         public void handleMessage(Message msg) {
+            progressBar.setVisibility(View.GONE);
             if (msg.what == 0) {
                 Toast.makeText(Info_Hall.this,
                         "添加失败，请检查网络或联系系统管理员！！", Toast.LENGTH_LONG).show();
             } else if (msg.what == 1) {
                 Toast.makeText(Info_Hall.this, "添加成功",
                         Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
                 Intent intent = new Intent(Info_Hall.this, List_Hall.class);
                 intent.putExtra("cid", cid);
                 intent.putExtra("account", account);

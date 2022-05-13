@@ -348,14 +348,25 @@ public class Soon_ticket extends Fragment {
                 intent.putExtra("account", account);
                 intent.putExtra("type", type);
                 intent.putExtra("mid", showMovieList.get(position).getMid());
-                intent.putExtra("isbuy", false);
+
+                if(ticketList.get(position).getIsGrade() == 1){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TicketRepository ticketRepository = new TicketRepository();
+                            ticketRepository.updateIsGrade(ticketList.get(position).getTid(),0);
+                        }
+                    }).start();
+                }
+                intent.putExtra("isbuy", ticketList.get(position).getIsGrade() == 1 ?
+                        true : false);
                 startActivity(intent);
             }
 
             @Override
             public void onLongClick(int position) {
                 Ticket ticket = showTicketList.get(position);
-                delTicket(ticket);
+                delConfirm(ticket);
             }
         });
 
@@ -471,12 +482,35 @@ public class Soon_ticket extends Fragment {
     private void delConfirm(Ticket ticket, Session session) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("提示");
-        builder.setMessage("是否删除该电影票？");
+        builder.setMessage("是否确认退票？");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 index = -1;
                 deleteTicket(ticket, session, null, null, null, index);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    /**
+     * 删票确认
+     * @param ticket
+     */
+    private void delConfirm(Ticket ticket) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("提示");
+        builder.setMessage("是否确认删除？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteTicket(ticket);
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -518,6 +552,7 @@ public class Soon_ticket extends Fragment {
                 TicketRepository ticketRepository = new TicketRepository();
                 boolean flag1 = ticketRepository.deleteTicket(ticket);
                 if (flag1) {
+                    msg = 4;
                     if(movie != null){
                         String[] ticket_seat = ticket.getSeat().split(";");
                         int[] seat_row = new int[ticket_seat.length];
@@ -557,6 +592,25 @@ public class Soon_ticket extends Fragment {
                             session.setState(re);
                         }
                     }
+                }
+                hand.sendEmptyMessage(msg);
+            }
+        }).start();
+    }
+
+    /**
+     * 执行删票操作
+     * @param ticket
+     */
+    private void deleteTicket(final Ticket ticket) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int msg = 8;
+                TicketRepository ticketRepository = new TicketRepository();
+                boolean flag1 = ticketRepository.deleteTicket(ticket);
+                if (flag1) {
+                    msg = 7;
                 }
                 hand.sendEmptyMessage(msg);
             }
@@ -651,11 +705,11 @@ public class Soon_ticket extends Fragment {
                 Toast.makeText(getContext(), "展示影票失败，请下拉刷新或检查网络", Toast.LENGTH_SHORT).show();
             } else if (msg.what == 4) {
                 Toast.makeText(getContext(),
-                        "删除成功", Toast.LENGTH_LONG).show();
+                        "退票成功", Toast.LENGTH_LONG).show();
                 initTicket_soon();
             } else if (msg.what == 5) {
                 Toast.makeText(getContext(),
-                        "删除失败", Toast.LENGTH_LONG).show();
+                        "退票失败", Toast.LENGTH_LONG).show();
             } else if (msg.what == 6) {
                 switch (index) {
                     case 0:
@@ -706,6 +760,13 @@ public class Soon_ticket extends Fragment {
                     default:
                         break;
                 }
+            }else if(msg.what == 7){
+                Toast.makeText(getContext(),
+                        "删除成功", Toast.LENGTH_LONG).show();
+                initTicket_saw();
+            }else if(msg.what == 8){
+                Toast.makeText(getContext(),
+                        "删除失败", Toast.LENGTH_LONG).show();
             }
 
         }

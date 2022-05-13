@@ -109,7 +109,18 @@ public class User_Updatepass extends Fragment {
                 String answer = answerEdit.getText().toString();
                 String pass = passEdit.getText().toString();
                 String pass2 = pass2Edit.getText().toString();
-                updatePassInfo(account, question, answer, pass, pass2);
+
+                if(account.length() >= 6 && account.length() <= 20){
+                    if(pass.length() >= 6 && pass.length() <= 20){
+                        updatePassInfo(account, question, answer, pass, pass2);
+                    }else {
+                        Toast.makeText(getActivity(), "密码长度不符合要求", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(getActivity(), "账号长度不符合要求", Toast.LENGTH_SHORT).show();
+                }
+
+
 
             }
         });
@@ -159,11 +170,6 @@ public class User_Updatepass extends Fragment {
                 Toast.makeText(getContext(), "查找账号失败，请核对账号", Toast.LENGTH_LONG).show();
             } else if (msg.what == 1) {
                 Toast.makeText(getContext(), "修改成功", Toast.LENGTH_LONG).show();
-                if (getActivity() instanceof LoginActivity) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
-                }
 
             } else if (msg.what == 2) {
                 Toast.makeText(getContext(), "修改密码失败，请检查网络或联系管理员",

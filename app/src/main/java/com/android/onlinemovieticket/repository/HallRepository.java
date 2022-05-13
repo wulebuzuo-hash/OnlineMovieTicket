@@ -212,4 +212,31 @@ public class HallRepository {
         }
         return false;
     }
+
+    /**
+     * 删除放映厅
+     */
+    public boolean delHall(final Hall hall) {
+        Connection connection = JDBCUtils.getConn();
+        String sql = "delete from hall where hid = ?";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, hall.getHid());
+            int rs = statement.executeUpdate();
+            if (rs > 0) {
+                return true;
+            } else return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 }

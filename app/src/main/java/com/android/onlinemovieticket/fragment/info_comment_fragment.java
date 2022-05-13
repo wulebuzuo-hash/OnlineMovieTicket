@@ -333,9 +333,8 @@ public class info_comment_fragment extends Fragment {
             public void onItemClick(int position) {
                 Comment comment = showCommentList.get(position);
                 Intent intent = new Intent(getActivity(), Info_Comment.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("comment", comment);
-                intent.putExtras(bundle);
+                intent.putExtra("account", account);
+                intent.putExtra("comment_id", comment.getComment_id());
                 startActivity(intent);
             }
 

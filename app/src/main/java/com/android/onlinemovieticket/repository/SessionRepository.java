@@ -306,4 +306,31 @@ public class SessionRepository {
         }
         return false;
     }
+
+    /**
+     * 删除场次
+     */
+    public boolean delSession(int sid) {
+        Connection connection = JDBCUtils.getConn();
+        String sql = "delete from session where sid = ?";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, sid);
+            int rs = statement.executeUpdate();
+            if (rs > 0) {
+                return true;
+            }else return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }finally {
+            try {
+                connection.close();
+
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

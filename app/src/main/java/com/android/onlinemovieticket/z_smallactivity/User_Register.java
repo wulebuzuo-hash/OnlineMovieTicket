@@ -84,8 +84,8 @@ public class User_Register extends AppCompatActivity {
         question1Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    question1 = question_list.get(i);
-                    answer1Edit.setVisibility(View.VISIBLE);
+                question1 = question_list.get(i);
+                answer1Edit.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -155,32 +155,43 @@ public class User_Register extends AppCompatActivity {
                 String answer1 = answer1Edit.getText().toString();
                 String answer2 = answer2Edit.getText().toString();
 
-                User user = new User(account, password, question1, answer1, question2, answer2);
+                if (account.length() >= 6 && account.length() <= 20) {
+                    if (password.length() >= 6 && password.length() <= 20) {
+                        User user = new User(account, password,
+                                question1, answer1, question2, answer2);
 
-                new Thread() {
-                    @Override
-                    public void run() {
-                        int msg = 0;
-                        if (password.equals(upassword2)) {
-                            if (!((question1 == null) || (question2 == null)
-                                    || (question1.equals(question2)))) {
-                                UserRepository userRepository = new UserRepository();
-                                User uu = userRepository.findUser(user.getUaccount());
-                                if (uu != null) {
-                                    msg = 1;
-                                } else {
-                                    boolean flag = userRepository.addUser(user);
-                                    if (flag) {
-                                        msg = 2;
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                int msg = 0;
+                                if (password.equals(upassword2)) {
+                                    if (!((question1 == null) || (question2 == null)
+                                            || (question1.equals(question2)))) {
+                                        UserRepository userRepository = new UserRepository();
+                                        User uu = userRepository.findUser(user.getUaccount());
+                                        if (uu != null) {
+                                            msg = 1;
+                                        } else {
+                                            boolean flag = userRepository.addUser(user);
+                                            if (flag) {
+                                                msg = 2;
+                                            }
+                                        }
+                                    } else {
+                                        msg = 3;
                                     }
                                 }
-                            } else {
-                                msg = 3;
+                                hand.sendEmptyMessage(msg);
                             }
-                        }
-                        hand.sendEmptyMessage(msg);
+                        }.start();
+                    }else {
+                        Toast.makeText(User_Register.this,
+                                "密码长度不符合要求", Toast.LENGTH_SHORT).show();
                     }
-                }.start();
+                }else {
+                    Toast.makeText(User_Register.this,
+                            "账号长度不符合要求", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

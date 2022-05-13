@@ -247,6 +247,7 @@ public class MovieActivity extends AppCompatActivity implements View.OnClickList
             willMovieList.addAll(willtemplist);
             willAdapter.notifyDataSetChanged();
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     /**
