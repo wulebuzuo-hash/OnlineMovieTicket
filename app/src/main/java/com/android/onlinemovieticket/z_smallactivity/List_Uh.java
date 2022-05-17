@@ -1,5 +1,8 @@
 package com.android.onlinemovieticket.z_smallactivity;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -30,10 +35,12 @@ import com.android.onlinemovieticket.LoginActivity;
 import com.android.onlinemovieticket.MovieActivity;
 import com.android.onlinemovieticket.My_User;
 import com.android.onlinemovieticket.R;
+import com.android.onlinemovieticket.db.Admin;
 import com.android.onlinemovieticket.db.Hall;
 import com.android.onlinemovieticket.db.Session;
 import com.android.onlinemovieticket.db.Uh;
 import com.android.onlinemovieticket.fragment.Lay_bottom;
+import com.android.onlinemovieticket.repository.AdminRepository;
 import com.android.onlinemovieticket.repository.UhRepository;
 
 import java.text.ParsePosition;
@@ -46,6 +53,8 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
 
     private Button navButton;
     private TextView titlename;
+    private ImageButton update_btn;
+
     private EditText searchEdit;
     private Button searchButton;
 
@@ -72,6 +81,9 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         navButton.setOnClickListener(this);
         titlename = findViewById(R.id.title_name);
         titlename.setText("管理历史");
+        update_btn = findViewById(R.id.title_button_add);
+        update_btn.setBackground(getResources().getDrawable(R.drawable.pc_more));
+        update_btn.setOnClickListener(this);
 
         searchEdit = findViewById(R.id.list_uh_searchEdit);
         searchButton = findViewById(R.id.list_uh_searchButton);
@@ -99,6 +111,9 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
             case R.id.nav_button:
                 loginConfirm();
                 break;
+            case R.id.title_button_add:
+                updatepassword_edit();
+                break;
             case R.id.list_uh_searchButton:
                 String search = searchEdit.getText().toString();
                 if (search.equals("")) {
@@ -111,6 +126,98 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    private void updatepassword_edit() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                MATCH_PARENT, WRAP_CONTENT);
+        LinearLayout ll1 = new LinearLayout(this);
+        ll1.setLayoutParams(params);
+        ll1.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText old_passwordEdit1 = new EditText(List_Uh.this);
+        old_passwordEdit1.setLayoutParams(params);
+        old_passwordEdit1.setHint("请输入原密码");
+        old_passwordEdit1.setInputType(InputType.TYPE_CLASS_TEXT
+                | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        ll1.addView(old_passwordEdit1);
+
+        final EditText old_passwordEdit2 = new EditText(List_Uh.this);
+        old_passwordEdit2.setLayoutParams(params);
+        old_passwordEdit2.setHint("请再输一次原密码");
+        old_passwordEdit2.setInputType(InputType.TYPE_CLASS_TEXT
+                | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        ll1.addView(old_passwordEdit2);
+
+        final EditText new_passwordEdit = new EditText(List_Uh.this);
+        new_passwordEdit.setLayoutParams(params);
+        new_passwordEdit.setHint("请输入新密码");
+        new_passwordEdit.setInputType(InputType.TYPE_CLASS_TEXT
+                | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        ll1.addView(new_passwordEdit);
+
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("请输入");
+        builder.setView(ll1);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if (old_passwordEdit1.getText().toString().equals("") ||
+                        old_passwordEdit2.getText().toString().equals("") ||
+                        new_passwordEdit.getText().toString().equals("")) {
+
+                    Toast.makeText(List_Uh.this, "修改失败，请输入完整信息！",
+                            Toast.LENGTH_SHORT).show();
+
+                } else if (!old_passwordEdit1.getText().toString().equals(
+                        old_passwordEdit2.getText().toString())) {
+                    Toast.makeText(List_Uh.this, "修改失败，两次输入的密码不一致！",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    updatepassword(old_passwordEdit1.getText().toString(),
+                            new_passwordEdit.getText().toString());
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void updatepassword(String old_password, String new_password) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AdminRepository adminRepository = new AdminRepository();
+                Admin admin = adminRepository.findAdmin(account,cid);
+                if(admin.getApassword().equals(old_password)){
+                    adminRepository.updateAdmin(admin.getAid(),new_password);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(List_Uh.this, "修改成功",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(List_Uh.this, "修改失败，原密码错误！",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     /**
@@ -136,7 +243,7 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
         builder.show();
     }
 
-    private void showBottom(){
+    private void showBottom() {
         FragmentManager manager = getSupportFragmentManager();  //获取FragmentManager
         FragmentTransaction transaction = manager.beginTransaction();
         Bundle bundle = new Bundle();
@@ -150,6 +257,7 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * 再去编辑确认弹窗
+     *
      * @param uh
      */
     private void updateAgainConfirm(final Uh uh) {
@@ -177,6 +285,7 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * 去更新场次
+     *
      * @param uh
      */
     private void updateSession(Uh uh) {
@@ -204,6 +313,7 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * 去更新放映厅
+     *
      * @param uh
      */
     private void updateHall(Uh uh) {
@@ -217,6 +327,7 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * 获取当前时间
+     *
      * @return
      */
     private Date getNowDate() {
@@ -231,6 +342,7 @@ public class List_Uh extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * 搜索修改历史
+     *
      * @param searchStr
      */
     private void searchUh(String searchStr) {

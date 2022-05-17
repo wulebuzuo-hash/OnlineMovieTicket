@@ -88,7 +88,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="账号："
+                        android:text="管理员1："
                         android:textSize="18sp" />
 
                     <EditText
@@ -99,27 +99,6 @@
                         android:ems="10"
                         android:textSize="18sp"
                         android:hint="必填,长度为6-20位" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="密码："
-                        android:textSize="18sp" />
-
-                    <EditText
-                        android:id="@+id/info_admin_password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:textSize="18sp"
-                        android:hint="必填，长度为6-20位" />
                 </LinearLayout>
             </LinearLayout>
 

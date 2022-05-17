@@ -95,21 +95,13 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         adminView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Admin admin = showAdminList.get(i);
-                Intent intent = new Intent(List_Admin.this, Info_Admin.class);
-                intent.putExtra("account", account);
-                intent.putExtra("type", type);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("admin", admin);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                updateConfirm(showAdminList.get(i));
             }
         });
         adminView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Admin mm = showAdminList.get(i);
-                delConfirm(mm);
+                delConfirm(showAdminList.get(i));
                 return true;
             }
         });
@@ -164,6 +156,25 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         builder.show();
     }
 
+    private void updateConfirm(final Admin mm) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("重置密码");
+        builder.setMessage("确定要重置密码吗？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                updateAdmin(mm);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
     private void delConfirm(final Admin mm) {
         AlertDialog.Builder builder = new AlertDialog.Builder(List_Admin.this);
         builder.setTitle("删除管理员");
@@ -200,7 +211,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
                             initAdmins();
                         }
                     });
-                }else {
+                } else {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -306,6 +317,17 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    private void updateAdmin(final Admin mm) {
+        new Thread() {
+            @Override
+            public void run() {
+                AdminRepository adminRepository = new AdminRepository();
+                adminRepository.updateAdmin(mm.getAid(), mm.getAaccount());
+                hand.sendEmptyMessage(2);
+            }
+        }.start();
+    }
+
     private class MyAdapter extends BaseAdapter {
 
         @Override
@@ -337,7 +359,7 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
             Admin admin = showAdminList.get(i);
 
             account.setText(admin.getAaccount());
-            cname.setText(showcnameList.get(i));
+            cname.setText(showcnameList.get(i)+"{"+admin.getCid()+"}");
 
             return view1;
         }
@@ -349,6 +371,8 @@ public class List_Admin extends AppCompatActivity implements View.OnClickListene
             if (msg.what == 1) {
                 Toast.makeText(List_Admin.this, "没有管理员", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
+            }else if (msg.what == 2) {
+                Toast.makeText(List_Admin.this, "重置密码成功", Toast.LENGTH_SHORT).show();
             }
         }
     };

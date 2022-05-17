@@ -168,15 +168,14 @@ public class AdminRepository {
     /**
      * 编辑用户信息
      */
-    public boolean updateAdmin(Admin admin) {
+    public boolean updateAdmin(int aid,String newPassword) {
         Connection connection = JDBCUtils.getConn();
-        String sql = "update admin set apassword = ?,aaccount = ? where cid = ?";
+        String sql = "update admin set apassword = ? where aid = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, admin.getApassword());
-            statement.setString(2, admin.getAaccount());
-            statement.setInt(3, admin.getCid());
+            statement.setString(1, newPassword);
+            statement.setInt(2, aid);
             int rs = statement.executeUpdate();
             if (rs > 0) {
                 return true;

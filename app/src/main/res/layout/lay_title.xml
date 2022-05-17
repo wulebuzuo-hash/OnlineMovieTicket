@@ -28,6 +28,5 @@
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:layout_marginRight="10dp"
-        android:visibility="gone"
         android:background="@drawable/pic_add2"></ImageButton>
 </RelativeLayout>

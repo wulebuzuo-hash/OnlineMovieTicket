@@ -184,6 +184,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:background="@color/purple_500"
             android:text="注册"></Button>
 
@@ -204,9 +206,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
+                android:background="@drawable/btn_shape"
+                android:backgroundTint="@color/purple_500"
+                android:text="更改问题"
                 android:textColor="#fff"
-                android:background="@color/purple_500"
-                android:text="去更改问题" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/r_back"
@@ -214,9 +218,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="50dp"
+                android:background="@drawable/btn_shape"
+                android:backgroundTint="@color/purple_500"
+                android:text="返回"
                 android:textColor="#fff"
-                android:background="@color/purple_500"
-                android:text="返回"></Button>
+                android:textStyle="bold"></Button>
         </RelativeLayout>
     </LinearLayout>
 

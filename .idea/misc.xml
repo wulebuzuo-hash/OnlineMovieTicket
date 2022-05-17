@@ -77,9 +77,11 @@
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/title.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/update_hall.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/user_login.xml" value="0.16666666666666666" />
-        <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/user_register.xml" value="0.16666666666666666" />
+        <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/user_register.xml" value="0.22" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/user_update_info.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/layout/user_updatepass.xml" value="0.16666666666666666" />
+        <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.101" />
+        <entry key="..\:/AndroidStudioProjects/OnlineMovieTicket/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.101" />
       </map>
     </option>
   </component>

@@ -38,7 +38,6 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
     private LinearLayout layout;
     private List<LinearLayout> layoutList = new ArrayList<>();
     private List<EditText> accountEditList = new ArrayList<>();
-    private List<EditText> passwordEditList = new ArrayList<>();
 
     private List<Cinema> cinemaList = new ArrayList<>();
 
@@ -47,7 +46,6 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
     private Button chooseCnameButton;
 
     private EditText accountEdit;
-    private EditText passwordEdit;
 
     private Button addButton;
     private Button delButton;
@@ -57,7 +55,6 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
 
     private String account;
     private String type;
-    private Admin admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,29 +75,16 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
         delButton.setOnClickListener(this);
 
         accountEdit = (EditText) findViewById(R.id.info_admin_account);
-        passwordEdit = (EditText) findViewById(R.id.info_admin_password);
 
         submit = (Button) findViewById(R.id.info_admin_submit);
         submit.setOnClickListener(this);
         progressBar = (ProgressBar) findViewById(R.id.info_admin_progressbar);
         progressBar.setVisibility(View.GONE);
 
-        admin = (Admin) getIntent().getSerializableExtra("admin");
         loadCinema();
-        if (admin != null) {
-            accountEdit.setText(admin.getAaccount());
-            passwordEdit.setText(admin.getApassword());
-            chooseCid.setText(admin.getCid()+" {请管理员牢记}");
-            addButton.setVisibility(View.GONE);
-            delButton.setVisibility(View.GONE);
-        } else {
-            addButton.setVisibility(View.VISIBLE);
-            delButton.setVisibility(View.VISIBLE);
-            layout = (LinearLayout) findViewById(R.id.info_admin_layout);
-            layoutList.add(layout);
-            accountEditList.add(accountEdit);
-            passwordEditList.add(passwordEdit);
-        }
+        layout = (LinearLayout) findViewById(R.id.info_admin_layout);
+        layoutList.add(layout);
+        accountEditList.add(accountEdit);
 
         account = getIntent().getStringExtra("account");
         type = getIntent().getStringExtra("type");
@@ -113,16 +97,11 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
                 backConfirm();
                 break;
             case R.id.info_admin_submit:
-
-                if (admin == null) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    submit_add();
-                } else {
-                    submit_update();
-                }
+                progressBar.setVisibility(View.VISIBLE);
+                submit_add();
                 break;
             case R.id.info_admin_cinema_btn:
-                chooseCinema();
+                loadCinema();
                 break;
             case R.id.info_admin_add:
                 addAdminLayout();
@@ -144,14 +123,7 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (admin != null) {
-                            for (Cinema cinema : cinemaList) {
-                                if (cinema.getCid() == admin.getCid()) {
-                                    chooseCname.setText(cinema.getCname());
-                                    break;
-                                }
-                            }
-                        }
+                        chooseCinema();
                     }
                 });
             }
@@ -169,7 +141,7 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
         builder.setItems(cinemaNames, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                chooseCid.setText(cinemaList.get(i).getCid()+" {请管理员牢记}");
+                chooseCid.setText(cinemaList.get(i).getCid() + " {请管理员牢记}");
                 chooseCname.setText(cinemaList.get(i).getCname());
             }
         });
@@ -207,7 +179,7 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
         linearLayout1.setLayoutParams(params);
         linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
         TextView accountText = new TextView(this);
-        accountText.setText("账号:");
+        accountText.setText("管理员" + (accountEditList.size()+1) + "：");
         accountText.setTextSize(18);
         EditText accountEdit = new EditText(this);
         accountEdit.setLayoutParams(params);
@@ -216,28 +188,8 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
         linearLayout1.addView(accountText);
         linearLayout1.addView(accountEdit);
 
-
-        LinearLayout linearLayout2 = new LinearLayout(this);
-        linearLayout2.setLayoutParams(params);
-        linearLayout2.setOrientation(LinearLayout.HORIZONTAL);
-        TextView passwordText = new TextView(this);
-        passwordText.setText("密码:");
-        passwordText.setTextSize(18);
-        EditText passwordEdit = new EditText(this);
-        passwordEdit.setLayoutParams(params);
-        passwordEdit.setHint("必填，长度为6-20位");
-        passwordEditList.add(passwordEdit);
-        linearLayout2.addView(passwordText);
-        linearLayout2.addView(passwordEdit);
-
-        LinearLayout linearLayout3 = new LinearLayout(this);
-        linearLayout3.setLayoutParams(params);
-        linearLayout3.setOrientation(LinearLayout.VERTICAL);
-        linearLayout3.addView(linearLayout1);
-        linearLayout3.addView(linearLayout2);
-
-        layout.addView(linearLayout3);
-        layoutList.add(linearLayout3);
+        layout.addView(linearLayout1);
+        layoutList.add(linearLayout1);
     }
 
     private void delAdminLayout() {
@@ -245,7 +197,6 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
             layout.removeView(layoutList.get(layoutList.size() - 1));
             layoutList.remove(layoutList.size() - 1);
             accountEditList.remove(accountEditList.size() - 1);
-            passwordEditList.remove(passwordEditList.size() - 1);
         } else {
             Toast.makeText(this, "至少保留一个管理员", Toast.LENGTH_SHORT).show();
         }
@@ -254,29 +205,20 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
     private void submit_add() {
 
         List<String> accountList = new ArrayList<>();
-        List<String> passwordList = new ArrayList<>();
         for (int i = 0; i < accountEditList.size(); i++) {
 
             if (accountEditList.get(i).getText().toString().equals("")) {
                 Toast.makeText(this, "账号不能为空", Toast.LENGTH_SHORT).show();
                 return;
-            } else if (passwordEditList.get(i).getText().toString().equals("")) {
-                Toast.makeText(this, "密码不能为空", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (accountEditList.get(i).getText().toString().length() < 6 ||
+            }  else if (accountEditList.get(i).getText().toString().length() < 6 ||
                     accountEditList.get(i).getText().toString().length() > 20) {
                 Toast.makeText(this, "账号长度为6-20位", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (passwordEditList.get(i).getText().toString().length() < 6 ||
-                    passwordEditList.get(i).getText().toString().length() > 20) {
-                Toast.makeText(this, "密码长度为6-20位", Toast.LENGTH_SHORT).show();
                 return;
             } else if (chooseCid.equals("")) {
                 Toast.makeText(this, "请选择影院", Toast.LENGTH_SHORT).show();
                 return;
             } else {
                 accountList.add(accountEditList.get(i).getText().toString());
-                passwordList.add(passwordEditList.get(i).getText().toString());
             }
         }
 
@@ -299,20 +241,27 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
                 }
 
                 if (flag) {
+                    boolean flag1 = true;
                     for (int i = 0; i < accountList.size(); i++) {
-                        Admin admin = new Admin(accountList.get(i), passwordList.get(i), cid);
-                        adminRepository.addAdmin(admin);
+                        Admin admin = new Admin(accountList.get(i), accountList.get(i), cid);
+                        flag1 = adminRepository.addAdmin(admin);
                     }
+                    boolean finalFlag = flag1;
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(Info_Admin.this,
-                                    "添加成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Info_Admin.this, List_Admin.class);
-                            intent.putExtra("account", account);
-                            intent.putExtra("type", type);
-                            startActivity(intent);
-                            finish();
+                            if(finalFlag) {
+                                Toast.makeText(Info_Admin.this,
+                                        "添加成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(Info_Admin.this, List_Admin.class);
+                                intent.putExtra("account", account);
+                                intent.putExtra("type", type);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                Toast.makeText(Info_Admin.this,
+                                        "添加失败", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 } else {
@@ -331,66 +280,4 @@ public class Info_Admin extends AppCompatActivity implements View.OnClickListene
         }.start();
     }
 
-    private void submit_update() {
-        if(accountEdit.getText().toString().length() < 6 || accountEdit.getText().toString().length() > 20) {
-            Toast.makeText(this, "账号长度为6-20位", Toast.LENGTH_SHORT).show();
-            return;
-        }else if(passwordEdit.getText().toString().length() < 6 || passwordEdit.getText().toString().length() > 20) {
-            Toast.makeText(this, "密码长度为6-20位", Toast.LENGTH_SHORT).show();
-            return;
-        }else if(chooseCid.getText().toString().equals("")) {
-            Toast.makeText(this, "请选择影院", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        new Thread() {
-            @Override
-            public void run() {
-                AdminRepository adminRepository = new AdminRepository();
-                int cid = chooseCid.getText().toString().equals("") ? 0 :
-                        Integer.parseInt(chooseCid.getText().toString().split(" ")[0]);
-                if(!accountEdit.getText().toString().equals(admin.getAaccount()) &&
-                        adminRepository.findAdmin(accountEdit.getText().toString(), cid) != null) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(Info_Admin.this,
-                                    "账号已存在,请修改后重新提交",
-                                    Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    });
-                }else {
-                    Admin mm = new Admin(admin.getAid(),accountEdit.getText().toString(),
-                            passwordEdit.getText().toString(), cid);
-                    boolean flag = adminRepository.updateAdmin(mm);
-                    if(flag) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(Info_Admin.this,
-                                        "修改成功", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(Info_Admin.this,
-                                        List_Admin.class);
-                                intent.putExtra("account", account);
-                                intent.putExtra("type", type);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                    }else {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(Info_Admin.this,
-                                        "修改失败", Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-                    }
-                }
-
-            }
-        }.start();
-    }
 }

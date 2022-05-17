@@ -1,8 +1,5 @@
 package com.android.onlinemovieticket.fragment;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -80,7 +77,6 @@ public class Soon_ticket extends Fragment {
     private List<Hall> hallList = new ArrayList<>();
     private List<Hall> showHallList = new ArrayList<>();
 
-    private List<Comment> commentList = new ArrayList<>();
 
     private EditText searchEdit;
     private Button searchBtn;
@@ -366,30 +362,12 @@ public class Soon_ticket extends Fragment {
             @Override
             public void onLongClick(int position) {
                 Ticket ticket = showTicketList.get(position);
-                delConfirm(ticket);
+                delConfirm(ticket,position);
             }
         });
 
         ticketView.setAdapter(adapter);
         progressBar.setVisibility(View.GONE);
-    }
-
-    private void delTicket(Ticket ticket) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("删除购票记录？");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteTicket(ticket,null,null,null,null,-1);
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
     }
 
     /**
@@ -503,13 +481,19 @@ public class Soon_ticket extends Fragment {
      * 删票确认
      * @param ticket
      */
-    private void delConfirm(Ticket ticket) {
+    private void delConfirm(Ticket ticket,int index) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("提示");
         builder.setMessage("是否确认删除？");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                ticketList.remove(index);
+                sessionList.remove(index);
+                hallList.remove(index);
+                cinemaList.remove(index);
+                movieList.remove(index);
+                adapter.notifyDataSetChanged();
                 deleteTicket(ticket);
             }
         });
@@ -670,8 +654,6 @@ public class Soon_ticket extends Fragment {
                 int msg = 0;
                 TicketRepository ticketRepository = new TicketRepository();
                 ticketList = ticketRepository.getTicketByAccount(account);
-                CommentRepository commentRepository = new CommentRepository();
-                commentList = commentRepository.getAllCommentByAccount(account);
                 if (ticketList.size() == 0) {
                     msg = 1;
                 } else {

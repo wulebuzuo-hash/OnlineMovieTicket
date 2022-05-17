@@ -508,7 +508,7 @@ public class CinemaActivity extends AppCompatActivity implements View.OnClickLis
 
             Cinema cinema = showCinemaList.get(i);
 
-            name.setText(cinema.getCname());
+            name.setText(cinema.getCname()+(type.equals("BOSS")?"{"+cinema.getCid()+"}":""));
             position.setText(cinema.getCposition());
             return view1;
         }
